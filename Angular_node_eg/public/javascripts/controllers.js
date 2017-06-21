@@ -252,7 +252,7 @@ app.controller('myController', function($scope, $http) {
     $scope.showMarkersforAllCategories= function() {
         for (i = 0; i < categories.length; i++) {
             $.getJSON('/getData', {"docType": categories[i]}, function (data) {
-                placeMarkesrs(data)
+                $scope.placeMarkesrs(data)
             });
         }
     }
