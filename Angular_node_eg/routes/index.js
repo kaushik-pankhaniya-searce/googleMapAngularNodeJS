@@ -20,5 +20,95 @@ router.get('/data', function(req,res){
         {"id": 9, "name": "Tagtune", "city": "Monywa"},
         {"id": 10, "name": "Centimia", "city": "Retkovci"}]);
 });
- 
+
+router.get('/wareHouses', function(req, res) {
+    var db = req.db;
+    var collection = db.get('wareHouses');
+
+    collection.find({},{},function(e,docs){
+        res.json(docs);
+    });
+});
+
+router.get('/filter', function(req, res) {
+    var db = req.db;
+    var filter = req.filter;
+    var collection = db.get(req.query['dbToSearchFor']);
+    delete req.query['dbToSearchFor'];
+
+
+    collection.find(req.query,{},function(e,docs){
+        console.log(docs);
+        res.json(docs);
+    });
+});
+
+router.get('/getData', function(req, res) {
+    var db = req.db;
+//    var dbName = req.query.dbName;
+    var collection = db.get('metadata');
+
+    collection.find(req.query,{},function(e,docs){
+        res.json(docs);
+    });
+});
+
+router.get('/getNearestData', function(req, res) {
+    var db = req.db;
+//    var dbName = req.query.dbName;
+    var collection = db.get('metadata');
+    var query = {};
+    if (req.query['docType']) {
+        query = {
+            'docType': {$in : ["wareHouses","Plants","WareHouses"]},
+            '$and': [
+                {'Latitude': {"$gte": +req.query['Latitude'].toString()  }},
+                {'Latitude': {"$lte": +req.query['Latitude1'].toString()  }},
+                {'Longitude': {"$gte": +req.query['Longitude'].toString()  }},
+                {'Longitude': {"$lte": +req.query['Longitude1'].toString()  }}
+            ]
+        };
+    }
+    else
+    {
+        query = {
+            '$and': [
+                {'Latitude': {"$gte": +req.query['Latitude'].toString()  }},
+                {'Latitude': {"$lte": +req.query['Latitude1'].toString()  }},
+                {'Longitude': {"$gte": +req.query['Longitude'].toString()  }},
+                {'Longitude': {"$lte": +req.query['Longitude1'].toString()  }}
+            ]
+        };
+    }
+    console.log(query);
+    collection.find(query,{},function(e,docs){
+        res.json(docs);
+    });
+});
+
+router.get('/templates', function(req, res) {
+    var db = req.db;
+    var collection = db.get('templates');
+
+    collection.distinct('docType',{"showInFilter" : true},function(err, items) {
+        res.json(items);
+    });
+});
+
+/*
+ * GET wareHouseslist.
+ */
+router.get('/templatesFields', function(req, res) {
+//    console.log('here');
+    var db = req.db;
+    var collection = db.get('templates');
+    console.log(req.query);
+
+    collection.find(req.query,{},function(err, items) {
+        console.log('here');
+        console.log(err);
+        console.log(items);
+        res.json(items);
+    });
+});
 module.exports = router;
