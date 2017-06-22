@@ -17,7 +17,7 @@ app.controller('myController', function($scope, $http) {
 // Functions =============================================================
 
     var map;
-//var myLatLng = {lat: 18.580085, lng: 73.738125};
+    //var myLatLng = {lat: 18.580085, lng: 73.738125};
     var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [];
     var wareHouses, categories, filterFields, categoryData, selectedCategory, objMarkersFilterQuery = {};
     var arrdirectionsDisplay = [];
@@ -63,8 +63,6 @@ app.controller('myController', function($scope, $http) {
         $("#frame").attr("src", "images/Report - VW.pdf");
     }
 
-    var choices = ["one", "two"];
-
     $scope.addInput= function(divName, dataToAppend) {
 //        var select = $("#" + divName);
 //        var unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
@@ -91,8 +89,6 @@ app.controller('myController', function($scope, $http) {
         if (data != null)
         {
             var markerImage = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-
-
             $.each(data, function () {
                 myLatLng = new google.maps.LatLng(parseFloat(this.latitude ? this.latitude : this.Latitude), parseFloat(this.longitude ? this.longitude : this.Longitude));
                 var infoWindowContent = "";
@@ -238,7 +234,7 @@ app.controller('myController', function($scope, $http) {
     $scope.createFilter= function() {
         var divFilter = $("#filter");
         divFilter.empty();
-//    divFilter.append("<div class='filter_group'><label>Category</label><select id='category' onchange='loadFilter(this)' ></select></div>");
+        //    divFilter.append("<div class='filter_group'><label>Category</label><select id='category' onchange='loadFilter(this)' ></select></div>");
 
         var ele;
         $.each(filterFields, function (a, b) {
@@ -252,7 +248,7 @@ app.controller('myController', function($scope, $http) {
     $scope.showMarkersforAllCategories= function() {
         for (i = 0; i < categories.length; i++) {
             $.getJSON('/getData', {"docType": categories[i]}, function (data) {
-                $scope.placeMarkesrs(data)
+                $scope.placeMarkesrs(data);
             });
         }
     }
@@ -276,35 +272,34 @@ app.controller('myController', function($scope, $http) {
 
     $scope.getData= function(dbName) {
         if (dbName == 'all' || dbName == 'All') {
-            showMarkersforAllCategories();
+            $scope.showMarkersforAllCategories();
         }
         else
         {
             $.getJSON('/getData', {"docType": dbName}, function (data) {
                 categoryData = data;
-                createFilter();
-                placeMarkesrs(data);
+                $scope.createFilter();
+                $scope.placeMarkesrs(data);
             });
         }
 
     }
 
-    $scope.loadFilter= function(element) {
+    $scope.loadFilter= function() {
         flgShowAllMarkers = false;
-        var value = element.value;
+        var value = $scope.category;
         selectedCategory = value;
         if (value == 'all' || value == 'All') {
-            flgShowAllMarkers = false;
-            showMarkersforAllCategories();
+            //flgShowAllMarkers = false;
+            $scope.showMarkersforAllCategories();
         }
         else
         {
             $.getJSON('/templatesFields', {'docType': value}, function (data) {
                 filterFields = data[0].fields;
-                getData(value);
+                $scope.getData(value);
             });
         }
-
     }
 
     $scope.placeNearestLocations= function(latitude, longitude) {
@@ -392,12 +387,8 @@ app.controller('myController', function($scope, $http) {
 //        addInput();
 //        // For each item in our JSON, add a table row and cells to the content string
 //        placeMarkesrs(data);
-//
 //    });
-
-
     };
-
     $scope.filterMarkerData= function(templateCategory, keyName, element) {
         var value = element.value;
         flgShowAllMarkers = false;
@@ -411,40 +402,35 @@ app.controller('myController', function($scope, $http) {
         }
         objMarkersFilterQuery['docType'] = templateCategory;
         delete objMarkersFilterQuery['$and'];
-
-
         $.getJSON('/filter', objMarkersFilterQuery, function (data) {
-
-            placeMarkesrs(data);
-
+            $scope.placeMarkesrs(data);
         }, function () {
-            placeMarkesrs(null);
+            $scope.placeMarkesrs(null);
         });
     }
-
     $scope.resetMarkers= function() {
         placeMarkesrs(wareHouses);
     }
-
     $scope.showFilters= function(filterName) {
         $("#filter1").hide();
         $("#salesPerson").hide();
         $("#salerPersonPics").hide();
-        flgShowAllMarkers = false;
-        placeMarkesrs(null);
+       flgShowAllMarkers = false;
+        $scope.placeMarkesrs(null);
 
         if (filterName == "filter1") {
+
             flgShowAllMarkers = true;
-            showMarkersforAllCategories();
+            $scope.showMarkersforAllCategories();
         }
         else if (filterName == "salesPerson") {
-            $("#salerPersonPics").show();
-//        flgShowAllMarkers = false;
-
+           // alert("hi all" + filterName);
+            //$("#salerPersonPics").show();
+            flgShowAllMarkers = false;
         }
         else {
-//        flgShowAllMarkers = false;
-//        placeMarkesrs(null);
+            flgShowAllMarkers = false;
+            $scope.placeMarkesrs(null);
         }
         if(arrdirectionsDisplay != null) {
             for (i = 0; i < arrdirectionsDisplay.length; i++) {
@@ -453,16 +439,14 @@ app.controller('myController', function($scope, $http) {
             }
             arrdirectionsDisplay = [];
         }
+
         k=-1;
         $("#" + filterName).show();
     }
-
-
     $scope.loadFilterSalesPerson= function(element) {
         $('#top20').hide();
         $('#2080').hide();
         $('#Bottom20').hide();
-
         if (element.value == "Top20") {
             $('#top20').show();
         }
@@ -473,34 +457,33 @@ app.controller('myController', function($scope, $http) {
             $('#Bottom20').show();
         }
 
-//    var value = element.value;
-//    var keyName = element.id;
-//
-//    objMarkersFilterQuery['dbToSearchFor'] = 'salesPerson';// templateCategory;
-//    if (value == "" || value == undefined) {
-//        delete objMarkersFilterQuery[keyName];
-//    }
-//    else {
-//        objMarkersFilterQuery[keyName] = value;
-//    }
-//
-//
-//    $.getJSON('/filter', objMarkersFilterQuery, function (data) {
-//
-//        placeMarkesrs(data);
-////        calcRoute(data);
-//
-//    }, function () {
-//        placeMarkesrs(null);
-//    });
-//    var value = element.value;
-//    selectedCategory = value;
-//
-//    $.getJSON('/templatesFields',{'docType':value}, function( data ) {
-//        filterFields = data[0].fields;
-//        getData(value);
-//    });
+    var value = element.value;
+    var keyName = element.id;
 
+    objMarkersFilterQuery['dbToSearchFor'] = 'salesPerson';// templateCategory;
+    if (value == "" || value == undefined) {
+        delete objMarkersFilterQuery[keyName];
+    }
+    else {
+        objMarkersFilterQuery[keyName] = value;
+    }
+
+
+    $.getJSON('/filter', objMarkersFilterQuery, function (data) {
+
+        placeMarkesrs(data);
+//        calcRoute(data);
+
+    }, function () {
+        placeMarkesrs(null);
+    });
+    var value = element.value;
+    selectedCategory = value;
+
+    $.getJSON('/templatesFields',{'docType':value}, function( data ) {
+        filterFields = data[0].fields;
+        getData(value);
+    });
     }
     var arrLatLongTruck = [
         [22.58608,88.37402],
@@ -579,7 +562,6 @@ app.controller('myController', function($scope, $http) {
         [24.902113,79.602205]
     ];
     var k = 0;
-
     $scope.calcRoute= function(data, originLatitude, originLongitude, supressMarkers, isAssetTracking) {
         flgShowAllMarkers = false;
         var start = new google.maps.LatLng(originLatitude, originLongitude);
@@ -590,7 +572,6 @@ app.controller('myController', function($scope, $http) {
             }
             arrdirectionsDisplay = [];
         }
-
         $.each(data, function (a, b) {
             var directionsDisplay = new google.maps.DirectionsRenderer(
                 {
@@ -605,7 +586,6 @@ app.controller('myController', function($scope, $http) {
                 origin: start,
                 destination: end,
                 travelMode: google.maps.TravelMode.DRIVING
-
             };
             directionsService.route(request, function (response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
@@ -627,12 +607,8 @@ app.controller('myController', function($scope, $http) {
                 }
             });
             arrdirectionsDisplay.push(directionsDisplay);
-
         });
     }
-
-
-
     $scope.assetTracking= function() {
         flgShowAllMarkers = false;
         k = arrLatLongTruck.length - 1;
@@ -647,23 +623,17 @@ app.controller('myController', function($scope, $http) {
                 "Longitude": 79.602205
             }
         ];
-
-
         placeMarkesrs(markersToSend);
-
         var markerTruck = new google.maps.Marker({position: new google.maps.LatLng(24.902113, 79.602205), map: map, icon: 'images/smalltruck.png'});
         markerTruck.setMap(map);
         arrMarkers.push(markerTruck);
-
         calcRoute([
             {"Latitude": 22.58608, "Longitude": 88.37402}
         ], 24.902113, 79.602205,false,true);
         setTimeout(function(){
             moveTruck(map, markerTruck);
         },1000);
-
     }
-
     $scope.moveTruck = function(map, markerTruck) {
 
         setTimeout(function () {
@@ -677,9 +647,7 @@ app.controller('myController', function($scope, $http) {
             }
         }, 500)
     }
-
     setTimeout(function(){
         $scope.initMap();
     },1000);
-
 });

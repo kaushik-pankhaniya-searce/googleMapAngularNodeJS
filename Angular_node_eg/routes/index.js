@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
+router.get('/vlcc', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'vlcc/index.html'));
+});
+
 
 router.get('/data', function(req,res){
 	res.json([{"id": 1, "name": "Mymm", "city": "Pantano do Sul"},
