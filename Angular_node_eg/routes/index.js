@@ -12,18 +12,18 @@ router.get('/vlcc', function(req, res, next) {
 });
 
 
-router.get('/data', function(req,res){
-	res.json([{"id": 1, "name": "Mymm", "city": "Pantano do Sul"},
-        {"id": 2, "name": "Skyble", "city": "Guilmaro"},
-        {"id": 3, "name": "Tagfeed", "city": "Gnosjö"},
-        {"id": 4, "name": "Realcube", "city": "Jrashen"},
-        {"id": 5, "name": "Bluejam", "city": "Zhangjiawo"},
-        {"id": 6, "name": "Jayo", "city": "Obonoma"},
-        {"id": 7, "name": "Cogidoo", "city": "Sungsang"},
-        {"id": 8, "name": "Avavee", "city": "Diawara"},
-        {"id": 9, "name": "Tagtune", "city": "Monywa"},
-        {"id": 10, "name": "Centimia", "city": "Retkovci"}]);
-});
+//router.get('/data', function(req,res){
+//	res.json([{"id": 1, "name": "Mymm", "city": "Pantano do Sul"},
+//        {"id": 2, "name": "Skyble", "city": "Guilmaro"},
+//        {"id": 3, "name": "Tagfeed", "city": "Gnosjö"},
+//        {"id": 4, "name": "Realcube", "city": "Jrashen"},
+//        {"id": 5, "name": "Bluejam", "city": "Zhangjiawo"},
+//        {"id": 6, "name": "Jayo", "city": "Obonoma"},
+//        {"id": 7, "name": "Cogidoo", "city": "Sungsang"},
+//        {"id": 8, "name": "Avavee", "city": "Diawara"},
+//        {"id": 9, "name": "Tagtune", "city": "Monywa"},
+//        {"id": 10, "name": "Centimia", "city": "Retkovci"}]);
+//});
 
 router.get('/wareHouses', function(req, res) {
     var db = req.db;
@@ -39,7 +39,6 @@ router.get('/filter', function(req, res) {
     var filter = req.filter;
     var collection = db.get(req.query['dbToSearchFor']);
     delete req.query['dbToSearchFor'];
-
 
     collection.find(req.query,{},function(e,docs){
         console.log(docs);

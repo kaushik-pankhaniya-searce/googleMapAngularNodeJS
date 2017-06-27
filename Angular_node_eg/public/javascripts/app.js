@@ -1,4 +1,6 @@
 var app = angular.module('angularjs_with_Nodejs',[]);
+
+
 //app.controller('myController', function($scope, $http) {
 //    $scope.data = [];
 //    var request = $http.get('/data');
