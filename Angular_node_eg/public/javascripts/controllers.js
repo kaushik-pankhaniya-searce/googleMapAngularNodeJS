@@ -13,9 +13,7 @@ app.controller('myController', function($scope, $http) {
     /**
      * Created by pallavidandane on 13/6/17.
      */
-
 // Functions =============================================================
-
     var map;
     //var myLatLng = {lat: 18.580085, lng: 73.738125};
     var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [];
@@ -57,34 +55,30 @@ app.controller('myController', function($scope, $http) {
 //        event.preventDefault();
 //        $('#modal').iziModal('open', this); // Use "this" to get URL href or option 'iframeURL'
 //    });
-
     $scope.showReport= function() {
         $("#dialog").dialog({width: 800,height:500});
         $("#frame").attr("src", "images/Report - VW.pdf");
     }
-
     $scope.addInput= function(divName, dataToAppend) {
-//        var select = $("#" + divName);
-//        var unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
-//        select.append($("<option/>").attr("value", "").text(""));
-//        $.each(unique, $scope.(a, b) {
-//            select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
-//        });
-//    $("#" + divName).append(select);
+        //var select = $("#" + divName);
+        //var unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
+        // select.append($("<option/>").attr("value", "hi...").text("hi..."));
+        //select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
+        //$.each(unique, $scope.(a, b){
+        //    select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
+        //});
+        // $("#" + divName).append(select);
     }
-
     $scope.placeMarkesrs= function(data) {
         if (flgShowAllMarkers == false) {
             for (i = 0; i < arrMarkers.length; i++) {
                 arrMarkers[i].setMap(null);
             }
             arrMarkers = [];
-
             for (i = 0; i < arrInfowindows.length; i++) {
                 arrInfowindows[i].close();
             }
             arrInfowindows = [];
-
         }
         if (data != null)
         {
@@ -109,8 +103,7 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else if (this.docType == 'Plants') {
+                }else if (this.docType == 'Plants') {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -123,8 +116,7 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else if (this.docType == 'Competitors') {
+                }else if (this.docType == 'Competitors') {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -137,8 +129,7 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else if (this.docType == 'Dealers') {
+                }else if (this.docType == 'Dealers') {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -153,10 +144,8 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else if (this.docType == 'Top Perforrming Sales Executives') {
+                }else if (this.docType == 'Top Perforrming Sales Executives') {
                     markerImage = 'images/userNormal.png';
-
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -169,8 +158,7 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else if (this.docType == 'StoreLocations') {
+                }else if (this.docType == 'StoreLocations') {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -187,8 +175,7 @@ app.controller('myController', function($scope, $http) {
                         '</p></big>'+
                         '</div>'+
                         '</div>'
-                }
-                else {
+                }else {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">'+
                         '<div id="siteNotice">'+
                         '</div>'+
@@ -205,32 +192,26 @@ app.controller('myController', function($scope, $http) {
                         '</div>'+
                         '</div>'
                 }
-
-
                 var marker = new google.maps.Marker({
                     position: myLatLng, map: map,
                     icon:  markerImage// 'http://maps.google.com/mapfiles/ms/icons/' + (this.markerColor?this.markerColor:'red') + '-dot.png'
                 });
                 marker.setMap(map);
                 var infoWindow = new google.maps.InfoWindow({
-                    content: this.markerContent?this.markerContent:infoWindowContent
+                    content : this.markerContent?this.markerContent:infoWindowContent
                 });
-
                 marker.addListener('click', function () {
                     for (i = 0; i < arrInfowindows.length; i++) {
                         arrInfowindows[i].close();
                     }
                     arrInfowindows = [];
-
                     infoWindow.open(map, marker);
                     arrInfowindows.push(infoWindow);
                 });
                 arrMarkers.push(marker);
-
             });
         }
     }
-
     $scope.createFilter= function() {
         var divFilter = $("#filter");
         divFilter.empty();
@@ -238,14 +219,17 @@ app.controller('myController', function($scope, $http) {
 
         var ele;
         $.each(filterFields, function (a, b) {
-            divFilter.append("<div class='filter_group'><label>" + b.label + "</label><select id=" + b.key + " onchange=filterMarkerData('" + selectedCategory + "','" + b.key + "',this)></select></div>");
+
+
+            divFilter.append("<div class='filter_group'><label>" + b.label + "</label><select id=" + b.key + " ng-change=filterMarkerData('" + selectedCategory + "','" + b.key + "',this)><option ng-repeat='x in categoryData'>{{x}}</option></select></div>");
             //divFilter.append("");
-//        divFilter.append("");
-            addInput(b.key, categoryData);
+//          divFilter.append("");
+           // $scope.addInput(b.key, categoryData);
+            //$scope.category
         });
     }
-
     $scope.showMarkersforAllCategories= function() {
+
         for (i = 0; i < categories.length; i++) {
             $.getJSON('/getData', {"docType": categories[i]}, function (data) {
                 $scope.placeMarkesrs(data);
@@ -259,30 +243,26 @@ app.controller('myController', function($scope, $http) {
         $.getJSON('/templates', function (data) {
             categories = data;
             var select = $("#category");
-//        select.append($("<option/>").attr("value", "").text(""));
             select.append($("<option/>").attr("value", "all").text("All"));
-
             for (i = 0; i < categories.length; i++) {
                 select.append($("<option/>").attr("value", categories[i]).text(categories[i]));
             }
             $scope.showMarkersforAllCategories();
         });
-
     }
 
     $scope.getData= function(dbName) {
-        if (dbName == 'all' || dbName == 'All') {
+        if(dbName == 'all' || dbName == 'All') {
             $scope.showMarkersforAllCategories();
         }
         else
         {
-            $.getJSON('/getData', {"docType": dbName}, function (data) {
-                categoryData = data;
+            $.getJSON('/getData', {"docType": dbName}, function (data){
+                $scope.categoryData = data;
                 $scope.createFilter();
                 $scope.placeMarkesrs(data);
             });
         }
-
     }
 
     $scope.loadFilter= function() {
@@ -327,11 +307,11 @@ app.controller('myController', function($scope, $http) {
 
         $.getJSON('/getNearestData', objMarkersFilterQuery, function (data) {
             flgShowAllMarkers = false;
-            placeMarkesrs(data);
+            $scope.placeMarkesrs(data);
             calcRoute(data, latitude, longitude,true,false);
 
         }, function () {
-            placeMarkesrs(null);
+            $scope.placeMarkesrs(null);
         });
     }
 
@@ -464,11 +444,9 @@ app.controller('myController', function($scope, $http) {
     if (value == "" || value == undefined) {
         delete objMarkersFilterQuery[keyName];
     }
-    else {
+    else{
         objMarkersFilterQuery[keyName] = value;
     }
-
-
     $.getJSON('/filter', objMarkersFilterQuery, function (data) {
 
         placeMarkesrs(data);
