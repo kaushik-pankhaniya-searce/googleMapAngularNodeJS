@@ -2,6 +2,8 @@
  * Created by kaushik.pankhaniya on 6/19/2017.
  */
 app.controller('myController', function($scope, $http) {
+
+    $scope.categoryData = [];
     $scope.data = [];
     var request = $http.get('/data');
     request.success(function(data) {
@@ -60,12 +62,13 @@ app.controller('myController', function($scope, $http) {
         $("#frame").attr("src", "images/Report - VW.pdf");
     }
     $scope.addInput= function(divName, dataToAppend) {
-        //var select = $("#" + divName);
-        //var unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
-        // select.append($("<option/>").attr("value", "hi...").text("hi..."));
-        //select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
+        $scope.unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
+
+        //for(var i=0;i<$scope.unique.length;i++){
+        //    select.append($("<option/>").attr("value", $scope.unique[i][divName]).text($scope.unique[i][divName]));
+        //}
         //$.each(unique, $scope.(a, b){
-        //    select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
+           //
         //});
         // $("#" + divName).append(select);
     }
@@ -213,41 +216,41 @@ app.controller('myController', function($scope, $http) {
         }
     }
     $scope.createFilter= function() {
-        var divFilter = $("#filter");
-        divFilter.empty();
         //    divFilter.append("<div class='filter_group'><label>Category</label><select id='category' onchange='loadFilter(this)' ></select></div>");
 
         var ele;
         $.each(filterFields, function (a, b) {
-
-
-            divFilter.append("<div class='filter_group'><label>" + b.label + "</label><select id=" + b.key + " ng-change=filterMarkerData('" + selectedCategory + "','" + b.key + "',this)><option ng-repeat='x in categoryData'>{{x}}</option></select></div>");
-            //divFilter.append("");
+            $scope.filterOption = filterFields;
+            $scope.$apply();
+            //divFilter.append("<div class='filter_group'><label>" + b.label + "</label><select id="+ b.key +" ng-model='selectedName' ng-options='item for item in names'> </select></div>");
+            $scope.addInput(b.key, $scope.categoryData);
 //          divFilter.append("");
-           // $scope.addInput(b.key, categoryData);
+
             //$scope.category
         });
     }
     $scope.showMarkersforAllCategories= function() {
 
+        categories = $scope.category_names;
         for (i = 0; i < categories.length; i++) {
             $.getJSON('/getData', {"docType": categories[i]}, function (data) {
                 $scope.placeMarkesrs(data);
             });
         }
     }
-
     $scope.getTemplates= function() {
         flgShowAllMarkers = true;
         // jQuery AJAX call for JSON
         $.getJSON('/templates', function (data) {
-            categories = data;
-            var select = $("#category");
-            select.append($("<option/>").attr("value", "all").text("All"));
-            for (i = 0; i < categories.length; i++) {
-                select.append($("<option/>").attr("value", categories[i]).text(categories[i]));
-            }
+
+            $scope.category_names = data;
             $scope.showMarkersforAllCategories();
+            $scope.$apply();
+           // var select = $("#category");
+           // select.append($("<option/>").attr("value", "all").text("All"));
+            //for (i = 0; i < categories.length; i++) {
+            //    select.append($("<option/>").attr("value", categories[i]).text(categories[i]));
+            //}
         });
     }
 
@@ -270,7 +273,7 @@ app.controller('myController', function($scope, $http) {
         var value = $scope.category;
         selectedCategory = value;
         if (value == 'all' || value == 'All') {
-            //flgShowAllMarkers = false;
+            flgShowAllMarkers = true;
             $scope.showMarkersforAllCategories();
         }
         else
@@ -303,8 +306,6 @@ app.controller('myController', function($scope, $http) {
                 'Latitude1': latitude + 3,
                 'Longitude1': longitude + 3};
         }
-
-
         $.getJSON('/getNearestData', objMarkersFilterQuery, function (data) {
             flgShowAllMarkers = false;
             $scope.placeMarkesrs(data);
@@ -317,7 +318,6 @@ app.controller('myController', function($scope, $http) {
 
 // Fill table with data
     $scope.populateWareHouses= function() {
-
         // Empty content string
         var tableContent = '';
         directionsDisplay = new google.maps.DirectionsRenderer();
@@ -369,24 +369,24 @@ app.controller('myController', function($scope, $http) {
 //        placeMarkesrs(data);
 //    });
     };
-    $scope.filterMarkerData= function(templateCategory, keyName, element) {
-        var value = element.value;
-        flgShowAllMarkers = false;
-
-        objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
-        if (value == "" || value == undefined) {
-            delete objMarkersFilterQuery[keyName];
-        }
-        else {
-            objMarkersFilterQuery[keyName] = value;
-        }
-        objMarkersFilterQuery['docType'] = templateCategory;
-        delete objMarkersFilterQuery['$and'];
-        $.getJSON('/filter', objMarkersFilterQuery, function (data) {
-            $scope.placeMarkesrs(data);
-        }, function () {
-            $scope.placeMarkesrs(null);
-        });
+    //$scope.filterMarkerData= function(templateCategory, keyName, element)
+    $scope.filterMarkerData=function(key){
+        alert(key.value);
+        //flgShowAllMarkers = false;
+        //objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
+        //if (value == "" || value == undefined) {
+        //    delete objMarkersFilterQuery[keyName];
+        //}
+        //else {
+        //    objMarkersFilterQuery[keyName] = value;
+        //}
+        //objMarkersFilterQuery['docType'] = templateCategory;
+        //delete objMarkersFilterQuery['$and'];
+        //$.getJSON('/filter', objMarkersFilterQuery, function (data) {
+        //    $scope.placeMarkesrs(data);
+        //}, function () {
+        //    $scope.placeMarkesrs(null);
+        //});
     }
     $scope.resetMarkers= function() {
         placeMarkesrs(wareHouses);

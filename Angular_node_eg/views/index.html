@@ -18,23 +18,37 @@
     </head>
     <body ng-controller="myController">
         <div class="main">
-            <div id="dashboardButtons", class="container2">
+            <div id="dashboardButtons" class="container2">
                 <button class="menu_item" ng-click="showFilters('filter1');"><img src="images/growth.png"></button>
                 <button class="menu_item" ng-click="showFilters('salesPerson');"><img src ="images/growth.png"></button>
             </div>
-            <div id="mymap" style="width:95%; height:570px;position : absolute"></div>
+            <div id="mymap" style="width:95%; height:75%;position : absolute"></div>
             <div class ="filterBlock">
                 <div id="filter1">
                     <div class="filter_group">
                         <label>Category</label>
-                        <select id="category" ng-model="category" ng-change="loadFilter();" ></select>
-                        <div id="filter"></div>
+                        <select id="category" ng-model="category" ng-change="loadFilter();" >
+                            <option value="All">All</option>
+                            <option
+                                    ng-repeat="xx in category_names"
+                                    value="{{xx}}">{{xx}}</option>
+                        </select>
                     </div>
-                </div>
+                    <div id="sub_filter">
+                        <div class="filter_group" ng-repeat="filters in filterOption">
+                            <label>{{filters.key}}</label>
+                            <select id="{{filters.key}}" ng-model="filterOpt[$index]" ng-change="filterMarkerData($this);" >
+                                <option ng-repeat="sub_filter in unique" value="{{sub_filter[filters.key]}}" > {{sub_filter[filters.key]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> <!-- Filter1 -->
                 <div id="salesPerson">
                     <div class="filter_group">
                         <label>State</label>
                         <select id="salesPersonState" ng-change="loadFilterSalesPerson(this);"  ></select>
+                    </div>
+                    <div class="filter_group">
                         <label>Ranking</label>
                         <select id="salesPersonRanking" ng-change="loadFilterSalesPerson(this);"></select>
                     </div>
