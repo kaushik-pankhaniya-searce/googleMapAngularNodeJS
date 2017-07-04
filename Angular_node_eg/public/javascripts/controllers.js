@@ -62,13 +62,14 @@ app.controller('myController', function ($scope, $http) {
         $("#dialog").dialog({width: 800, height: 500});
         $("#frame").attr("src", "images/Report - VW.pdf");
     }
+
     $scope.addInput = function (divName, dataToAppend) {
         //var select = $("#" + divName);
         //var unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
         // select.append($("<option/>").attr("value", "hi...").text("hi..."));
         //select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
         //$.each(unique, $scope.(a, b){
-        //    select.append($("<option/>").attr("value", b[divName]).text(b[divName]));
+           //
         //});
         // $("#" + divName).append(select);
     }
@@ -238,7 +239,6 @@ app.controller('myController', function ($scope, $http) {
             });
         }
     }
-
     $scope.getTemplates = function () {
         flgShowAllMarkers = true;
         // jQuery AJAX call for JSON
@@ -250,6 +250,12 @@ app.controller('myController', function ($scope, $http) {
 //                select.append($("<option/>").attr("value", categories[i]).text(categories[i]));
 //            }
             $scope.showMarkersforAllCategories();
+            $scope.$apply();
+           // var select = $("#category");
+           // select.append($("<option/>").attr("value", "all").text("All"));
+            //for (i = 0; i < categories.length; i++) {
+            //    select.append($("<option/>").attr("value", categories[i]).text(categories[i]));
+            //}
         });
     }
 
@@ -269,11 +275,13 @@ app.controller('myController', function ($scope, $http) {
 
     $scope.loadFilter = function () {
         flgShowAllMarkers = false;
+
 //        var value = $scope.category;
 //        selectedCategory = value;
         console.log($scope.category);
         if ($scope.category == 'all' || $scope.category == 'All') {
             //flgShowAllMarkers = false;
+
             $scope.showMarkersforAllCategories();
         }
         else {
@@ -307,8 +315,6 @@ app.controller('myController', function ($scope, $http) {
                 'Latitude1': latitude + 3,
                 'Longitude1': longitude + 3};
         }
-
-
         $.getJSON('/getNearestData', objMarkersFilterQuery, function (data) {
             flgShowAllMarkers = false;
             $scope.placeMarkesrs(data);
@@ -320,7 +326,9 @@ app.controller('myController', function ($scope, $http) {
     }
 
 // Fill table with data
+
     $scope.populateWareHouses = function () {
+
 
         // Empty content string
         var tableContent = '';
@@ -373,6 +381,7 @@ app.controller('myController', function ($scope, $http) {
 //        placeMarkesrs(data);
 //    });
     };
+
     $scope.filterMarkerData = function (templateCategory, keyName, element) {
         var value = element.value;
         flgShowAllMarkers = false;
