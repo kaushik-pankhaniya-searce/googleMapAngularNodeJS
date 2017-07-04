@@ -1,13 +1,25 @@
-var app = angular.module('angularjs_with_Nodejs',[]);
+//var app = angular.module('angularjs_with_Nodejs',[]);
+//
 
 
-//app.controller('myController', function($scope, $http) {
-//    $scope.data = [];
-//    var request = $http.get('/data');
-//    request.success(function(data) {
-//        $scope.data = data;
-//    });
-//    request.error(function(data){
-//        console.log('Error: ' + data);
-//    });
-//});
+(function() {
+    var root;
+
+    root = typeof exports !== "undefined" && exports !== null ? exports : this;
+
+
+
+    root.app = angular.module("angularjs_with_Nodejs", [ 'ui', 'ui.bootstrap', 'ui.directives', 'ui.compat', 'ngCookies']).config([
+
+        "$stateProvider", "$routeProvider", "$urlRouterProvider", "$locationProvider",  '$provide', function($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, fileUploadProvider, RestangularProvider, $provide) {
+
+//
+        }
+    ]).run(function($rootScope, $state, $routeParams, $route) {
+        $rootScope.$state = $state;
+        $rootScope.$route = $route;
+        return $rootScope.$routeParams = $routeParams;
+    });
+
+
+}).call(this);
