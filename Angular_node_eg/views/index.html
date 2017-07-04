@@ -1,16 +1,11 @@
 <html ng-app="angularjs_with_Nodejs">
-<<<<<<< HEAD
 <head>
     <title>Integrating AngularJS with NodeJS</title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/iz-style.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/org_setup.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/inz-in.css"/>
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/css/iziModal.min.css"/>
     <link type="text/css" rel="stylesheet"
           href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta charset="utf-8"/>
     <!--<script src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>-->
@@ -19,9 +14,9 @@
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript" charset="utf-8"></script>-->
     <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>-->
     <!--<script async defer-->
-    <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&amp;callback=initMap"></script>-->
+            <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&amp;callback=initMap"></script>-->
 </head>
-<body ng-controller="mapController" class="navbar-fixed">
+<body ng-controller="mapController">
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"></script>
 <script src="/vendor/jquery-1.9.1.js"></script>
 <script src="/vendor/jquery.cookie.js"></script>
@@ -41,146 +36,86 @@
 <script src="/vendor/underscore-min.js"></script>
 <script src="/vendor/angular-strap.min.js"></script>
 <script src="/vendor/ui-bootstrap-tpls-0.6.0.js"></script>
-<div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div id="navbar-container" class="navbar-container">
-        <div class="pull-left">
-            <div class="navbar-header nav-menu-toggeler">
-                <div class="navbar-brand"><img ng-src="{{logoFileName}}"/>
-                </div>
-            </div>
+
+<div id="dialog" ng-show="showDialog">
+    <div>
+        <iframe id="frame" style="width: 800px;height:400px"></iframe>
+    </div>
+</div>
+<div class="main">
+    <div class="container2" id="dashboardButtons">
+        <button class="menu_item" ng-click="showFilters('filter1')"><img src="images/FactoryIcon.png"></button>
+        <button class="menu_item" ng-click="showFilters('salesPerson')"><img src="images/user.png"></button>
+        <button class="menu_item" ng-click="assetTracking()"><img src="images/truck.png"></button>
+        <button class="menu_item" ng-click="showReport()"><img src="images/SalesManReport.png"></button>
+        <button class="menu_item" ng-click="showReport()"><img src="images/WarehouseInv.png"></button>
+        <button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>
+        <!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;--><img src="images/image.png" style="width : 200px; margin-left : 170px">
+        <div class="logo_bnr">
+            <!--img(src="images/image.png")-->
+            <button class="menu_item" ng-click=""><img src="images/help1.png"></button>
+            <button class="menu_item" ng-click=""><img src="images/support1.png"></button>
         </div>
     </div>
-    <div id="dialog" ng-show="showDialog">
-        <div>
-            <iframe id="frame" style="width: 800px;height:400px"></iframe>
-        </div>
-    </div>
-    <div id="main-container" class="main-container">
-        <div class="main-container-inner">
-            <div id="sidebar" class="sidebar">
-                <div class="in-brand"><a href="#" class="navbar-brand"> </a></div>
-                <div id="sidebar-shortcuts" class="sidebar-shortcuts">
-                    <div id="sidebar-shortcuts-mini" class="sidebar-shortcuts-mini"><span class="icon-cog"></span></div>
+    <div id="mymap" style="width:95%; height:570px;position : absolute"></div>
+
+    <div class="filterBlock">
+        <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
+            <div class="filter_group">
+                <div>
+                    <label>Category </label>
+                    <select id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
+                        <option value="all">All</option>
+                        <option ng-selected="{{cat == filter.selectedCategory}}" ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}</option>
+                    </select>
                 </div>
-                <div id="sidebar-collapse" title="Minimize/Maximize" ng-click="isMax=!isMax;resizeHandsonTabel(isMax);"
-                     class="sidebar-collapse"><i class="icon-chevron-left"></i></div>
-                <ul ng-init="tab=''" class="nav nav-list">
-                    <li ng-class="active"><a ng-click="showFilters('filter1')" title="Dashboard"><img
-                            src="images/FactoryIcon.png"></i><span
-                            class="menu-text trim-info-large trim-info-large-inline-table">&nbsp; Dashboard</span></a>
-                        <ul class="submenu"></ul>
-                    </li>
-                    <li ng-class="active"><a ng-click="showFilters('salesPerson')" title="sales Person"><i
-                            class="icon-dashboard"></i><span
-                            class="menu-text trim-info-large trim-info-large-inline-table">&nbsp; Sales Person</span></a>
-                        <ul class="submenu"></ul>
-                    </li>
-                    <li ng-class="active"><a ng-click="showFilters('filter1')" title="Dashboard"><i
-                            class="icon-dashboard"></i><span
-                            class="menu-text trim-info-large trim-info-large-inline-table">&nbsp; Asset Tracking</span></a>
-                        <ul class="submenu"></ul>
-                    </li>
-                    <li ng-class="active"><a ng-click="showFilters('filter1')" title="Dashboard"><i
-                            class="icon-dashboard"></i><span
-                            class="menu-text trim-info-large trim-info-large-inline-table">&nbsp; Sales Report</span></a>
-                        <ul class="submenu"></ul>
-                    </li>
-                </ul>
-            </div>
-            <div id="main-content" class="main-content">
-                <div ui-view="contents" class="page-content">
-                    <!--<div class="container2" id="dashboardButtons">-->
-                    <!--<button class="menu_item" ng-click="showFilters('filter1')"><img src="images/FactoryIcon.png"></button>-->
-                    <!--<button class="menu_item" ng-click="showFilters('salesPerson')"><img src="images/user.png"></button>-->
-                    <!--<button class="menu_item" ng-click="assetTracking()"><img src="images/truck.png"></button>-->
-                    <!--<button class="menu_item" ng-click="showReport()"><img src="images/SalesManReport.png"></button>-->
-                    <!--<button class="menu_item" ng-click="showReport()"><img src="images/WarehouseInv.png"></button>-->
-                    <!--<button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>-->
-                    <!--<!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;--><img
-                        src="images/image.png" style="width : 200px; margin-left : 170px">-->
-                    <!--<div class="logo_bnr">-->
-                    <!--<!--img(src="images/image.png")-->-->
-                    <!--<button class="menu_item" ng-click=""><img src="images/help1.png"></button>-->
-                    <!--<button class="menu_item" ng-click=""><img src="images/support1.png"></button>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <div id="mymap" style="width:95%; height:570px;position : absolute"></div>
-
-                    <div class="filterBlock">
-                        <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
-                            <div class="filter_group">
-                                <div>
-                                    <label>Category </label>
-                                    <select id="categori" ng-model="filter.selectedCategory"
-                                            ng-change="loadFilter(filter.selectedCategory)">
-                                        <option value="all">All</option>
-                                        <option ng-selected="{{cat == filter.selectedCategory}}"
-                                                ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div id="filter">
-                                    <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
-                                        <label>{{filterObj.label}}</label>
-                                        <select id="{{filterObj.key}}" ng-model="selectedFilterValue[$index]"
-                                                ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue[$index])">
-                                            <option value=""></option>
-                                            <option ng-repeat="dataObj in filter.categoryData">
-                                                {{dataObj[filterObj.key]}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
-                            <div class="filter_group">
-                                <div style="height:20px;margin:5px 0px">
-                                    <label>State</label>
-                                    <select id="salesPersonState" ng-model="salesPersonState"
-                                            ng-change="loadFilterSalesPerson(salesPersonState)">
-                                        <option value="mh">Maharashtra</option>
-                                        <option value="gj">Gujrat</option>
-                                        <option value="rj">Rajsthan</option>
-                                    </select>
-                                </div>
-                                <div style="height:30px;margin:8px 0px">
-                                    <label>Ranking</label>
-                                    <select id="salesPersonRanking" ng-model="salesPersonRanking"
-                                            ng-change="loadFilterSalesPerson(salesPersonRanking)">
-                                        <option value="Top20">Top 20%</option>
-                                        <option value="2080">20 - 80%</option>
-                                        <option value="Bottom20">Bottom 20%</option>
-                                    </select>
-                                </div>
-                                <div id="top20">
-                                    <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
-                                    <label id="cntSalesPeople">30</label>
-                                </div>
-                                <div id="2080" style="display:none">
-                                    <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
-                                    <label id="cntSalesPeople">50</label>
-                                </div>
-                                <div id="Bottom20" style="display:none">
-                                    <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
-                                    <label id="cntSalesPeople">8</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
-                        <div class="img_block" ng-repeat="salesP in filter.categoryData">
-                            <img class="trigger" ng-src="images/{{salesP.Images}}">
-
-                            <p class="{{ salesP.Ranking >= '8' ? 'salesGreen': salesP.Ranking >= '5' ? 'salesBlue':'salesRed'}}">
-                                {{salesP['Sales Rep Code']}}</p>
-                        </div>
+                <div id="filter">
+                    <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
+                        <label>{{filterObj.label}}</label>
+                        <select id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                            <option value=""></option>
+                            <option ng-repeat="dataObj in filter.categoryData">{{dataObj[filterObj.key]}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
+            <div class="filter_group">
+                <div style="height:20px;margin:5px 0px">
+                    <label>State</label>
+                    <select id="salesPersonState" ng-model="salesPersonState" ng-change="loadFilterSalesPerson(salesPersonState)">
+                        <option value="mh">Maharashtra</option>
+                        <option value="gj">Gujrat</option>
+                        <option value="rj">Rajsthan</option>
+                    </select>
+                </div>
+                <div style="height:30px;margin:8px 0px">
+                    <label>Ranking</label>
+                    <select id="salesPersonRanking" ng-model="salesPersonRanking" ng-change="loadFilterSalesPerson(salesPersonRanking)">
+                        <option value="Top20">Top 20%</option>
+                        <option value="2080">20 - 80%</option>
+                        <option value="Bottom20">Bottom 20%</option>
+                    </select>
+                </div>
+                <div id="top20">
+                    <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
+                    <label id="cntSalesPeople">30</label>
+                </div>
+                <div id="2080" style="display:none">
+                    <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
+                    <label id="cntSalesPeople">50</label>
+                </div>
+                <div id="Bottom20" style="display:none">
+                    <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
+                    <label id="cntSalesPeople">8</label>
+                </div>
+            </div>
+        </div>
     </div>
+
+</div>
 
 </body>
 </html>
