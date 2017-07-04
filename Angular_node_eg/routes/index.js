@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/vlcc', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'views', 'vlcc/index.html'));
+    res.sendFile(path.join(__dirname, '../', 'views', 'VLCC.html'));
 });
 
 

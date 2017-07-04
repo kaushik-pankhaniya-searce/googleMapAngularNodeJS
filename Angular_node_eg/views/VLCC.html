@@ -1,0 +1,79 @@
+<div class="main">
+    <div class="container2" id="dashboardButtons">
+        <button class="menu_item" ng-click="showFilters('filter1')"><img src="images/FactoryIcon.png"></button>
+        <button class="menu_item" ng-click="showFilters('salesPerson')"><img src="images/user.png"></button>
+        <button class="menu_item" ng-click="assetTracking()"><img src="images/truck.png"></button>
+        <button class="menu_item" ng-click="showReport()"><img src="images/SalesManReport.png"></button>
+        <button class="menu_item" ng-click="showReport()"><img src="images/WarehouseInv.png"></button>
+        <button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>
+        <!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;--><img src="images/image.png" style="width : 200px; margin-left : 170px">
+        <div class="logo_bnr">
+            <!--img(src="images/image.png")-->
+            <button class="menu_item" ng-click=""><img src="images/help1.png"></button>
+            <button class="menu_item" ng-click=""><img src="images/support1.png"></button>
+        </div>
+    </div>
+    <div id="mymap" style="width:95%; height:570px;position : absolute"></div>
+
+    <div class="filterBlock">
+        <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
+            <div class="filter_group">
+                <div>
+                    <label>Category </label>
+                    <select id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
+                        <option value="all">All</option>
+                        <option ng-selected="{{cat == filter.selectedCategory}}" ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}</option>
+                    </select>
+                </div>
+                <div id="filter">
+                    <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
+                        <label>{{filterObj.label}}</label>
+                        <select id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                            <option value=""></option>
+                            <option ng-repeat="dataObj in filter.categoryData">{{dataObj[filterObj.key]}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
+            <div class="filter_group">
+                <div style="height:20px;margin:5px 0px">
+                    <label>State</label>
+                    <select id="salesPersonState" ng-model="salesPersonState" ng-change="loadFilterSalesPerson(salesPersonState)">
+                        <option value="mh">Maharashtra</option>
+                        <option value="gj">Gujrat</option>
+                        <option value="rj">Rajsthan</option>
+                    </select>
+                </div>
+                <div style="height:30px;margin:8px 0px">
+                    <label>Ranking</label>
+                    <select id="salesPersonRanking" ng-model="salesPersonRanking" ng-change="loadFilterSalesPerson(salesPersonRanking)">
+                        <option value="Top20">Top 20%</option>
+                        <option value="2080">20 - 80%</option>
+                        <option value="Bottom20">Bottom 20%</option>
+                    </select>
+                </div>
+                <div id="top20">
+                    <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
+                    <label id="cntSalesPeople">30</label>
+                </div>
+                <div id="2080" style="display:none">
+                    <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
+                    <label id="cntSalesPeople">50</label>
+                </div>
+                <div id="Bottom20" style="display:none">
+                    <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
+                    <label id="cntSalesPeople">8</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="salerPersonPics" class="client_img_list"  ng-if="whichOverlayToShow == 'salesPerson'">
+        <div class="img_block" ng-repeat="salesP in filter.categoryData">
+            <img class="trigger" ng-src="images/{{salesP.Images}}">
+            <p class="{{ salesP.Ranking >= '8' ? 'salesGreen': salesP.Ranking >= '5' ? 'salesBlue':'salesRed'}}">{{salesP['Sales Rep Code']}}</p>
+        </div>
+    </div>
+</div>
