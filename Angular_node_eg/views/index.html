@@ -37,7 +37,7 @@
                     <div id="sub_filter">
                         <div class="filter_group" ng-repeat="filters in filterOption">
                             <label>{{filters.key}}</label>
-                            <select id="{{filters.key}}" ng-model="filterOpt[$index]" ng-change="filterMarkerData($this);" >
+                            <select id="{{filters.key}}" ng-model="filter_opt[filters.key]" ng-change="filterMarkerData($this);" >
                                 <option ng-repeat="sub_filter in unique" value="{{sub_filter[filters.key]}}" > {{sub_filter[filters.key]}}</option>
                             </select>
                         </div>
