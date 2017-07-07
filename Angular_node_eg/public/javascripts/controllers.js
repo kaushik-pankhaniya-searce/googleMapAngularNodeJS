@@ -29,7 +29,7 @@ app.controller('myController', function ($scope, $http) {
         myLatLng = new google.maps.LatLng(18.580085, -73.738125);
         map = new google.maps.Map(document.getElementById('mymap'), {
             center: myLatLng,
-            zoom: 3
+            zoom: 10
         });
         $scope.getTemplates();
         $scope.populateWareHouses();
@@ -272,11 +272,10 @@ app.controller('myController', function ($scope, $http) {
         flgShowAllMarkers = false;
         var value = $scope.category;
         $scope.filter_opt = [];
-        $scope.filterOption= []
+        $scope.filterOption= [];
         selectedCategory = value;
         if (value == 'all' || value == 'All') {
             flgShowAllMarkers = true;
-
             $scope.showMarkersforAllCategories();
         }
         else {

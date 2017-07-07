@@ -9,6 +9,14 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         "selectedCategory" : "",
         "categoryData" : []
     };
+
+    $scope.IsVisible = false;
+    $scope.ShowHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+    }
+
+
     $scope.whichOverlayToShow = "filter1";
 //    $scope.filterFields = [];
 //    $scope.filterCategories = [];"
@@ -95,7 +103,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         [24.902113, 79.602205]
     ];
     var k = 0;
-
     /**
      * To initaliza the map
      */
@@ -108,7 +115,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
 
         map = new google.maps.Map(document.getElementById('mymap'), {
             center: myLatLng,
-            zoom: 3,
+            zoom: 5,
             streetViewControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
