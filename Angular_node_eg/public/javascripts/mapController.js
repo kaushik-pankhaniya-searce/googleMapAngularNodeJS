@@ -15,8 +15,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         //If DIV is visible it will be hidden and vice versa.
         $scope.IsVisible = $scope.IsVisible ? false : true;
     }
-
-
+    $scope.divHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = false;
+    }
     $scope.whichOverlayToShow = "filter1";
 //    $scope.filterFields = [];
 //    $scope.filterCategories = [];"
