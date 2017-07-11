@@ -346,6 +346,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         else {
             $.getJSON('/getData', {"docType": dbName}, function (data) {
                 $scope.filter.categoryData = data;
+                $.each($scope.filter.filterFields, function (a, b) {
+                    var unique = $scope.filter.categoryData.filter((set => f => !set.has(f[b.key]) && set.add(f[b.key]))(new Set));
+                    console.log(unique);
+                });
+
                 $scope.$apply();
                 $scope.placeMarkesrs(data);
             });
