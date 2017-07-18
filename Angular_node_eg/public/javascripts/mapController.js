@@ -9,6 +9,16 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         "selectedCategory" : "",
         "categoryData" : []
     };
+
+    $scope.IsVisible = false;
+    $scope.ShowHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+    }
+    $scope.divHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = false;
+    }
     $scope.whichOverlayToShow = "filter1";
 //    $scope.filterFields = [];
 //    $scope.filterCategories = [];"
@@ -95,7 +105,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         [24.902113, 79.602205]
     ];
     var k = 0;
-
     /**
      * To initaliza the map
      */
@@ -108,7 +117,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
 
         map = new google.maps.Map(document.getElementById('mymap'), {
             center: myLatLng,
-            zoom: 3,
+            zoom: 5,
             streetViewControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -143,6 +152,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                 map: map
             });
             arrUserMarkers.push(marker);
+            arrMarkers.push(marker);
             objMarkersFilterQuery = {};
             $scope.placeNearestLocations(latitude, longitude);
         });
@@ -169,7 +179,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
      * Show all markers on load or on All category select
      */
     $scope.showMarkersforAllCategories = function () {
-
+        $scope.placeMarkesrs(null);
+        flgShowAllMarkers = true;
         for (i = 0; i < $scope.filter.filterCategories.length; i++) {
             $.getJSON('/getData', {"docType": $scope.filter.filterCategories[i]}, function (data) {
                 $scope.placeMarkesrs(data);
@@ -191,6 +202,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                 arrInfowindows[i].close();
             }
             arrInfowindows = [];
+            if(arrdirectionsDisplay != null) {
+                for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                    arrdirectionsDisplay[i].setMap(null);
+                    arrdirectionsDisplay[i] = null;
+                }
+                arrdirectionsDisplay = [];
+            }
         }
         if (data != null) {
             var markerImage = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
@@ -256,7 +274,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                         '</div>' +
                         '</div>'
                 } else if (this.docType == 'Top Perforrming Sales Executives') {
-                    markerImage = this['Ranking']>= 8 ? 'images/rsz_usergreen.png' :this['Ranking']>= 5 ? 'images/rsz_userblue.png' :  'images/rsz_userred.png';
+                    markerImage = this['Ranking']>= 8 ? 'images/rsz_userred.png' :this['Ranking']>= 5 ? 'images/rsz_userblue.png' :  'images/rsz_usergreen.png';
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +

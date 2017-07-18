@@ -83,8 +83,9 @@ router.get('/getNearestData', function(req, res) {
             ]
         };
     }
-    console.log(query);
+//    console.log(query);
     collection.find(query,{},function(e,docs){
+//        console.log(docs);
         res.json(docs);
     });
 });
