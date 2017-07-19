@@ -380,7 +380,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         flgShowAllMarkers = false;
 
         objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
-//        delete objMarkersFilterQuery['$and'];
+        delete objMarkersFilterQuery['$and'];
+        delete objMarkersFilterQuery['Latitude1'];
+        delete objMarkersFilterQuery['Latitude'];
+        delete objMarkersFilterQuery['Longitude1'];
+        delete objMarkersFilterQuery['Longitude'];
         if (value == "" || value == undefined) {
             delete objMarkersFilterQuery[keyName];
         }

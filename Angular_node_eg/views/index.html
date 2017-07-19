@@ -225,7 +225,7 @@
             <div class="filter_group">
                 <div>
                     <label>Category </label>
-                    <select id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
+                    <select ui-select2 id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
                         <option value="All">All</option>
                         <option ng-selected="{{cat == filter.selectedCategory}}" ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}</option>
                     </select>
@@ -263,8 +263,8 @@
                 <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                     <label>{{filterObj.label}}</label>
                     <select  ui-select2 multiple  id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
-                        <option value=""></option>
-                        <option ng-repeat="dataObj in filter.categoryData">{{dataObj[filterObj.key]}}</option>
+                        <!--<option value=""></option>-->
+                        <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">{{dataObj[filterObj.key]}}</option>
                     </select>
                 </div>
             </div>
