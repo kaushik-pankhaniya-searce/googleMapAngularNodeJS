@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var isArray = require('isarray');
  
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -39,9 +40,10 @@ router.get('/filter', function(req, res) {
     var filter = req.filter;
     var collection = db.get(req.query['dbToSearchFor']);
     delete req.query['dbToSearchFor'];
+    console.log(req.query);
 
     collection.find(req.query,{},function(e,docs){
-        console.log(docs);
+//        console.log(docs, e);
         res.json(docs);
     });
 });
@@ -83,8 +85,9 @@ router.get('/getNearestData', function(req, res) {
             ]
         };
     }
-    console.log(query);
+//    console.log(query);
     collection.find(query,{},function(e,docs){
+//        console.log(docs);
         res.json(docs);
     });
 });

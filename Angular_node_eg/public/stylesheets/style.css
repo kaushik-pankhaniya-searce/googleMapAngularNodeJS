@@ -234,3 +234,103 @@ table{
     border-bottom: 2px solid #777777;
     color: rgba(250,106,04,0.9);
 }
+
+/*-------------------------------- MODAL -------------------------------*/
+.modal-backdrop {
+    background-color: #ffffff;
+}
+.modal-dialog {
+    padding-top: 80px;
+    width: auto;
+}
+.modal-dialog1 {
+    min-width: 1000px;
+    z-index: 1050;
+    position: absolute;
+    overflow: auto;
+    top: 130px;
+    margin: 0 auto;
+}
+.modal {
+    overflow: auto !important;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1040;
+    display: block;
+}
+.modal-content {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    -moz-box-shadow:0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    -webkit-box-shadow:0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+.modal-header {
+    /* IE10 Consumer Preview */
+    background-image: -ms-linear-gradient(bottom, #DDDDDD 0%, #FFFFFF 100%);
+    /* Mozilla Firefox */
+    background-image: -moz-linear-gradient(bottom, #DDDDDD 0%, #FFFFFF 100%);
+    /* Opera */
+    background-image: -o-linear-gradient(bottom, #DDDDDD 0%, #FFFFFF 100%);
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #DDDDDD), color-stop(1, #FFFFFF));
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(bottom, #DDDDDD 0%, #FFFFFF 100%);
+    /* W3C Markup, IE10 Release Preview */
+    background-image: linear-gradient(to top, #DDDDDD 0%, #FFFFFF 100%);
+    padding: 6px 15px;
+}
+.modal-header .close {
+    color: #34495E;
+    text-shadow:none;
+    /*opacity: 0.5; */
+    /*text-shadow: 2px 2px 2px #000;*/
+}
+.modal-header .close:hover {
+    color: #000;
+    /*opacity: 0.7;*/
+}
+.modal-header .modal-title {
+    font-size: 22px;
+    font-weight: 300;
+    color: #000;
+    /*text-shadow: 2px 2px 2px #000; */
+    line-height: 27px;
+}
+.modal-body {
+    font-weight: 300;
+}
+.modal-msg {
+    font-size: 15px;
+    color: #666;
+    font-weight: normal;
+}
+/*.modal-body a {
+    color: #f36c00;
+}*/
+/*.modal-body a:hover,.modal-body a:focus {
+    color: #f36c00;
+}*/
+.modal-footer {
+    margin-top: 0;
+}
+.modal-dialog.small {
+    max-width: 750px;
+}
+/*----------------------------- MODAL INFO -------------------------*/
+.modal-backdrop.modal-info {
+    background: rgba(0,0,0,0.6);
+    color: #ffffff;
+}
+.info-block {
+    position: absolute;
+    /* right: 150px; */
+    text-align: center;
+    top: 26px;
+}
+.modal-info .msg {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    font-size: 17px;
+}

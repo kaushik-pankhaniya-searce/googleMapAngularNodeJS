@@ -1,6 +1,7 @@
 angular.module('angularjs_with_Nodejs').controller('mapController',function($scope, $timeout){
 
     $scope.logoFileName = "images/VLCC.png";
+    $scope.showPersonAnalysis = false;
     var map;
     var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [];
     $scope.filter = {
@@ -152,6 +153,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                 map: map
             });
             arrUserMarkers.push(marker);
+            arrMarkers.push(marker);
             objMarkersFilterQuery = {};
             $scope.placeNearestLocations(latitude, longitude);
         });
@@ -178,7 +180,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
      * Show all markers on load or on All category select
      */
     $scope.showMarkersforAllCategories = function () {
-
+        $scope.placeMarkesrs(null);
+        flgShowAllMarkers = true;
         for (i = 0; i < $scope.filter.filterCategories.length; i++) {
             $.getJSON('/getData', {"docType": $scope.filter.filterCategories[i]}, function (data) {
                 $scope.placeMarkesrs(data);
@@ -200,6 +203,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                 arrInfowindows[i].close();
             }
             arrInfowindows = [];
+            if(arrdirectionsDisplay != null) {
+                for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                    arrdirectionsDisplay[i].setMap(null);
+                    arrdirectionsDisplay[i] = null;
+                }
+                arrdirectionsDisplay = [];
+            }
         }
         if (data != null) {
             var markerImage = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
@@ -265,7 +275,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
                         '</div>' +
                         '</div>'
                 } else if (this.docType == 'Top Perforrming Sales Executives') {
-                    markerImage = this['Ranking']>= 8 ? 'images/rsz_usergreen.png' :this['Ranking']>= 5 ? 'images/rsz_userblue.png' :  'images/rsz_userred.png';
+                    markerImage = this['Ranking']>= 8 ? 'images/rsz_userred.png' :this['Ranking']>= 5 ? 'images/rsz_userblue.png' :  'images/rsz_usergreen.png';
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +
@@ -355,6 +365,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         else {
             $.getJSON('/getData', {"docType": dbName}, function (data) {
                 $scope.filter.categoryData = data;
+                $.each($scope.filter.filterFields, function (a, b) {
+                    var unique = $scope.filter.categoryData.filter((set => f => !set.has(f[b.key]) && set.add(f[b.key]))(new Set));
+                    console.log(unique);
+                });
+
                 $scope.$apply();
                 $scope.placeMarkesrs(data);
             });
@@ -365,14 +380,20 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         flgShowAllMarkers = false;
 
         objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
+//        delete objMarkersFilterQuery['$and'];
         if (value == "" || value == undefined) {
             delete objMarkersFilterQuery[keyName];
         }
         else {
-            objMarkersFilterQuery[keyName] = value;
+            if (angular.isArray(value)) {
+                objMarkersFilterQuery[keyName] = { '$in' : value};
+            }
+            else {
+                objMarkersFilterQuery[keyName] = value;
+            }
         }
         objMarkersFilterQuery['docType'] = templateCategory;
-        delete objMarkersFilterQuery['$and'];
+
         $.getJSON('/filter', objMarkersFilterQuery, function (data) {
             $scope.placeMarkesrs(data);
         }, function () {
@@ -467,17 +488,19 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
 
     $scope.showFilters = function (filterName) {
         $scope.whichOverlayToShow = filterName;
+
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
 
         if (filterName == "filter1") {
-
+            $scope.showPersonAnalysis = false;
             flgShowAllMarkers = true;
             $scope.showMarkersforAllCategories();
         }
         else if (filterName == "salesPerson") {
             // alert("hi all" + filterName);
             //$("#salerPersonPics").show();
+            $scope.showPersonAnalysis = false;
             flgShowAllMarkers = false;
             $scope.getData('Top Perforrming Sales Executives');
             $scope.placeMarkesrs();
@@ -485,6 +508,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         }
         else {
             flgShowAllMarkers = false;
+            $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
         }
         if (arrdirectionsDisplay != null) {
@@ -540,13 +564,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
     };
 
 
-    $scope.showReport = function () {
+    $scope.showReport = function (showToUser) {
 //        $("#dialog").dialog({width: 800, height: 500});
-        $scope.showDialog = true;
-        $scope.$apply();
-        $("#frame").attr("src", "images/Report - VW.pdf");
+        $scope.showDialog = showToUser;
+        if (showToUser)
+//        $scope.$apply();
+            $("#frame").attr("src", "images/Report - VW.pdf");
     };
 
+    $scope.showModal = function(showToUser, img){
+        $scope.showPersonAnalysis = showToUser;
+        $scope.salePersonImage = img;
+    };
     //////////////////////////////////////Defailt function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();
