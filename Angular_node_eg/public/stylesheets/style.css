@@ -21,12 +21,12 @@ fieldset {
     min-height: 350px;
     margin-left: 20px;
     margin-top: 20px;
+    z-index: 7;
 }
 .filterBlock,.marker_detail{
     border-radius: 10px;
     background:rgba(62,113,250,0.9);
     border: 1px solid #FFF;
-    z-index: 5;
 }
 
 .marker_detail{
@@ -35,6 +35,7 @@ fieldset {
     /*background:rgba(50,54,22,0.3);*/
     bottom: 50px;
     margin-left: 20px;
+    z-index: 2;
 }
 .marker_detail .row{
     margin : 5px 0px;
@@ -68,8 +69,8 @@ fieldset {
     display:inline-block;
     color : #ffffff;
 }
-.filter_group select{
-    width: 150px !important;
+.filter_group .select2-container , .filter_group select{
+    width: 150px;
 }
 .main{
     margin : 1%;
@@ -240,11 +241,9 @@ table{
     background-color: #ffffff;
 }
 .modal-dialog {
-    padding-top: 80px;
     width: auto;
 }
 .modal-dialog1 {
-    min-width: 1000px;
     z-index: 1050;
     position: absolute;
     overflow: auto;
@@ -252,12 +251,9 @@ table{
     margin: 0 auto;
 }
 .modal {
-    overflow: auto !important;
-    left: 0;
+    margin : auto;
     overflow-x: hidden;
     overflow-y: hidden;
-    position: fixed;
-    right: 0;
     top: 0;
     z-index: 1040;
     display: block;
@@ -298,6 +294,10 @@ table{
     color: #000;
     /*text-shadow: 2px 2px 2px #000; */
     line-height: 27px;
+}
+.modal-body #frame{
+    width: 100%;
+    height: 40%;
 }
 .modal-body {
     font-weight: 300;

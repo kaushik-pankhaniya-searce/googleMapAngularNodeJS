@@ -117,7 +117,7 @@
 
 <div id="modal" style="width:50%; display:block;" ng-show="showPersonAnalysis == true" class="modal fade in">
     <div class="modal-dialog">
-        <div style="margin: 0 auto;width: 100%; margin-top: 150px;" class="modal-content">
+        <div style="margin: 0;width: 100%;" class="modal-content">
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
                     <button aria-hidden="true" type="button" ng-click="showModal(false)" class="close">    &times;</button>
@@ -222,7 +222,7 @@
 
     <div class="filterBlock">
         <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
-            <div class="filter_group">
+            <div class="filter_group" flex>
                 <div>
                     <label>Category </label>
                     <select id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
@@ -240,7 +240,7 @@
                             <!--</select>-->
                         <!--</div>-->
                     <!--</div>-->
-                <!--</div> <!-- Filter1 -->-->
+                <!--</div> <!-- Filter1 -->
                 <!--<div id="salesPerson">-->
                     <!--<div class="filter_group">-->
                         <!--<label>State</label>-->
