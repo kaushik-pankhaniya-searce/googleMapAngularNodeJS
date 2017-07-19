@@ -9,7 +9,7 @@
 
 
 
-    root.app = angular.module("angularjs_with_Nodejs", [ 'ui', 'ui.bootstrap', 'ui.directives', 'ui.compat', 'ngCookies']).config([
+    root.app = angular.module("angularjs_with_Nodejs", [ 'ui', 'ui.bootstrap', 'ui.directives', 'ui.compat', 'ngCookies','ui.select2']).config([
 
         "$stateProvider", "$routeProvider", "$urlRouterProvider", "$locationProvider",  '$provide', function($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, fileUploadProvider, RestangularProvider, $provide) {
 

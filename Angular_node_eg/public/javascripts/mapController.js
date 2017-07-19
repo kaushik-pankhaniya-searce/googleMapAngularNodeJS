@@ -1,6 +1,7 @@
 angular.module('angularjs_with_Nodejs').controller('mapController',function($scope, $timeout){
 
     $scope.logoFileName = "images/VLCC.png";
+    $scope.showPersonAnalysis = false;
     var map;
     var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [];
     $scope.filter = {
@@ -379,14 +380,20 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         flgShowAllMarkers = false;
 
         objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
+//        delete objMarkersFilterQuery['$and'];
         if (value == "" || value == undefined) {
             delete objMarkersFilterQuery[keyName];
         }
         else {
-            objMarkersFilterQuery[keyName] = value;
+            if (angular.isArray(value)) {
+                objMarkersFilterQuery[keyName] = { '$in' : value};
+            }
+            else {
+                objMarkersFilterQuery[keyName] = value;
+            }
         }
         objMarkersFilterQuery['docType'] = templateCategory;
-        delete objMarkersFilterQuery['$and'];
+
         $.getJSON('/filter', objMarkersFilterQuery, function (data) {
             $scope.placeMarkesrs(data);
         }, function () {
@@ -481,17 +488,19 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
 
     $scope.showFilters = function (filterName) {
         $scope.whichOverlayToShow = filterName;
+
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
 
         if (filterName == "filter1") {
-
+            $scope.showPersonAnalysis = false;
             flgShowAllMarkers = true;
             $scope.showMarkersforAllCategories();
         }
         else if (filterName == "salesPerson") {
             // alert("hi all" + filterName);
             //$("#salerPersonPics").show();
+            $scope.showPersonAnalysis = false;
             flgShowAllMarkers = false;
             $scope.getData('Top Perforrming Sales Executives');
             $scope.placeMarkesrs();
@@ -499,6 +508,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
         }
         else {
             flgShowAllMarkers = false;
+            $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
         }
         if (arrdirectionsDisplay != null) {
@@ -554,13 +564,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController',function($sco
     };
 
 
-    $scope.showReport = function () {
+    $scope.showReport = function (showToUser) {
 //        $("#dialog").dialog({width: 800, height: 500});
-        $scope.showDialog = true;
-        $scope.$apply();
-        $("#frame").attr("src", "images/Report - VW.pdf");
+        $scope.showDialog = showToUser;
+        if (showToUser)
+//        $scope.$apply();
+            $("#frame").attr("src", "images/Report - VW.pdf");
     };
 
+    $scope.showModal = function(showToUser, img){
+        $scope.showPersonAnalysis = showToUser;
+        $scope.salePersonImage = img;
+    };
     //////////////////////////////////////Defailt function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();

@@ -8,6 +8,7 @@
     <link type="text/css" rel="stylesheet" href="/vendor/bootstrap-3.3.7-dist/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" href="/vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css"/>
     <link type="text/css" rel="stylesheet" href="/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="vendor/select2/select2.css">
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta charset="utf-8"/>
@@ -22,6 +23,10 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"></script>
 <script src="/vendor/jquery-1.9.1.js"></script>
 <script src="/vendor/angular.js"></script>
+<!--<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>-->
+<script type="text/javascript" src="vendor/select2/select2.js"></script>
+<!--<script type="text/javascript" src="bower_components/angular/angular.js"></script>-->
+<script type="text/javascript" src="vendor/angular-ui-select2/src/select2.js"></script>
 <script src="javascripts/app.js" type="text/javascript"></script>
 <script src="javascripts/mapController.js" type="text/javascript"></script>
 <script src="/vendor/angular-cookies-1.0.0rc10.js"></script>
@@ -32,11 +37,24 @@
 <script src="/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript" charset="utf-8"></script>
 
-<div id="dialog" ng-click="" ng-show="showDialog">
-    <div>
-        <iframe id="frame" style="width: 800px;height:400px"></iframe>
+<div id="modal" style="width:50%; display:block;" ng-show="showDialog == true" class="modal fade in">
+    <div class="modal-dialog">
+        <div style="margin: 0 auto;width: 100%; margin-top: 150px;" class="modal-content">
+            <form name="form" novalidate="novalidate">
+                <div class="modal-header">
+                    <button aria-hidden="true" type="button" ng-click="showReport(false)" class="close">    &times;</button>
+                    <h4 class="modal-title">Sales Person Analysis</h4>
+                </div>
+                <div class="modal-body">
+<!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
+                    <div>
+                        <iframe id="frame" ></iframe>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 
 
     <div id="left_menu" ng-show = "IsVisible" ng-click="ShowHide()" ng-mouseleave="divHide()"  alignment="left">
@@ -47,7 +65,7 @@
             <li><a ng-click="showFilters('filter1')"><span class="fa fa-user"></span>User</a></li>
             <li><a ng-click="showFilters('salesPerson')"><span class="fa fa-users"></span>Sales Person</a></li>
             <li><a ng-click="assetTracking()"><span class="fa fa-truck"></span>Asset Tracking</a></li>
-            <li><a  ng-click="showReport()"><span class="fa fa-address-card"></span> Report </a></li>
+            <li><a  ng-click="showReport(true)"><span class="fa fa-address-card"></span> Report </a></li>
         </ul>
     </div>
 
@@ -81,8 +99,8 @@
 
 
 
-                <button class="menu_item" ng-click="showReport()"><img src="images/SalesManReport.png"></button>
-                <button class="menu_item" ng-click="showReport()"><img src="images/WarehouseInv.png"></button>
+                <button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>
+                <button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>
                 <button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>
                 <!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;-->
                 <img src="images/image.png" style="width : 200px; margin-left : 170px">
@@ -97,6 +115,106 @@
 
 </nav>
 
+<div id="modal" style="width:50%; display:block;" ng-show="showPersonAnalysis == true" class="modal fade in">
+    <div class="modal-dialog">
+        <div style="margin: 0 auto;width: 100%; margin-top: 150px;" class="modal-content">
+            <form name="form" novalidate="novalidate">
+                <div class="modal-header">
+                    <button aria-hidden="true" type="button" ng-click="showModal(false)" class="close">    &times;</button>
+                    <h4 class="modal-title">Sales Person Analysis</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        <div id="sales_person_analysis">
+                            <div class="sp_tables">
+                                <h2>Sales Person Analysis</h2>
+                                <table id="sp_tables_basic" border="2">
+                                    <tr>
+                                        <td>Rep Code</td>
+                                        <td>NK06</td>
+                                        <td>Rep Name</td>
+                                        <td>Performance</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Area</td>
+                                        <td>PALGHAT</td>
+                                        <td>Reporting to</td>
+                                        <td>PRAVIN</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Photo</td>
+                                        <td><img src={{salePersonImage}}></td>
+                                        <td colspan="2">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td>Mobile No</td>
+                                                    <td align="right">9881453697</td>
+                                                </tr>
+                                                <tr></tr>
+                                                <tr>
+                                                    <td>Email</td>
+                                                    <td align="right">VM@searce.com</td>
+                                                </tr>
+                                                <tr></tr>
+                                                <tr>
+                                                    <td colspan="100%"><a href="#">Growth/DeGrowth analysis</></a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table id="target_actual_tbl" border="2">
+                                    <thead></thead>
+                                    <td colspan="2">Cur Month Target vs Actuals</td>
+                                    <tr>
+                                        <td>Target</td>
+                                        <td>78%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pro-Rata Target</td>
+                                        <td>65%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Achieved</td>
+                                        <td>285</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Achieved %</td>
+                                        <td>70.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance</td>
+                                        <td>0300</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/></td>
+                                    </tr>
+                                </table>
+                                <div class="mail_data_send">
+                                    <form>
+                                        <label>Message :</label>
+                                        <input placeholder="Enter Message" size="50"/><br/>
+                                        <label>Email :</label>
+                                        <input placeholder="Enter Email" size="30"/><br/>
+                                        <center>
+                                            <button>Send Mail</button>
+                                        </center>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both;height:5px"></div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="showModal(false)" class="inz-btn btn-sm btn-default">Cancel</button>
+                    <button ng-click="save()" ng-focus="true" ng-disabled="form.$invalid" ng-class="{'disabled':form.$invalid}" type="submit" class="inz-btn btn-sm btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
 <div class="main">
 
 
@@ -122,7 +240,7 @@
                             <!--</select>-->
                         <!--</div>-->
                     <!--</div>-->
-                <!--</div> &lt;!&ndash; Filter1 &ndash;&gt;-->
+                <!--</div> <!-- Filter1 -->-->
                 <!--<div id="salesPerson">-->
                     <!--<div class="filter_group">-->
                         <!--<label>State</label>-->
@@ -134,10 +252,17 @@
                     <!--</div>-->
 
             </div>
+            <!--<h3>Array of strings</h3>-->
+            <!--<select ui-select2 ng-model="select2" multiple data-placeholder="Pick a number">-->
+                <!--<option value=""></option>-->
+                <!--<option value="one">First</option>-->
+                <!--<option value="two">Second</option>-->
+                <!--<option value="three">Third</option>-->
+            <!--</select>-->
             <div id="filter">
                 <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                     <label>{{filterObj.label}}</label>
-                    <select id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                    <select  ui-select2 multiple  id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
                         <option value=""></option>
                         <option ng-repeat="dataObj in filter.categoryData">{{dataObj[filterObj.key]}}</option>
                     </select>
@@ -178,6 +303,15 @@
             </div>
         </div>
     </div><!-- Filterblock -->
+
+    <div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
+        <div class="img_block" ng-repeat="salesP in filter.categoryData">
+            <img class="trigger" ng-src="images/{{salesP.Images}}" ng-click="showModal(true,'images/' + salesP.Images)">
+
+            <p class="{{ salesP.Ranking >= '8' ? 'salesGreen': salesP.Ranking >= '5' ? 'salesBlue':'salesRed'}}">
+                {{salesP['Sales Rep Code']}}</p>
+        </div>
+    </div>
 
     <div class="marker_detail">
         <div class="row">
