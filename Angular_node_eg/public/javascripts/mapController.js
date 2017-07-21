@@ -147,6 +147,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "antiquewhite": "faebd7",
         "black": "000000"
     };
+
+    $scope.title = "Dashboard";
     $scope.logoFileName = "images/VLCC.png";
     $scope.showPersonAnalysis = false;
     var map;
@@ -286,7 +288,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 //        map.setCenter(new google.maps.LatLng(28.541766, 77.243415));
         google.maps.event.addListener(map, 'click', function (event) {
-            if ($scopewhichOverlayToShow == 'filter1') {
+            if ($scope.whichOverlayToShow == 'filter1') {
                 flgShowAllMarkers = false;
                 $scope.placeMarkesrs(null);
                 for (i = 0; i < arrUserMarkers.length; i++) {
@@ -359,6 +361,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 arrInfowindows[i].close();
             }
             arrInfowindows = [];
+            for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
+                arrInfowindowsAssetTrackingMarkers[i].close();
+            }
+            arrInfowindowsAssetTrackingMarkers = [];
             if (arrdirectionsDisplay != null) {
                 for (i = 0; i < arrdirectionsDisplay.length; i++) {
                     arrdirectionsDisplay[i].setMap(null);
@@ -665,11 +671,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.placeMarkesrs(null);
 
         if (filterName == "filter1") {
+            $scope.title = "Dashboard";
             $scope.showPersonAnalysis = false;
             flgShowAllMarkers = true;
             $scope.showMarkersforAllCategories();
         }
         else if (filterName == "salesPerson") {
+            $scope.title = "Sales Tracking";
             // alert("hi all" + filterName);
             //$("#salerPersonPics").show();
             $scope.filter.selectedCategory = "Top Perforrming Sales Executives";
@@ -680,6 +688,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         }
         else {
+         if (filterName == "assetTracking") {
+             $scope.title = "Asset Tracking";
+         }
+          else if (filterName == "reports") {
+             $scope.title = "Reports";
+         }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -706,18 +720,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                       {"origin":{"Latitude": 21.1702, "Longitude": 72.8311}, "destination":{"Latitude": 21.1458, "Longitude": 79.0882},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' +  '</div>'},
                                       {"origin":{"Latitude": 28.7041, "Longitude": 77.1025}, "destination":{"Latitude": 24.5854, "Longitude": 73.7125},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'}
         ];
-//        $scope.placeMarkesrs(markersToSend);
-//        var markerTruck = new google.maps.Marker({position: new google.maps.LatLng(24.902113, 79.602205), map: map, icon: 'images/smalltruck.png'});
-//        markerTruck.setMap(map);
-//        arrMarkers.push(markerTruck);
         calcRoute(assetOriginDestDetails, false, true);
-//        setTimeout(function () {
-//            for (i = 0; i < arrMarkers.length; i++)
-//            {
-////                $scope.moveTruck(map, arrMarkers[i]);
-//                arrMarkers[i].setPosition(new google.maps.LatLng(arrLatLongTruck[k].lat(), arrLatLongTruck[k].lng()));
-//            }
-//        }, 1000);
     };
 
     function calcRoute(assetOriginDestDetails, supressMarkers, isAssetTracking) {
@@ -729,13 +732,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
             arrdirectionsDisplay = [];
         }
-//        var directionsDisplay = new google.maps.DirectionsRenderer(
-//            {
-//                suppressMarkers: supressMarkers ? supressMarkers : false
-//            }
-//        );
-//        var directionsService = new google.maps.DirectionsService();
-//        directionsDisplay.setMap(map);
+
 
         angular.forEach(assetOriginDestDetails, function(item, index) {
             var start = new google.maps.LatLng(item.origin.Latitude, item.origin.Longitude);
@@ -771,7 +768,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                             }
                             else {
                                 arrLatLongTruck.push(response.routes[0].overview_path);
-//                                arrLatLongTruck = arrLatLongTruck.push[[response.routes[0].overview_path]];
                             }
                             var index = parseInt(response.routes[0].overview_path.length / 2);
                             var infoposition = new google.maps.LatLng(response.routes[0].overview_path[index].lat(), response.routes[0].overview_path[index].lng());
@@ -821,18 +817,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.moveTruck = function (map, markerTruck, markerIndex, latLngindex, countDotMarker) {
 
         setTimeout(function () {
-//            markerTruck.setPosition(new google.maps.LatLng(arrLatLongTruck[k][0], arrLatLongTruck[k][1]));
-//
-//            map.panTo( new google.maps.LatLng( auto[k][0], auto[k][1] ) );
-//            k--;
-            if (countDotMarker == 3) {
+            if (countDotMarker == 3 && $scope.whichOverlayToShow == 'assetTracking') {
                 countDotMarker = 0;
 
                 var geocoder = geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'latLng': markerTruck.position }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
-//                            alert("Location: " + results[1].formatted_address);
                             var markerDot = new google.maps.Marker({position: markerTruck.position, map: map, icon: 'images/marker-dot.png'});
 
                             markerDot.setMap(map);

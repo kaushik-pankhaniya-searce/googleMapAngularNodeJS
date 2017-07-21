@@ -63,9 +63,9 @@
         </div>
             <ul>
             <li><a ng-click="showFilters('filter1')"><span class="fa fa-user"></span>Dashboard</a></li>
-            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><span class="fa fa-users"></span>Sales Person</a></li>
+            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><span class="fa fa-users"></span>Sales Tracking</a></li>
             <li><a ng-click="assetTracking();showFilters('assetTracking')"><span class="fa fa-truck"></span>Asset Tracking</a></li>
-            <li><a  ng-click="showFilters('reports')"><span class="fa fa-address-card"></span> Report </a></li>
+            <li><a  ng-click="showFilters('reports')"><span class="fa fa-address-card"></span> Reports </a></li>
         </ul>
     </div>
 
@@ -82,11 +82,13 @@
             </button>
             <a class="navbar-brand" href="#" ng-mouseover="ShowHide()"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
             <img src="images/searce.png">
+            <div id="headTitle">Google Maps GIS - {{title}}</div>
         </div>
+
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-            </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="#"><span class=" fa fa-power-off"></span> Logout</a></li>
             </ul>
