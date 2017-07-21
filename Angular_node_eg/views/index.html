@@ -1,7 +1,7 @@
 <!--suppress HtmlUnknownTarget -->
 <html ng-app="angularjs_with_Nodejs">
 <head>
-    <title>Integrating AngularJS with NodeJS</title>
+    <title>Google Maps</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/css/iziModal.min.css"/>
     <link type="text/css" rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"/>
@@ -59,13 +59,13 @@
 
     <div id="left_menu" ng-show = "IsVisible" ng-click="ShowHide()" ng-mouseleave="divHide()"  alignment="left">
         <div class="menu_header">
-            <h2>VLCC</h2>
+            <h2>Searce</h2>
         </div>
             <ul>
-            <li><a ng-click="showFilters('filter1')"><span class="fa fa-user"></span>User</a></li>
-            <li><a ng-click="showFilters('salesPerson')"><span class="fa fa-users"></span>Sales Person</a></li>
-            <li><a ng-click="assetTracking()"><span class="fa fa-truck"></span>Asset Tracking</a></li>
-            <li><a  ng-click="showReport(true)"><span class="fa fa-address-card"></span> Report </a></li>
+            <li><a ng-click="showFilters('filter1')"><span class="fa fa-user"></span>Dashboard</a></li>
+            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><span class="fa fa-users"></span>Sales Person</a></li>
+            <li><a ng-click="assetTracking();showFilters('assetTracking')"><span class="fa fa-truck"></span>Asset Tracking</a></li>
+            <li><a  ng-click="showFilters('reports')"><span class="fa fa-address-card"></span> Report </a></li>
         </ul>
     </div>
 
@@ -80,7 +80,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" ng-mouseover="ShowHide()"><span class="glyphicon glyphicon-menu-hamburger"></span> VLCC</a>
+            <a class="navbar-brand" href="#" ng-mouseover="ShowHide()"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+            <img src="images/searce.png">
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -103,7 +104,7 @@
                 <button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>
                 <button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>
                 <!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;-->
-                <img src="images/image.png" style="width : 200px; margin-left : 170px">
+                <img src="images/searce.png" style="width : 200px; margin-left : 170px">
                 <div class="logo_bnr">
                     <!--img(src="images/image.png")-->
                     <button class="menu_item" ng-click=""><img src="images/help1.png"></button>
@@ -117,7 +118,7 @@
 
 <div id="modal" style="width:50%; display:block;" ng-show="showPersonAnalysis == true" class="modal fade in">
     <div class="modal-dialog">
-        <div style="margin: 0 auto;width: 100%; margin-top: 150px;" class="modal-content">
+        <div style="margin: 0;width: 100%;" class="modal-content">
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
                     <button aria-hidden="true" type="button" ng-click="showModal(false)" class="close">    &times;</button>
@@ -222,7 +223,7 @@
 
     <div class="filterBlock">
         <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
-            <div class="filter_group">
+            <div class="filter_group" flex>
                 <div>
                     <label>Category </label>
                     <select ui-select2 id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
@@ -231,34 +232,9 @@
                     </select>
                 </div>
 
-<!--<<<<<<< HEAD-->
-                    <!--<div id="sub_filter">-->
-                        <!--<div class="filter_group" ng-repeat="filters in filterOption">-->
-                            <!--<label>{{filters.key}}</label>-->
-                            <!--<select id="{{filters.key}}" ng-model="filter_opt[filters.key]" ng-change="filterMarkerData($this);" >-->
-                                <!--<option ng-repeat="sub_filter in unique" value="{{sub_filter[filters.key]}}" > {{sub_filter[filters.key]}}</option>-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div> <!-- Filter1 -->-->
-                <!--<div id="salesPerson">-->
-                    <!--<div class="filter_group">-->
-                        <!--<label>State</label>-->
-                        <!--<select id="salesPersonState" ng-change="loadFilterSalesPerson(this);"  ></select>-->
-                    <!--</div>-->
-                    <!--<div class="filter_group">-->
-                        <!--<label>Ranking</label>-->
-                        <!--<select id="salesPersonRanking" ng-change="loadFilterSalesPerson(this);"></select>-->
-                    <!--</div>-->
 
             </div>
-            <!--<h3>Array of strings</h3>-->
-            <!--<select ui-select2 ng-model="select2" multiple data-placeholder="Pick a number">-->
-                <!--<option value=""></option>-->
-                <!--<option value="one">First</option>-->
-                <!--<option value="two">Second</option>-->
-                <!--<option value="three">Third</option>-->
-            <!--</select>-->
+
             <div id="filter">
                 <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                     <label>{{filterObj.label}}</label>
@@ -272,43 +248,50 @@
 
         <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
             <div class="filter_group">
-                <div style="height:20px;margin:5px 0px">
-                    <label>State</label>
-                    <select id="salesPersonState" ng-model="salesPersonState" ng-change="loadFilterSalesPerson(salesPersonState)">
-                        <option value="mh">Maharashtra</option>
-                        <option value="gj">Gujrat</option>
-                        <option value="rj">Rajsthan</option>
-                    </select>
+                <div id="filterSales">
+                    <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
+                        <label>{{filterObj.label}}</label>
+                        <select  ui-select2 multiple  id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                            <!--<option value=""></option>-->
+                            <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">{{dataObj[filterObj.key]}}</option>
+                        </select>
+                    </div>
                 </div>
-                <div style="height:30px;margin:8px 0px">
-                    <label>Ranking</label>
-                    <select id="salesPersonRanking" ng-model="salesPersonRanking" ng-change="loadFilterSalesPerson(salesPersonRanking)">
-                        <option value="Top20">Top 20%</option>
-                        <option value="2080">20 - 80%</option>
-                        <option value="Bottom20">Bottom 20%</option>
-                    </select>
-                </div>
+
                 <div id="top20">
                     <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
-                    <label id="cntSalesPeople">30</label>
+                    <label id="cntSalesPeople">{{top20}}</label>
                 </div>
-                <div id="2080" style="display:none">
+                <div id="2080" >
                     <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
-                    <label id="cntSalesPeople">50</label>
+                    <label id="cntSalesPeople">{{middle2080}}</label>
                 </div>
-                <div id="Bottom20" style="display:none">
+                <div id="Bottom20" >
                     <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
-                    <label id="cntSalesPeople">8</label>
+                    <label id="cntSalesPeople">{{bottom20}}</label>
                 </div>
+            </div>
+        </div>
+
+        <div id="reports" ng-show="whichOverlayToShow == 'reports'">
+            <div class="filter_group_report" style="margin-left: 25px;margin-top: 50px;">
+                <div><a href="" ng-click="showReport(true,'Sale 2.pdf')">Sales Report</a><br></div>
+                <div style="height: 10px;margin-left: 10px;"></div>
+                <div ><a href="" ng-click="showReport(true,'Sale.pdf')">Monthly Sales Report</a></div>
+                <div style="height: 10px;margin-left: 10px;"></div>
+                <div><a href="" ng-click="showReport(true,'Sale 3.pdf')">Weekly Sales Activity</a><br></div>
+                <div style="height: 10px;margin-left: 10px;"></div>
+                <div><a href="" ng-click="showReport(true,'Sale 4.pdf')">Sales Activity Report</a><br></div>
+                <div style="height: 10px;margin-left: 10px;"></div>
             </div>
         </div>
     </div><!-- Filterblock -->
 
-    <div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
-        <div class="img_block" ng-repeat="salesP in filter.categoryData">
+    <div id="salerPersonPics" class="client_img_list" ng-show="whichOverlayToShow == 'salesPerson'">
+        <div class="img_block" ng-repeat="salesP in salesPersonData">
             <img class="trigger" ng-src="images/{{salesP.Images}}" ng-click="showModal(true,'images/' + salesP.Images)">
 
-            <p class="{{ salesP.Ranking >= '8' ? 'salesGreen': salesP.Ranking >= '5' ? 'salesBlue':'salesRed'}}">
+            <p class="{{ salesP.Ranking >= '8' ? 'salesRed': salesP.Ranking >= '5' ? 'salesBlue':'salesGreen'}}">
                 {{salesP['Sales Rep Code']}}</p>
         </div>
     </div>

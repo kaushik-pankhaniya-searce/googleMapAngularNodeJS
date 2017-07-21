@@ -59,9 +59,9 @@ app.controller('myController', function ($scope, $http) {
     $scope.showReport = function () {
         $("#dialog").dialog({width: 800, height: 500});
         $("#frame").attr("src", "images/Report - VW.pdf");
-    }
+    };
     $scope.addInput= function(divName, dataToAppend) {
-        $scope.unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
+//        $scope.unique = dataToAppend.filter((set => f => !set.has(f[divName]) && set.add(f[divName]))(new Set));
         //for(var i=0;i<$scope.unique.length;i++){
         //    select.append($("<option/>").attr("value", $scope.unique[i][divName]).text($scope.unique[i][divName]));
         //}
@@ -291,7 +291,7 @@ app.controller('myController', function ($scope, $http) {
     $scope.placeNearestLocations = function (latitude, longitude) {
 //    var value = element.value;
 //    var keyName = element.id;
-        flgShowAllMarkers = false;
+        flgShowAllMarkers = true;
         objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
         if (selectedCategory != "" && selectedCategory != undefined) {
             objMarkersFilterQuery = {"docType": selectedCategory,
@@ -310,9 +310,9 @@ app.controller('myController', function ($scope, $http) {
                 'Longitude1': longitude + 3};
         }
         $.getJSON('/getNearestData', objMarkersFilterQuery, function (data) {
-            flgShowAllMarkers = false;
+            flgShowAllMarkers = true;
             $scope.placeMarkesrs(data);
-            calcRoute(data, latitude, longitude, true, false);
+            $scope.(data, latitude, longitude, true, false);
 
         }, function () {
             $scope.placeMarkesrs(null);
@@ -447,7 +447,7 @@ app.controller('myController', function ($scope, $http) {
         var value = element.value;
         var keyName = element.id;
 
-        objMarkersFilterQuery['dbToSearchFor'] = 'salesPerson';// templateCategory;
+        objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
         if (value == "" || value == undefined) {
             delete objMarkersFilterQuery[keyName];
         }
@@ -456,20 +456,21 @@ app.controller('myController', function ($scope, $http) {
         }
         $.getJSON('/filter', objMarkersFilterQuery, function (data) {
 
-            placeMarkesrs(data);
+            $scope.placeMarkesrs(data);
 //        calcRoute(data);
 
         }, function () {
             $scope.placeMarkesrs(null);
         });
-        var value = element.value;
+        value = element.value;
         selectedCategory = value;
 
         $.getJSON('/templatesFields', {'docType': value}, function (data) {
             $scope.filterFields = data[0].fields;
-            getData(value);
+            $scope.getData(value);
         });
-    }
+    };
+
     var arrLatLongTruck = [
         [22.58608, 88.37402],
         [22.58608, 88.19824],
