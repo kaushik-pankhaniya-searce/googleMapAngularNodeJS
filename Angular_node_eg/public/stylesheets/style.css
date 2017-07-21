@@ -243,12 +243,21 @@ table{
     font-size: medium;
     font-weight: bold;
 }
-#headTitle{
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
 
+.navbar-center
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    font-size: 18px;
+    text-align: center;
+    overflow: visible;
+    height: 0;
+}
+#logoImg{
+    margin-top :10px;
+}
 /*-------------------------------- MODAL -------------------------------*/
 .modal-backdrop {
     background-color: #ffffff;
