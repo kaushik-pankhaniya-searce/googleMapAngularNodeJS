@@ -1,4 +1,4 @@
-angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout) {
+angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout,$filter) {
     var CSS_COLOR_NAMES = ["BlueViolet","Darkorange","DeepPink","Cyan", "Gold","LawnGreen","DarkKhaki","AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue",  "Brown",
         "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson",  "DarkBlue", "DarkCyan", "DarkGoldenRod",
         "DarkGray", "DarkGrey", "DarkGreen",  "DarkMagenta", "DarkOliveGreen",  "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen",
@@ -718,7 +718,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         k = 0;
         var assetOriginDestDetails = [{"origin":{"Latitude": 26.8467, "Longitude": 80.9462}, "destination":{"Latitude": 22.58608, "Longitude": 88.37402},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' +  '</div>'},
                                       {"origin":{"Latitude": 21.1702, "Longitude": 72.8311}, "destination":{"Latitude": 21.1458, "Longitude": 79.0882},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' +  '</div>'},
-                                      {"origin":{"Latitude": 28.7041, "Longitude": 77.1025}, "destination":{"Latitude": 24.5854, "Longitude": 73.7125},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'}
+                                      {"origin":{"Latitude": 28.7041, "Longitude": 77.1025}, "destination":{"Latitude": 24.5854, "Longitude": 73.7125},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'},
+                                      {"origin":{"Latitude": 28.7041, "Longitude": 77.1025}, "destination":{"Latitude": 26.5854, "Longitude": 70.7125},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'}
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
@@ -736,15 +737,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         angular.forEach(assetOriginDestDetails, function(item, index) {
             var start = new google.maps.LatLng(item.origin.Latitude, item.origin.Longitude);
-
             var end = new google.maps.LatLng(item.destination.Latitude, item.destination.Longitude);
-
             var infowindow2 = new google.maps.InfoWindow();
             var request = {
                 origin: start,
                 destination: end,
                 travelMode: google.maps.TravelMode.DRIVING
-
             };
 
             var directionsService = new google.maps.DirectionsService();
@@ -817,7 +815,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.moveTruck = function (map, markerTruck, markerIndex, latLngindex, countDotMarker) {
 
         setTimeout(function () {
-            if (countDotMarker == 3 && $scope.whichOverlayToShow == 'assetTracking') {
+            if (countDotMarker == 8 && $scope.whichOverlayToShow == 'assetTracking') {
                 countDotMarker = 0;
 
                 var geocoder = geocoder = new google.maps.Geocoder();
@@ -825,35 +823,36 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
                             var markerDot = new google.maps.Marker({position: markerTruck.position, map: map, icon: 'images/marker-dot.png'});
+                           setTimeout(function(){
+                               markerDot.setMap(map);
+                               markerDot.setPosition(markerTruck.position);
+                               markerDot.addListener('click', function () {
+                                   for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
+                                       arrInfowindowsAssetTrackingMarkers[i].close();
+                                   }
+                                   arrInfowindowsAssetTrackingMarkers = [];
 
-                            markerDot.setMap(map);
-                            markerDot.setPosition(markerTruck.position);
-
-                            markerDot.addListener('click', function () {
-                            for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
-                                arrInfowindowsAssetTrackingMarkers[i].close();
-                            }
-                                arrInfowindowsAssetTrackingMarkers = [];
-                                var infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
-                                    '<div id="siteNotice">' +
-                                    '</div>' +
-                                    '<div id="bodyContent" class="infowindow_warehouse">' +
-                                    '<big> <p>' +
-                                    '<label> ' + results[1].formatted_address + ' </label>' +
-                                    '</p></big>' +
-                                    '</div>' +
-                                    '</div>';
-                                var infoWindow = new google.maps.InfoWindow({
-                                    content: infoWindowContent
-                                });
-                                infoWindow.open(map, markerDot);
-                                arrInfowindowsAssetTrackingMarkers.push(infoWindow);
-                            });
-                            arrMarkers.push(markerDot);
+                                   var infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
+                                       '<div id="siteNotice">' +
+                                       '</div>' +
+                                       '<div id="bodyContent" class="infowindow_warehouse">' +
+                                       '<big> <p>' +
+                                       '<label> ' + results[1].formatted_address + ' </label>' +
+                                       '</p></big>' +
+                                       '<p><i> Time : '+$filter("date")(new Date(), "HH:mm:ss")
+                                       +'</i></p></div>' +
+                                       '</div>';
+                                   var infoWindow = new google.maps.InfoWindow({
+                                       content: infoWindowContent
+                                   });
+                                   infoWindow.open(map, markerDot);
+                                   arrInfowindowsAssetTrackingMarkers.push(infoWindow);
+                               },1000);
+                               arrMarkers.push(markerDot);
+                           })
                         }
                     }
                 });
-
 
 
             }
