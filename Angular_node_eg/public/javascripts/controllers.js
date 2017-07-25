@@ -406,7 +406,6 @@ app.controller('myController', function ($scope, $http) {
         $scope.placeMarkesrs(null);
 
         if (filterName == "filter1") {
-
             flgShowAllMarkers = true;
             $scope.showMarkersforAllCategories();
         }
