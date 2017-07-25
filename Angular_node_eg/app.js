@@ -13,7 +13,7 @@ var mongo = require('mongodb');
 //console.log(mongo);
 var monk = require('monk');
 //console.log(monk);
-var db = monk('localhost:27217/googleMapData');
+var db = monk('localhost:27017/googleMapData');
 //console.log(db);
 
 var app = express();
