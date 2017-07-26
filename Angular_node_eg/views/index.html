@@ -43,7 +43,7 @@
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
                     <button aria-hidden="true" type="button" ng-click="showReport(false)" class="close">    &times;</button>
-                    <h4 class="modal-title">Sales Person Analysis</h4>
+                    <h4 class="modal-title">{{report_dialog_head}}</h4>
                 </div>
                 <div class="modal-body">
 <!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
@@ -274,19 +274,19 @@
 
         <div id="reports" ng-show="whichOverlayToShow == 'reports'">
             <div class="filter_group_report" style="margin-left: 25px;margin-top: 50px;">
-                <div><a href="" ng-click="showReport(true,'Sale 2.pdf')">Sales Report</a><br></div>
+                <div><a href="" ng-click="showReport(true,'Sale 2.pdf','Sales Report')">Sales Report</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-                <div ><a href="" ng-click="showReport(true,'Sale.pdf')">Monthly Sales Report</a></div>
+                <div ><a href="" ng-click="showReport(true,'Sale.pdf','Monthly Sales Report' )">Monthly Sales Report</a></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-                <div><a href="" ng-click="showReport(true,'Sale 3.pdf')">Weekly Sales Activity</a><br></div>
+                <div><a href="" ng-click="showReport(true,'Sale 3.pdf','Weekly Sales Activity')">Weekly Sales Activity</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-                <div><a href="" ng-click="showReport(true,'Sale 4.pdf')">Sales Activity Report</a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-
-                <div><a href="" ng-click="showReport(true,'Report - Geo 1.pdf')">Asset Tracking Report - Geofence/Status</a><br></div>
+                <div><a href="" ng-click="showReport(true,'Sale 4.pdf','Sales Activity Report')">Sales Activity Report</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
 
-                <div><a href="" ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf')">Asset Tracking Report - Daily </a><br></div>
+                <div><a href="" ng-click="showReport(true,'Report - Geo 1.pdf','Asset Tracking Report - Geofence/Status')">Asset Tracking Report - Geofence/Status</a><br></div>
+                <div style="height: 10px;margin-left: 10px;"></div>
+
+                <div><a href="" ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf','Asset Tracking Report - Daily')">Asset Tracking Report - Daily </a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
             </div>
         </div>

@@ -855,9 +855,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     };
 
 
-    $scope.showReport = function (showToUser, fileName) {
+    $scope.showReport = function (showToUser, fileName,heading) {
 //        $("#dialog").dialog({width: 800, height: 500});
         $scope.showDialog = showToUser;
+        $scope.report_dialog_head = heading;
         if (showToUser)
 //        $scope.$apply();
 //            $("#frame").attr("src", "images/Report - VW.pdf");
