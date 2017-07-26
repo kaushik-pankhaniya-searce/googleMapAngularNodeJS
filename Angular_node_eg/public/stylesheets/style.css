@@ -237,10 +237,10 @@ table{
 }
 
 .filter_group_report a{
-    width:175px;
-    display:inline-block;
+    //width:175px;
+    //display:inline-block;
     color : #ffffff;
-    font-size: medium;
+   // font-size: medium;
     font-weight: bold;
 }
 

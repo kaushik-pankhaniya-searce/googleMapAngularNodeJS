@@ -644,8 +644,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 'Latitude1': latitude + 3,
                 'Longitude1': longitude + 3};
         }
-
-
         $.getJSON('/getNearestData', objMarkersFilterQuery, function (data) {
             flgShowAllMarkers = true;
             $scope.placeMarkesrs(data);
@@ -705,12 +703,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
             arrdirectionsDisplay = [];
         }
-
 //        k = -1;
-
     };
-
-
     $scope.assetTracking = function () {
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
@@ -723,7 +717,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
-
     function calcRoute(assetOriginDestDetails, supressMarkers, isAssetTracking) {
         flgShowAllMarkers = false;
         if (arrdirectionsDisplay != null) {
@@ -733,8 +726,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
             arrdirectionsDisplay = [];
         }
-
-
         angular.forEach(assetOriginDestDetails, function(item, index) {
             var start = new google.maps.LatLng(item.origin.Latitude, item.origin.Longitude);
             var end = new google.maps.LatLng(item.destination.Latitude, item.destination.Longitude);
@@ -744,7 +735,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 destination: end,
                 travelMode: google.maps.TravelMode.DRIVING
             };
-
             var directionsService = new google.maps.DirectionsService();
             directionsService.route(request, function (response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
@@ -806,16 +796,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     }
                 }
             });
-
-
-
         });
     };
 
     $scope.moveTruck = function (map, markerTruck, markerIndex, latLngindex, countDotMarker) {
-
         setTimeout(function () {
-            if (countDotMarker == 8 && $scope.whichOverlayToShow == 'assetTracking') {
+            if (countDotMarker == 3 && $scope.whichOverlayToShow == 'assetTracking') {
                 countDotMarker = 0;
 
                 var geocoder = geocoder = new google.maps.Geocoder();
@@ -832,7 +818,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                    }
                                    arrInfowindowsAssetTrackingMarkers = [];
 
-                                   var infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
+                                   var infoWindowContent = '<div id="content"  class="inf owindow_warehouse">' +
                                        '<div id="siteNotice">' +
                                        '</div>' +
                                        '<div id="bodyContent" class="infowindow_warehouse">' +
@@ -853,8 +839,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         }
                     }
                 });
-
-
             }
             else {
                 countDotMarker++;
@@ -865,11 +849,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             if (latLngindex <= arrLatLongTruck[markerIndex].length) {
 //            if (k >= 0) {
                 $scope.moveTruck(map, markerTruck, markerIndex, latLngindex, countDotMarker);
-
             }
 //            k++;
-
-
         }, 1000)
     };
 
