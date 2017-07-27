@@ -687,12 +687,14 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         }
         else {
-         if (filterName == "assetTracking") {
-             $scope.title = "Asset Tracking";
-         }
-          else if (filterName == "reports") {
-             $scope.title = "Reports";
-         }
+            if (filterName == "assetTracking") {
+                $scope.title = "Asset Tracking";
+                $scope.placeMarkesrs(null);
+            }
+            else if (filterName == "reports") {
+                $scope.title = "Reports";
+                $scope.placeMarkesrs(null);
+            }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -835,8 +837,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                    infoWindow.open(map, markerDot);
                                    arrInfowindowsAssetTrackingMarkers.push(infoWindow);
 
-                               arrMarkers.push(markerDot);
+
                            })
+                            arrMarkers.push(markerDot);
                         }
                     }
                 });
