@@ -736,6 +736,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 travelMode: google.maps.TravelMode.DRIVING
             };
             var directionsService = new google.maps.DirectionsService();
+
             directionsService.route(request, function (response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     var directionsDisplay = new google.maps.DirectionsRenderer(
@@ -747,7 +748,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     directionsDisplay.setOptions({ preserveViewport: true });
                     directionsDisplay.setDirections(response);
                     arrdirectionsDisplay.push(directionsDisplay);
-
                     infowindow2.setContent(response.routes[0].legs[0].distance.text + "<br>" + response.routes[0].legs[0].duration.text + " ");
                     if (response.routes) {
                         if (response.routes[0].overview_path) {
@@ -798,8 +798,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             });
         });
     };
-
     $scope.moveTruck = function (map, markerTruck, markerIndex, latLngindex, countDotMarker) {
+        console.log(markerTruck.position);
         setTimeout(function () {
             if (countDotMarker == 3 && $scope.whichOverlayToShow == 'assetTracking') {
                 countDotMarker = 0;
@@ -809,7 +809,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
                             var markerDot = new google.maps.Marker({position: markerTruck.position, map: map, icon: 'images/marker-dot.png'});
-                           setTimeout(function(){
+
                                markerDot.setMap(map);
                                markerDot.setPosition(markerTruck.position);
                                markerDot.addListener('click', function () {
@@ -833,7 +833,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                    });
                                    infoWindow.open(map, markerDot);
                                    arrInfowindowsAssetTrackingMarkers.push(infoWindow);
-                               },1000);
+
                                arrMarkers.push(markerDot);
                            })
                         }
