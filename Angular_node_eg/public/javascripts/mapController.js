@@ -147,39 +147,20 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "antiquewhite": "faebd7",
         "black": "000000"
     };
+    $scope.addresses = [
+        {"lat":22.4846, "lng":88.13232},
+        {"lat":23.11254, "lng":85.61646},
+        {"lat":23.858459,"lng":84.356532},
+        {"lat":23.4846, "lng":88.13232}
+    ];
 
-    $scope.title = "Dashboard";
-    $scope.logoFileName = "images/VLCC.png";
-    $scope.showPersonAnalysis = false;
-    var map;
-    var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [], arrInfowindowsAssetTrackingMarkers = [];
-    $scope.filter = {
-        "filterFields": [],
-        "filterCategories": [],
-        "selectedCategory": "",
-        "categoryData": []
-    };
+    $scope.srcAddress ;
+    $scope.destAddress;
+    $scope.wayPoints=[{'origin':{},'destination':{}}];
 
-    $scope.IsVisible = false;
-    $scope.ShowHide = function () {
-        //If DIV is visible it will be hidden and vice versa.
-        $scope.IsVisible = $scope.IsVisible ? false : true;
-    }
-    $scope.divHide = function () {
-        //If DIV is visible it will be hidden and vice versa.
-        $scope.IsVisible = false;
-    }
-    $scope.whichOverlayToShow = "filter1";
-//    $scope.filterFields = [];
-//    $scope.filterCategories = [];"
-//    $scope.categoryData = [];
-    var wareHouses, selectedCategory, objMarkersFilterQuery = {};
-    var arrdirectionsDisplay = [];
-    var arrdirectionsService = [];//= new google.maps.DirectionsService();
-    var flgShowAllMarkers = true;
-    $scope.showDialog = false;
-    var arrLatLongTruck = [];
-//    var arrLatLongTruck = [
+    var geoCodes = {};
+
+    //    var arrLatLongTruck = [
 //        [22.58608, 88.37402],
 //        [22.58608, 88.19824],
 //        [22.4846, 88.13232],
@@ -255,6 +236,39 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        [24.817529, 79.730386],
 //        [24.902113, 79.602205]
 //    ];
+
+    $scope.title = "Dashboard";
+    $scope.logoFileName = "images/VLCC.png";
+    $scope.showPersonAnalysis = false;
+    var map;
+    var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [], arrInfowindowsAssetTrackingMarkers = [];
+    $scope.filter = {
+        "filterFields": [],
+        "filterCategories": [],
+        "selectedCategory": "",
+        "categoryData": []
+    };
+
+    $scope.IsVisible = false;
+    $scope.ShowHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+    }
+    $scope.divHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = false;
+    }
+    $scope.whichOverlayToShow = "filter1";
+//    $scope.filterFields = [];
+//    $scope.filterCategories = [];"
+//    $scope.categoryData = [];
+    var wareHouses, selectedCategory, objMarkersFilterQuery = {};
+    var arrdirectionsDisplay = [];
+    var arrdirectionsService = [];//= new google.maps.DirectionsService();
+    var flgShowAllMarkers = true;
+    $scope.showDialog = false;
+    var arrLatLongTruck = [];
+
     var k = 0;
     /**
      * To initaliza the map
@@ -694,6 +708,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.title = "Reports";
                 $scope.placeMarkesrs(null);
             }
+            else if (filterName == "wayPoints") {
+                $scope.title = "Way Points";
+                $scope.placeMarkesrs(null);
+            }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -796,6 +814,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                             $scope.moveTruck(map, arrMarkers[i], i, 0, 0);
                         }
                     }
+                    else if ($scope.whichOverlayToShow == "wayPoints") {
+                        checkWaypointsExist();
+                    }
                 }
             });
         });
@@ -869,8 +890,192 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.showPersonAnalysis = showToUser;
         $scope.salePersonImage = img;
     };
+
+
+    $scope.findWaypoints = function() {
+
+        calcRoute($scope.wayPoints, false, false);
+
+
+
+    };
+
+    /**
+     * check if given lat long exists on route found
+     */
+    function checkWaypointsExist() {
+        var latLng, latLngForArray;
+        angular.forEach($scope.addresses, function (item, index) {
+            angular.forEach(arrLatLongTruck[0], function (latlngItem, latLngIndex) {
+                var addrLat = parseFloat(item.lat);
+                var addrLng = parseFloat(item.lng);
+                var routeLat = parseFloat(latlngItem.lat());
+                var routeLng = parseFloat(latlngItem.lng());
+//                console.log(routeLat,",",routeLng);
+
+                if (addrLat && addrLng && routeLat && routeLng) {
+                    try {
+                        if (addrLat.toFixed(4) == routeLat.toFixed(4) && addrLng.toFixed(4) == routeLng.toFixed(4)) {
+                            console.log('found');
+                            latLng = new google.maps.LatLng(addrLat, addrLng),
+                                latLngForArray = [addrLat, addrLng];
+                            var marker = new google.maps.Marker({
+                                position: latLng, map: map,
+                                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                            });
+                            marker.setMap(map);
+
+//                            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?location='+latLng+'&sensor=false', null, function (data) {
+//                                var p = data.results[0].geometry.location;
+//                                var latlng = new google.maps.LatLng(p.lat, p.lng);
+//                                new google.maps.Marker({
+//                                    position: latLng,
+//                                    map: map,
+//                                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+//                                });
+//
+//                            });
+//                            if (geoCodes[latLng] == null){
+//                                var geocoder = new google.maps.Geocoder();
+//                                // Get LatLng information by name
+//                                geocoder.geocode({
+////                                address: formatted_address,
+//                                    location: latLng
+//                                }, function (results, status) {
+//                                    if (status === 'OK') {
+//                                        for (var i = 0; i < results.length; i++) {
+//                                            console.log(results[i].types + " - " + results[i].formatted_address);
+//                                        }
+//                                        geoCodes[latLng] = {'formatted_address':results[1].formatted_address};
+//                                        if (results[1]) {
+////                                        map.setZoom(11);
+//                                            var marker = new google.maps.Marker({
+//                                                position: latLng, map: map,
+//                                                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+//                                            });
+//                                            marker.setMap(map);
+//
+//                                            var infoWindow = new google.maps.InfoWindow({
+//                                                content: results[1].formatted_address
+//                                            });
+//                                            marker.addListener('click', function () {
+//                                                for (i = 0; i < arrInfowindows.length; i++) {
+//                                                    arrInfowindows[i].close();
+//                                                }
+//                                                arrInfowindows = [];
+//                                                infoWindow.open(map, marker);
+//                                                arrInfowindows.push(infoWindow);
+//                                            });
+//                                            arrMarkers.push(marker);
+//
+//                                        } else {
+//                                            console.log('No results found');
+//                                        }
+//                                    } else {
+//                                        console.log('Geocoder failed due to: ' + status);
+//                                    }
+//
+//
+//
+//
+//                                });
+//                            }
+//                            else {
+//                                var marker = new google.maps.Marker({
+//                                    position: latLng,
+//                                    map: map,
+//                                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+//                                });
+//                                marker.setMap(map);
+//
+//                                var infoWindow = new google.maps.InfoWindow({
+//                                    content: geoCodes[latLng].formatted_address
+//                                });
+//                                marker.addListener('click', function () {
+//                                    for (i = 0; i < arrInfowindows.length; i++) {
+//                                        arrInfowindows[i].close();
+//                                    }
+//                                    arrInfowindows = [];
+//                                    infoWindow.open(map, marker);
+//                                    arrInfowindows.push(infoWindow);
+//                                });
+//                                arrMarkers.push(marker);
+//                            }
+
+                        }
+                    }
+                    catch (err) {
+                        console.log("error - " + err.message + " - " + index + " - " + addrLat + " - " + addrLng)
+                    }
+                }
+
+            });
+        });
+
+    }
     //////////////////////////////////////Defailt function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();
     }, 100);
+});
+
+
+angular.module('angularjs_with_Nodejs').directive('googleplace', function() {
+    var markers = [];
+    return {
+        require: 'ngModel',
+        scope:true,
+        link: function($scope, element) {
+
+            var autocomplete = new google.maps.places.Autocomplete(element[0]);
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place = autocomplete.getPlace();
+//                console.log(element);
+
+                if (element.context.id == "src") {
+                    $scope.wayPoints[0]['origin'] =  {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+
+                }
+                else
+                {
+                    $scope.wayPoints[0]['destination'] =  {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                }
+
+//                var map,
+//                    formatted_address = place.formatted_address,
+//                    mapDiv = document.getElementById('mymap'),
+//                    geocoder = new google.maps.Geocoder();
+//                latLng = new google.maps.LatLng(place.geometry.location.lat(),place.geometry.location.lng()),
+//                    latLngForArray = [place.geometry.location.lat(),place.geometry.location.lng()];
+//                // Get LatLng information by name
+//                geocoder.geocode({
+//                    address: formatted_address,
+//                    location: latLng
+//                }, function(results){
+//                    map = new google.maps.Map(mapDiv, {
+//                        // Center map (but check status of geocoder)
+//                        center: results[0].geometry.location,
+//                        zoom: 5,
+//                        mapTypeId: google.maps.MapTypeId.TRANSIT
+//                    });
+//                    var posi = setMarker(latLngForArray);
+//                    var marker, i;
+//                    for (i = 0; i < posi.length; i++) {
+//                        marker = new google.maps.Marker({
+//                            position: new google.maps.LatLng(posi[i][0], posi[i][1]),
+//                            map: map,
+//                            icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png'
+//                        });
+//                    }
+//
+//                });
+            })
+
+            function setMarker(position) {
+                markers.push(position); // add marker to array
+                return markers;
+
+            };
+        }
+    };
 });

@@ -3,12 +3,16 @@
 <head>
     <title>Google Maps</title>
 
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/css/iziModal.min.css"/>
-    <link type="text/css" rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/css/iziModal.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"/>
+    <link rel="stylesheet" href="/vendor/handsontable/dist/angular-ui-handsontable.full.css">
     <link type="text/css" rel="stylesheet" href="/vendor/bootstrap-3.3.7-dist/css/bootstrap.css"/>
     <link type="text/css" rel="stylesheet" href="/vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css"/>
     <link type="text/css" rel="stylesheet" href="/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="vendor/select2/select2.css">
+
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta charset="utf-8"/>
@@ -20,13 +24,15 @@
     <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&amp;callback=initMap"></script>-->
 </head>
 <body ng-controller="mapController">
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&libraries=places"></script>
 <script src="/vendor/jquery-1.9.1.js"></script>
 <script src="/vendor/angular.js"></script>
 <!--<script type="text/javascript" src="bower_components/jquery/jquery.js"></script>-->
 <script type="text/javascript" src="vendor/select2/select2.js"></script>
 <!--<script type="text/javascript" src="bower_components/angular/angular.js"></script>-->
 <script type="text/javascript" src="vendor/angular-ui-select2/src/select2.js"></script>
+<script src="/vendor/handsontable/dist/angular-ui-handsontable.full.js"></script>
 <script src="javascripts/app.js" type="text/javascript"></script>
 <script src="javascripts/mapController.js" type="text/javascript"></script>
 <script src="/vendor/angular-cookies-1.0.0rc10.js"></script>
@@ -35,78 +41,88 @@
 <script src="/vendor/angular-strap.min.js"></script>
 <script src="/vendor/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript"
+        charset="utf-8"></script>
 
 <div id="modal1" style="width:50%; display:block;" ng-show="showDialog == true" class="modal fade in">
     <div class="modal-dialog">
         <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
-                    <button aria-hidden="true" type="button" ng-click="showReport(false)" class="close">    &times;</button>
+                    <button aria-hidden="true" type="button" ng-click="showReport(false)"
+                            class="close">    &times;</button>
                     <h4 class="modal-title">{{report_dialog_head}}</h4>
                 </div>
                 <div class="modal-body">
-<!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
-                        <iframe id="frame" ></iframe>
+                    <!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
+                    <iframe id="frame"></iframe>
                 </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
 
-    <div id="left_menu" ng-show = "IsVisible" ng-click="ShowHide()" ng-mouseleave="divHide()"  alignment="left">
-        <div class="menu_header">
-            <h2>Searce</h2>
-        </div>
-            <ul>
-            <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
-            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img src="images/icon/coin.png">Sales Tracking</a></li>
-            <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset Tracking</a></li>
-            <li><a  ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
-        </ul>
+<div id="left_menu" ng-show="IsVisible" ng-click="ShowHide()" ng-mouseleave="divHide()" alignment="left">
+    <div class="menu_header">
+        <h2>Searce</h2>
     </div>
+    <ul>
+        <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
+        <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img
+                src="images/icon/coin.png">Sales Tracking</a></li>
+        <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset
+            Tracking</a></li>
+        <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
+        <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
+    </ul>
+</div>
 
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" ng-mouseover="ShowHide()"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+            <a class="navbar-brand" href="#" ng-mouseover="ShowHide()"><span
+                    class="glyphicon glyphicon-menu-hamburger"></span></a>
             <img id="logoImg" src="images/searce.png">
         </div>
         <p class="navbar-text navbar-center">Google Maps GIS - {{title}}</p>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li> <a href="#"><span class=" fa fa-power-off"></span> Logout</a></li>
+                <li><a href="#"><span class=" fa fa-power-off"></span> Logout</a></li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
 
 
+    <!--<ul class="dropdown-menu col-md-12">-->
+    <!--<div class="container2" id="dashboardButtons">-->
 
-        <!--<ul class="dropdown-menu col-md-12">-->
-            <!--<div class="container2" id="dashboardButtons">-->
-
-                <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>-->
-                <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>-->
-                <!--<button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>-->
-                <!--&lt;!&ndash;label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;&ndash;&gt;-->
-                <!--<img src="images/searce.png" style="width : 200px; margin-left : 170px">-->
-                <!--<div class="logo_bnr">-->
-                    <!--&lt;!&ndash;img(src="images/image.png")&ndash;&gt;-->
-                    <!--<button class="menu_item" ng-click=""><img src="images/help1.png"></button>-->
-                    <!--<button class="menu_item" ng-click=""><img src="images/support1.png"></button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</ul>-->
+    <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>-->
+    <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>-->
+    <!--<button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>-->
+    <!--&lt;!&ndash;label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp;
+    &nbsp; &nbsp; VLCC &nbsp; &nbsp;&ndash;&gt;-->
+    <!--<img src="images/searce.png" style="width : 200px; margin-left : 170px">-->
+    <!--<div class="logo_bnr">-->
+    <!--&lt;!&ndash;img(src="images/image.png")&ndash;&gt;-->
+    <!--<button class="menu_item" ng-click=""><img src="images/help1.png"></button>-->
+    <!--<button class="menu_item" ng-click=""><img src="images/support1.png"></button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</ul>-->
 
 
 </nav>
@@ -116,7 +132,8 @@
         <div style="margin: 0;width: 100%;" class="modal-content">
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
-                    <button aria-hidden="true" type="button" ng-click="showModal(false)" class="close">    &times;</button>
+                    <button aria-hidden="true" type="button" ng-click="showModal(false)"
+                            class="close">    &times;</button>
                     <h4 class="modal-title">Sales Person Analysis</h4>
                 </div>
                 <div class="modal-body">
@@ -183,7 +200,9 @@
                                         <td>0300</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/><img src="images/star.png"/></td>
+                                        <td colspan="2"><img src="images/star.png"/><img src="images/star.png"/><img
+                                                src="images/star.png"/><img src="images/star.png"/><img
+                                                src="images/star.png"/></td>
                                     </tr>
                                 </table>
                                 <div class="mail_data_send">
@@ -204,7 +223,10 @@
                 </div>
                 <div class="modal-footer">
                     <button ng-click="showModal(false)" class="inz-btn btn-sm btn-default">Cancel</button>
-                    <button ng-click="save()" ng-focus="true" ng-disabled="form.$invalid" ng-class="{'disabled':form.$invalid}" type="submit" class="inz-btn btn-sm btn-success">Update</button>
+                    <button ng-click="save()" ng-focus="true" ng-disabled="form.$invalid"
+                            ng-class="{'disabled':form.$invalid}" type="submit" class="inz-btn btn-sm btn-success">
+                        Update
+                    </button>
                 </div>
             </form>
         </div>
@@ -221,9 +243,12 @@
             <div class="filter_group" flex>
                 <div>
                     <label>Category </label>
-                    <select ui-select2 id="categori" ng-model="filter.selectedCategory" ng-change="loadFilter(filter.selectedCategory)">
+                    <select ui-select2 id="categori" ng-model="filter.selectedCategory"
+                            ng-change="loadFilter(filter.selectedCategory)">
                         <option value="All">All</option>
-                        <option ng-selected="{{cat == filter.selectedCategory}}" ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}</option>
+                        <option ng-selected="{{cat == filter.selectedCategory}}"
+                                ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}
+                        </option>
                     </select>
                 </div>
 
@@ -233,9 +258,12 @@
             <div id="filter">
                 <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                     <label>{{filterObj.label}}</label>
-                    <select  ui-select2 multiple  id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                    <select ui-select2 multiple id="{{filterObj.key}}" ng-model="selectedFilterValue"
+                            ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
                         <!--<option value=""></option>-->
-                        <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">{{dataObj[filterObj.key]}}</option>
+                        <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">
+                            {{dataObj[filterObj.key]}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -246,9 +274,12 @@
                 <div id="filterSales">
                     <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                         <label>{{filterObj.label}}</label>
-                        <select  ui-select2 multiple  id="{{filterObj.key}}" ng-model="selectedFilterValue" ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                        <select ui-select2 multiple id="{{filterObj.key}}" ng-model="selectedFilterValue"
+                                ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
                             <!--<option value=""></option>-->
-                            <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">{{dataObj[filterObj.key]}}</option>
+                            <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">
+                                {{dataObj[filterObj.key]}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -257,11 +288,11 @@
                     <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
                     <label id="cntSalesPeople">{{top20}}</label>
                 </div>
-                <div id="2080" >
+                <div id="2080">
                     <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
                     <label id="cntSalesPeople">{{middle2080}}</label>
                 </div>
-                <div id="Bottom20" >
+                <div id="Bottom20">
                     <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
                     <label id="cntSalesPeople">{{bottom20}}</label>
                 </div>
@@ -272,33 +303,86 @@
             <div class="filter_group_report" style="margin-left: 25px;margin-top: 50px;">
                 <div><a href="" ng-click="showReport(true,'Sales Report.pdf','Sales Report')">Sales Report</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-                <div ><a href="" ng-click="showReport(true,'Monthly Summary.pdf','Monthly Sales Report' )">Monthly Sales Report</a></div>
+                <div><a href="" ng-click="showReport(true,'Monthly Summary.pdf','Monthly Sales Report' )">Monthly Sales
+                    Report</a></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-                <div><a href="" ng-click="showReport(true,'Sale 3.pdf','Weekly Sales Activity')">Weekly Sales Activity</a><br></div>
+                <div><a href="" ng-click="showReport(true,'Sale 3.pdf','Weekly Sales Activity')">Weekly Sales
+                    Activity</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
-               <!-- <div><a href="" ng-click="showReport(true,'Sale 4.pdf','Sales Activity Report')">Sales Activity Report</a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>-->
+                <!-- <div><a href="" ng-click="showReport(true,'Sale 4.pdf','Sales Activity Report')">Sales Activity Report</a><br></div>
+                 <div style="height: 10px;margin-left: 10px;"></div>-->
 
-                <div><a href="" ng-click="showReport(true,'Report - Geo 1.pdf','Asset Tracking Report - Geofence/Status')">Asset Tracking Report - Geofence/Status</a><br></div>
+                <div><a href=""
+                        ng-click="showReport(true,'Report - Geo 1.pdf','Asset Tracking Report - Geofence/Status')">Asset
+                    Tracking Report - Geofence/Status</a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
 
-                <div><a href="" ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf','Asset Tracking Report - Daily')">Asset Tracking Report - Daily </a><br></div>
+                <div><a href=""
+                        ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf','Asset Tracking Report - Daily')">Asset
+                    Tracking Report - Daily </a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
 
-                <div><a href="" ng-click="showReport(true,'Vehicle Tracking Report.pdf','Vehicle Tracking Report')">Vehicle Tracking Report </a><br></div>
+                <div><a href="" ng-click="showReport(true,'Vehicle Tracking Report.pdf','Vehicle Tracking Report')">Vehicle
+                    Tracking Report </a><br></div>
                 <div style="height: 10px;margin-left: 10px;"></div>
 
             </div>
         </div>
-    </div><!-- Filterblock -->
+    </div>
+    <!-- Filterblock -->
 
-    <div id="salerPersonPics" class="client_img_list" ng-show="whichOverlayToShow == 'salesPerson'">
+    <div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
         <div class="img_block" ng-repeat="salesP in salesPersonData">
             <img class="trigger" ng-src="images/{{salesP.Images}}" ng-click="showModal(true,'images/' + salesP.Images)">
 
             <p class="{{ salesP.Ranking >= '8' ? 'salesRed': salesP.Ranking >= '5' ? 'salesBlue':'salesGreen'}}">
                 {{salesP['Sales Rep Code']}}</p>
         </div>
+    </div>
+
+    <div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'" style="min-height: 500px;">
+        <label class="onlyMarginPadding" style="color: lawngreen;">Select route</label>
+
+        <div id="pac-container">
+            <input class="pac-input" id="src" googleplace autocomplete="off" ng-model="srcAddress" type="text" placeholder="Source location" required>
+
+            <div style="height: 10px;"></div>
+            <input class="pac-input" id="dest"  googleplace autocomplete="off" ng-model="destAddress" type="text" placeholder="Destination location" required>
+            <!--<span> srcAddress = {{srcAddress}}</span>-->
+            <!--<span> destAddress = {{destAddress}}</span>-->
+        </div>
+
+        <div style="height: 10px;"></div>
+        <div class="onlyMarginPadding" style="max-height: 300px;">
+            <label >Paste way points to search</label>
+            <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+                 selectedIndex="MySelectedIndex" columnSorting="true"
+                 contextMenu="true" datarows="add in addresses" id="lineitems-grid" height= "300" style="overflow: hidden;" >
+                <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
+                </datacolumn>
+                <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
+
+            </div>
+        </div>
+        <div style="height: 10px;"></div>
+        <center><button ng-click="findWaypoints();" class="mail_data_send"  >Search way points</button></center>
+
+
+        <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
+        <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
+        <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
+        <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
+        <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
+        <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
+        <!--<optionlist datarows="option in item.Product.Options"-->
+        <!--clickrow="item.Product.Description = option.Description">-->
+        <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
+        <!--{{option.Description}}-->
+        <!--</optionlist>-->
+        <!--</datacolumn>-->
+        <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
+        <!--uncheckedTemplate="'No'"></datacolumn>-->
+        <!--</div>-->
     </div>
 
     <div class="marker_detail">

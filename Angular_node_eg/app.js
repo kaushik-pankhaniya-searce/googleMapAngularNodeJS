@@ -16,6 +16,8 @@ var monk = require('monk');
 var db = monk('localhost:27017/googleMapData');
 //console.log(db);
 
+//var handsontable = require('handsontable');
+
 var app = express();
 
 // view engine setup
