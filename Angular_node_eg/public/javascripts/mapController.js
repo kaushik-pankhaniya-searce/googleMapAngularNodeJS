@@ -283,10 +283,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 map.setCenter(pos);
             }, function () {
 //            handleLocationError(true, infoWindow, map.getCenter());
+                map.setCenter(new google.maps.LatLng(28.7041, 77.1025));
             });
         }
 
-//        map.setCenter(new google.maps.LatLng(28.541766, 77.243415));
+//
         google.maps.event.addListener(map, 'click', function (event) {
             if ($scope.whichOverlayToShow == 'filter1') {
                 flgShowAllMarkers = false;
@@ -685,12 +686,14 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         }
         else {
-         if (filterName == "assetTracking") {
-             $scope.title = "Asset Tracking";
-         }
-          else if (filterName == "reports") {
-             $scope.title = "Reports";
-         }
+            if (filterName == "assetTracking") {
+                $scope.title = "Asset Tracking";
+                $scope.placeMarkesrs(null);
+            }
+            else if (filterName == "reports") {
+                $scope.title = "Reports";
+                $scope.placeMarkesrs(null);
+            }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -832,8 +835,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                    });
                                    infoWindow.open(map, markerDot);
                                    arrInfowindowsAssetTrackingMarkers.push(infoWindow);
-                               arrMarkers.push(markerDot);
                            })
+                            arrMarkers.push(markerDot);
                         }
                     }
                 });
