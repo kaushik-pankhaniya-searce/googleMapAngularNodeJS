@@ -1,9 +1,9 @@
-angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout,$filter) {
-    var CSS_COLOR_NAMES = ["BlueViolet","Darkorange","DeepPink","Cyan", "Gold","LawnGreen","DarkKhaki","AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue",  "Brown",
-        "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson",  "DarkBlue", "DarkCyan", "DarkGoldenRod",
-        "DarkGray", "DarkGrey", "DarkGreen",  "DarkMagenta", "DarkOliveGreen",  "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen",
-        "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet",  "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick",
-        "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite",  "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink",
+angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout, $filter) {
+    var CSS_COLOR_NAMES = ["BlueViolet", "Darkorange", "DeepPink", "Cyan", "Gold", "LawnGreen", "DarkKhaki", "AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "Brown",
+        "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "DarkBlue", "DarkCyan", "DarkGoldenRod",
+        "DarkGray", "DarkGrey", "DarkGreen", "DarkMagenta", "DarkOliveGreen", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen",
+        "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick",
+        "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink",
         "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "SlateGrey", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"];
     var colours = {
         "cyan": "00ffff",
@@ -148,15 +148,17 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "black": "000000"
     };
     $scope.addresses = [
-        {"lat":22.4846, "lng":88.13232},
-        {"lat":23.11254, "lng":85.61646},
-        {"lat":23.858459,"lng":84.356532},
-        {"lat":23.4846, "lng":88.13232}
+        {"lat": 22.4846, "lng": 88.13232, status:"0"}//,
+//        {"lat":23.11254, "lng":85.61646},
+//        {"lat":23.858459,"lng":84.356532},
+//        {"lat":23.4846, "lng":88.13232}
     ];
 
-    $scope.srcAddress ;
+    $scope.srcAddress;
     $scope.destAddress;
-    $scope.wayPoints=[{'origin':{},'destination':{}}];
+    $scope.wayPoints = [
+        {'origin': {}, 'destination': {}}
+    ];
 
     var geoCodes = {};
 
@@ -499,8 +501,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     var idx = filterValue.indexOf(this[filterKeyName]);
                     console.log(idx);
 
-                    if (idx != -1)
-                    {
+                    if (idx != -1) {
                         if (typeof colours[CSS_COLOR_NAMES[idx].toLowerCase()] != 'undefined')
                             markerImage = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|' + colours[CSS_COLOR_NAMES[idx].toLowerCase()] + '|0000FF'
                     }
@@ -618,16 +619,16 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.bottom20 = 0;
 //                markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_usergreen.png';
 
-                angular.forEach(data, function(item, index){
-                   if (item.Ranking < 5) {
-                       $scope.top20++;
-                   }
+                angular.forEach(data, function (item, index) {
+                    if (item.Ranking < 5) {
+                        $scope.top20++;
+                    }
                     else if (item.Ranking >= 5 && item.Ranking < 8) {
-                       $scope.middle2080++;
-                   }
+                        $scope.middle2080++;
+                    }
                     else {
-                       $scope.bottom20++;
-                   }
+                        $scope.bottom20++;
+                    }
                 });
                 $scope.salesPersonData = data;
                 $scope.$apply();
@@ -663,8 +664,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             $scope.placeMarkesrs(data);
 
             var assetOriginDestDetails = [];
-            angular.forEach(data, function(item,index){
-                assetOriginDestDetails.push({"destination":{"Latitude": item.Latitude, "Longitude": item.Longitude}, "origin":{"Latitude": latitude, "Longitude": longitude}})
+            angular.forEach(data, function (item, index) {
+                assetOriginDestDetails.push({"destination": {"Latitude": item.Latitude, "Longitude": item.Longitude}, "origin": {"Latitude": latitude, "Longitude": longitude}})
             });
 
 
@@ -730,10 +731,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.placeMarkesrs(null);
 //        k = arrLatLongTruck.length - 1;
         k = 0;
-        var assetOriginDestDetails = [{"origin": {"Latitude": 26.8467, "Longitude": 80.9462}, "destination":{"Latitude": 22.58608, "Longitude": 88.37402},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' +  '</div>'},
-                                      {"origin": {"Latitude": 21.1702, "Longitude": 72.8311}, "destination":{"Latitude": 21.1458, "Longitude": 79.0882},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' +  '</div>'},
-                                      {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination": {"Latitude": 28.7041, "Longitude": 77.1025},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'},
-                                      {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination":{"Latitude": 26.7041, "Longitude": 80.1025},"markerContent":'<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' +  '</div>'}
+        var assetOriginDestDetails = [
+            {"origin": {"Latitude": 26.8467, "Longitude": 80.9462}, "destination": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' + '</div>'},
+            {"origin": {"Latitude": 21.1702, "Longitude": 72.8311}, "destination": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' + '</div>'},
+            {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'},
+            {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'}
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
@@ -746,7 +748,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
             arrdirectionsDisplay = [];
         }
-        angular.forEach(assetOriginDestDetails, function(item, index) {
+        angular.forEach(assetOriginDestDetails, function (item, index) {
             var start = new google.maps.LatLng(item.origin.Latitude, item.origin.Longitude);
             var end = new google.maps.LatLng(item.destination.Latitude, item.destination.Longitude);
             var infowindow2 = new google.maps.InfoWindow();
@@ -833,30 +835,30 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         if (results[1]) {
                             var markerDot = new google.maps.Marker({position: markerTruck.position, map: map, icon: 'images/marker-dot.png'});
 
-                               markerDot.setMap(map);
-                               markerDot.setPosition(markerTruck.position);
-                               markerDot.addListener('click', function () {
-                                   for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
-                                       arrInfowindowsAssetTrackingMarkers[i].close();
-                                   }
-                                   arrInfowindowsAssetTrackingMarkers = [];
+                            markerDot.setMap(map);
+                            markerDot.setPosition(markerTruck.position);
+                            markerDot.addListener('click', function () {
+                                for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
+                                    arrInfowindowsAssetTrackingMarkers[i].close();
+                                }
+                                arrInfowindowsAssetTrackingMarkers = [];
 
-                                   var infoWindowContent = '<div id="content"  class="inf owindow_warehouse">' +
-                                       '<div id="siteNotice">' +
-                                       '</div>' +
-                                       '<div id="bodyContent" class="infowindow_warehouse">' +
-                                       '<big> <p>' +
-                                       '<label> ' + results[1].formatted_address + ' </label>' +
-                                       '</p></big>' +
-                                       '<p><i> Time : '+$filter("date")(new Date(), "HH:mm:ss")
-                                       +'</i></p></div>' +
-                                       '</div>';
-                                   var infoWindow = new google.maps.InfoWindow({
-                                       content: infoWindowContent
-                                   });
-                                   infoWindow.open(map, markerDot);
-                                   arrInfowindowsAssetTrackingMarkers.push(infoWindow);
-                           })
+                                var infoWindowContent = '<div id="content"  class="inf owindow_warehouse">' +
+                                    '<div id="siteNotice">' +
+                                    '</div>' +
+                                    '<div id="bodyContent" class="infowindow_warehouse">' +
+                                    '<big> <p>' +
+                                    '<label> ' + results[1].formatted_address + ' </label>' +
+                                    '</p></big>' +
+                                    '<p><i> Time : ' + $filter("date")(new Date(), "HH:mm:ss")
+                                    + '</i></p></div>' +
+                                    '</div>';
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: infoWindowContent
+                                });
+                                infoWindow.open(map, markerDot);
+                                arrInfowindowsAssetTrackingMarkers.push(infoWindow);
+                            })
                             arrMarkers.push(markerDot);
                         }
                     }
@@ -876,7 +878,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         }, 1000)
     };
 
-    $scope.showReport = function (showToUser, fileName,heading) {
+    $scope.showReport = function (showToUser, fileName, heading) {
 //        $("#dialog").dialog({width: 800, height: 500});
         $scope.showDialog = showToUser;
         $scope.report_dialog_head = heading;
@@ -892,10 +894,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     };
 
 
-    $scope.findWaypoints = function() {
+    $scope.findWaypoints = function () {
 
         calcRoute($scope.wayPoints, false, false);
-
 
 
     };
@@ -904,27 +905,30 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
      * check if given lat long exists on route found
      */
     function checkWaypointsExist() {
-        var latLng, latLngForArray;
+        var latLng, latLngForArray, flgFound;
         angular.forEach($scope.addresses, function (item, index) {
-            angular.forEach(arrLatLongTruck[0], function (latlngItem, latLngIndex) {
-                var addrLat = parseFloat(item.lat);
-                var addrLng = parseFloat(item.lng);
-                var routeLat = parseFloat(latlngItem.lat());
-                var routeLng = parseFloat(latlngItem.lng());
-//                console.log(routeLat,",",routeLng);
+            if (index < $scope.addresses.length - 1) {
+                flgFound = false;
+                angular.forEach(arrLatLongTruck[0], function (latlngItem, latLngIndex) {
+                    var addrLat = parseFloat(item.lat);
+                    var addrLng = parseFloat(item.lng);
+                    var routeLat = parseFloat(latlngItem.lat());
+                    var routeLng = parseFloat(latlngItem.lng());
+                    if (index == 1)
+                        console.log(routeLat, ",", routeLng);
 
-                if (addrLat && addrLng && routeLat && routeLng) {
-                    try {
-                        if (addrLat.toFixed(4) == routeLat.toFixed(4) && addrLng.toFixed(4) == routeLng.toFixed(4)) {
-                            console.log('found');
-                            latLng = new google.maps.LatLng(addrLat, addrLng),
-                                latLngForArray = [addrLat, addrLng];
-                            var marker = new google.maps.Marker({
-                                position: latLng, map: map,
-                                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                            });
-                            marker.setMap(map);
-
+                    if (addrLat && addrLng && routeLat && routeLng) {
+                        try {
+                            if (addrLat.toFixed(4) == routeLat.toFixed(4) && addrLng.toFixed(4) == routeLng.toFixed(4)) {
+//                            console.log('found');
+                                latLng = new google.maps.LatLng(addrLat, addrLng),
+                                    latLngForArray = [addrLat, addrLng];
+                                var marker = new google.maps.Marker({
+                                    position: latLng, map: map,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                                });
+                                marker.setMap(map);
+                                flgFound = true;
 //                            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?location='+latLng+'&sensor=false', null, function (data) {
 //                                var p = data.results[0].geometry.location;
 //                                var latlng = new google.maps.LatLng(p.lat, p.lng);
@@ -1002,17 +1006,27 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //                                arrMarkers.push(marker);
 //                            }
 
+                            }
+                            else {
+
+                            }
+                        }
+                        catch (err) {
+//                        console.log("error - " + err.message + " - " + index + " - " + addrLat + " - " + addrLng)
                         }
                     }
-                    catch (err) {
-                        console.log("error - " + err.message + " - " + index + " - " + addrLat + " - " + addrLng)
-                    }
-                }
 
-            });
+                });
+                if (flgFound == true) {
+                    item.status = 1;
+                }
+                else
+                    item.status = 0;
+            }
         });
 
     }
+
     //////////////////////////////////////Defailt function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();
@@ -1020,57 +1034,26 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 });
 
 
-angular.module('angularjs_with_Nodejs').directive('googleplace', function() {
+angular.module('angularjs_with_Nodejs').directive('googleplace', function () {
     var markers = [];
     return {
         require: 'ngModel',
-        scope:true,
-        link: function($scope, element) {
+        scope: true,
+        link: function ($scope, element) {
 
             var autocomplete = new google.maps.places.Autocomplete(element[0]);
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
                 var place = autocomplete.getPlace();
-//                console.log(element);
 
                 if (element.context.id == "src") {
-                    $scope.wayPoints[0]['origin'] =  {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                    $scope.wayPoints[0]['origin'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
 
                 }
-                else
-                {
-                    $scope.wayPoints[0]['destination'] =  {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                else {
+                    $scope.wayPoints[0]['destination'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
                 }
 
-//                var map,
-//                    formatted_address = place.formatted_address,
-//                    mapDiv = document.getElementById('mymap'),
-//                    geocoder = new google.maps.Geocoder();
-//                latLng = new google.maps.LatLng(place.geometry.location.lat(),place.geometry.location.lng()),
-//                    latLngForArray = [place.geometry.location.lat(),place.geometry.location.lng()];
-//                // Get LatLng information by name
-//                geocoder.geocode({
-//                    address: formatted_address,
-//                    location: latLng
-//                }, function(results){
-//                    map = new google.maps.Map(mapDiv, {
-//                        // Center map (but check status of geocoder)
-//                        center: results[0].geometry.location,
-//                        zoom: 5,
-//                        mapTypeId: google.maps.MapTypeId.TRANSIT
-//                    });
-//                    var posi = setMarker(latLngForArray);
-//                    var marker, i;
-//                    for (i = 0; i < posi.length; i++) {
-//                        marker = new google.maps.Marker({
-//                            position: new google.maps.LatLng(posi[i][0], posi[i][1]),
-//                            map: map,
-//                            icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png'
-//                        });
-//                    }
-//
-//                });
-            })
-
+            });
             function setMarker(position) {
                 markers.push(position); // add marker to array
                 return markers;
