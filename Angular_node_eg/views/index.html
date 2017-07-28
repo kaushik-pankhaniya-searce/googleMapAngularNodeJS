@@ -37,9 +37,9 @@
 <script src="/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript" charset="utf-8"></script>
 
-<div id="modal" style="width:50%; display:block;" ng-show="showDialog == true" class="modal fade in">
+<div id="modal1" style="width:50%; display:block;" ng-show="showDialog == true" class="modal fade in">
     <div class="modal-dialog">
-        <div style="margin: 0 auto;width: 100%; margin-top: 150px;" class="modal-content">
+        <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
             <form name="form" novalidate="novalidate">
                 <div class="modal-header">
                     <button aria-hidden="true" type="button" ng-click="showReport(false)" class="close">    &times;</button>
@@ -47,9 +47,7 @@
                 </div>
                 <div class="modal-body">
 <!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
-                    <div>
                         <iframe id="frame" ></iframe>
-                    </div>
                 </div>
                 </form>
             </div>
@@ -62,10 +60,10 @@
             <h2>Searce</h2>
         </div>
             <ul>
-            <li><a ng-click="showFilters('filter1')"><span class="fa fa-user"></span>Dashboard</a></li>
-            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><span class="fa fa-users"></span>Sales Tracking</a></li>
-            <li><a ng-click="assetTracking();showFilters('assetTracking')"><span class="fa fa-truck"></span>Asset Tracking</a></li>
-            <li><a  ng-click="showFilters('reports')"><span class="fa fa-address-card"></span> Reports </a></li>
+            <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
+            <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img src="images/icon/coin.png">Sales Tracking</a></li>
+            <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset Tracking</a></li>
+            <li><a  ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
         </ul>
     </div>
 
@@ -94,23 +92,21 @@
 
 
 
-        <ul class="dropdown-menu col-md-12">
-            <div class="container2" id="dashboardButtons">
+        <!--<ul class="dropdown-menu col-md-12">-->
+            <!--<div class="container2" id="dashboardButtons">-->
 
-
-
-                <button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>
-                <button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>
-                <button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>
-                <!--label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;-->
-                <img src="images/searce.png" style="width : 200px; margin-left : 170px">
-                <div class="logo_bnr">
-                    <!--img(src="images/image.png")-->
-                    <button class="menu_item" ng-click=""><img src="images/help1.png"></button>
-                    <button class="menu_item" ng-click=""><img src="images/support1.png"></button>
-                </div>
-            </div>
-        </ul>
+                <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>-->
+                <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>-->
+                <!--<button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>-->
+                <!--&lt;!&ndash;label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; VLCC &nbsp; &nbsp;&ndash;&gt;-->
+                <!--<img src="images/searce.png" style="width : 200px; margin-left : 170px">-->
+                <!--<div class="logo_bnr">-->
+                    <!--&lt;!&ndash;img(src="images/image.png")&ndash;&gt;-->
+                    <!--<button class="menu_item" ng-click=""><img src="images/help1.png"></button>-->
+                    <!--<button class="menu_item" ng-click=""><img src="images/support1.png"></button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</ul>-->
 
 
 </nav>

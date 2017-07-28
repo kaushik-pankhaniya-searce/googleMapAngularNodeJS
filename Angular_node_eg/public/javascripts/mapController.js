@@ -342,7 +342,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             });
         }
     };
-
     /**
      * Place markers on map as per data given
      * @param data
@@ -833,7 +832,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                                    });
                                    infoWindow.open(map, markerDot);
                                    arrInfowindowsAssetTrackingMarkers.push(infoWindow);
-
                                arrMarkers.push(markerDot);
                            })
                         }
@@ -853,7 +851,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //            k++;
         }, 1000)
     };
-
 
     $scope.showReport = function (showToUser, fileName,heading) {
 //        $("#dialog").dialog({width: 800, height: 500});
