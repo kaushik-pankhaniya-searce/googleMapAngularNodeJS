@@ -154,12 +154,15 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        {"lat":23.4846, "lng":88.13232}
     ];
 
+    $scope.zipCodesToShow = [{"zipCode":""}];
+
     $scope.srcAddress;
     $scope.destAddress;
     $scope.wayPoints = [
         {'origin': {}, 'destination': {}}
     ];
 
+    $scope.zipCodesData = null;
     var geoCodes = {};
 
     //    var arrLatLongTruck = [
@@ -330,6 +333,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         });
 
 
+            // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+//            map.data.loadGeoJson('images/ga.geojson.json');
+//                'https://storage.googleapis.com/mapsdevsite/json/google.json');
+
+
+//        map.data.loadGeoJson('images/gj.geojson.json');
+//        map.data.loadGeoJson('images/ka.geojson.json');
+
+        map.data.setStyle({
+//            fillColor: 'green',
+            strokeWeight: 1
+        });
         $scope.getTemplates();
     };
 
@@ -713,6 +728,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.title = "Way Points";
                 $scope.placeMarkesrs(null);
             }
+            else if (filterName == "zipCodes") {
+                $scope.title = "Zip Codes";
+                $scope.placeMarkesrs(null);
+            }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -787,7 +806,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     infowindow2.open(map);
                     arrInfowindows.push(infowindow2);
                     if (isAssetTracking) {
-                        var markerTruck = new google.maps.Marker({position: start, map: map, icon: 'images/smalltruck.png'});
+                        var markerTruck = new google.maps.Marker({position: start, map: map, icon: 'images/icon/truck.png'});
                         markerTruck.setMap(map);
                         markerTruck.addListener('click', function () {
 //                            for (i = 0; i < arrInfowindows.length; i++) {
@@ -914,8 +933,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     var addrLng = parseFloat(item.lng);
                     var routeLat = parseFloat(latlngItem.lat());
                     var routeLng = parseFloat(latlngItem.lng());
-                    if (index == 1)
-                        console.log(routeLat, ",", routeLng);
+//                    if (index == 1)
+//                        console.log(routeLat, ",", routeLng);
 
                     if (addrLat && addrLng && routeLat && routeLng) {
                         try {
@@ -1027,6 +1046,25 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     }
 
+    $scope.placeZipcodesBoundries = function() {
+        var mapDataToload = {"type":"FeatureCollection","features":[]};
+        if ($scope.zipCodesData == null) {
+            $.getJSON('images/gj.geojson.json', function(data) {
+                $scope.zipCodesData = data.features;
+                angular.forEach($scope.zipCodesData, function(item,index){
+                    angular.forEach($scope.zipCodesToShow, function(itemzipCodesToShow, indexzipCodesToShow){
+                        if (itemzipCodesToShow.zipCode == item.properties.PINCODE) {
+                            mapDataToload['features'].push(item);
+                        }
+                    });
+                });
+
+                map.data.loadGeoJson(mapDataToload);
+            }, function(error){
+
+            });
+        }
+    };
     //////////////////////////////////////Defailt function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();

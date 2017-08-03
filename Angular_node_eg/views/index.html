@@ -76,6 +76,7 @@
             Tracking</a></li>
         <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
+        <li><a ng-click="showFilters('zipCodes')"><img src="images/icon/zipCode3.jpg"> Zip Codes Search </a></li>
     </ul>
 </div>
 
@@ -367,6 +368,39 @@
         </div>
         <div style="height: 10px;"></div>
         <center><button ng-click="findWaypoints();" class="mail_data_send"  >Search way points</button></center>
+
+
+        <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
+        <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
+        <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
+        <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
+        <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
+        <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
+        <!--<optionlist datarows="option in item.Product.Options"-->
+        <!--clickrow="item.Product.Description = option.Description">-->
+        <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
+        <!--{{option.Description}}-->
+        <!--</optionlist>-->
+        <!--</datacolumn>-->
+        <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
+        <!--uncheckedTemplate="'No'"></datacolumn>-->
+        <!--</div>-->
+    </div>
+
+    <div id="zipCodes" class="filterBlock" ng-if="whichOverlayToShow == 'zipCodes'" style="min-height: 500px;">
+
+        <div class="onlyMarginPadding" style="max-height: 300px;">
+            <label >Paste zip codes to search</label>
+            <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+                 selectedIndex="MySelectedIndex" columnSorting="true"
+                 contextMenu="true" datarows="ziipCode in zipCodesToShow" id="lineitems-grid" height= "300" style="overflow: hidden;" >
+                <datacolumn width="100" value="ziipCode.zipCode" title="'Latitude'" type="'text'"></datacolumn>
+                <!--<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>-->
+
+            </div>
+        </div>
+        <div style="height: 10px;"></div>
+        <center><button ng-click="placeZipcodesBoundries();" class="mail_data_send"  >Place Zip Codes</button></center>
 
 
         <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->

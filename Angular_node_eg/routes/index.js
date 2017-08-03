@@ -12,6 +12,9 @@ router.get('/vlcc', function(req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'VLCC.html'));
 });
 
+router.get('/places', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'PlacesFind.html'));
+});
 
 //router.get('/data', function(req,res){
 //	res.json([{"id": 1, "name": "Mymm", "city": "Pantano do Sul"},
