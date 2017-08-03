@@ -570,6 +570,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.filter.filterFields = data[0].fields;
                 console.log($scope.filterFields);
                 console.log(selectedCategory);
+                objMarkersFilterQuery = {};
+                objMarkersFilterQuery['dbToSearchFor'] = 'metadata';// templateCategory;
+                objMarkersFilterQuery['docType'] = selectedCategory;
                 $scope.getData(selectedCategory);
             });
         }
@@ -605,6 +608,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         delete objMarkersFilterQuery['Latitude'];
         delete objMarkersFilterQuery['Longitude1'];
         delete objMarkersFilterQuery['Longitude'];
+        var value1 = angular.copy(value);
         if (value == "" || value == undefined) {
             delete objMarkersFilterQuery[keyName];
             if (Object.keys(objMarkersFilterQuery).length > 2) {
@@ -618,7 +622,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         }
         else {
             if (angular.isArray(value)) {
-                objMarkersFilterQuery[keyName] = { '$in': value};
+
+                for (var m = 0; m < value1.length; m++) {
+                    value1[m] = value1[m].replace(/\n/g,'').trim()
+                }
+                objMarkersFilterQuery[keyName] = { '$in': value1};
             }
             else {
                 objMarkersFilterQuery[keyName] = value;
@@ -627,7 +635,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 
         $.getJSON('/filter', objMarkersFilterQuery, function (data) {
-            $scope.placeMarkesrs(data, true, value, keyName);
+            $scope.placeMarkesrs(data, true, value1, keyName);
             if (templateCategory == 'Top Perforrming Sales Executives') {
                 $scope.top20 = 0;
                 $scope.middle2080 = 0;

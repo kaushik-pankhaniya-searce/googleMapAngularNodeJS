@@ -9,10 +9,7 @@ Version: 3.4.8 Timestamp: Thu May  1 09:50:32 EDT 2014
     zoom: 1;
     *display: inline;
     vertical-align: middle;
-<<<<<<< HEAD
     min-width: 150px;
-=======
->>>>>>> b101157dae22134acc883c174eec2fd6b18d9f0e
 }
 
 .select2-container,
