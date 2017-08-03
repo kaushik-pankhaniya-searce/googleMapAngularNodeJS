@@ -468,7 +468,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '</div>' +
                         '</div>'
                 } else if (this.docType == 'Top Perforrming Sales Executives') {
-                    markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_userpurple.png';
+                    markerImage = this['Ranking'] >= 8 ? 'images/icon/user_red.png' : this['Ranking'] >= 5 ? 'images/icon/user_blue.png' : 'images/icon/user_green.png';
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +
@@ -632,7 +632,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.top20 = 0;
                 $scope.middle2080 = 0;
                 $scope.bottom20 = 0;
-//                markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_userpurple.png';
+//                markerImage = this['Ranking'] >= 8 ? 'images/icon/user_red.png' : this['Ranking'] >= 5 ? 'images/icon/user_blue.png' : 'images/icon/user_green.png';
 
                 angular.forEach(data, function (item, index) {
                     if (item.Ranking < 5) {
@@ -843,7 +843,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         });
     };
     $scope.moveTruck = function (map, markerTruck, markerIndex, latLngindex, countDotMarker) {
-        console.log(markerTruck.position);
+//        console.log(markerTruck.position);
         setTimeout(function () {
             if (countDotMarker == 3 && $scope.whichOverlayToShow == 'assetTracking') {
                 countDotMarker = 0;
