@@ -468,7 +468,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '</div>' +
                         '</div>'
                 } else if (this.docType == 'Top Perforrming Sales Executives') {
-                    markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_usergreen.png';
+                    markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_userpurple.png';
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +
@@ -632,7 +632,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.top20 = 0;
                 $scope.middle2080 = 0;
                 $scope.bottom20 = 0;
-//                markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_usergreen.png';
+//                markerImage = this['Ranking'] >= 8 ? 'images/rsz_userred.png' : this['Ranking'] >= 5 ? 'images/rsz_userblue.png' : 'images/rsz_userpurple.png';
 
                 angular.forEach(data, function (item, index) {
                     if (item.Ranking < 5) {
@@ -751,10 +751,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        k = arrLatLongTruck.length - 1;
         k = 0;
         var assetOriginDestDetails = [
-            {"origin": {"Latitude": 26.8467, "Longitude": 80.9462}, "destination": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' + '</div>'},
-            {"origin": {"Latitude": 21.1702, "Longitude": 72.8311}, "destination": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' + '</div>'},
-            {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'},
-            {"origin": {"Latitude": 24.5854, "Longitude": 73.7125}, "destination": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'}
+            {"destination": {"Latitude": 26.8467, "Longitude": 80.9462}, "origin": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' + '</div>'},
+            {"destination": {"Latitude": 21.1702, "Longitude": 72.8311}, "origin": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 73.7125}, "origin": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 74.7125}, "origin": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'}
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
@@ -806,7 +806,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     infowindow2.open(map);
                     arrInfowindows.push(infowindow2);
                     if (isAssetTracking) {
-                        var markerTruck = new google.maps.Marker({position: start, map: map, icon: 'images/icon/truck.png'});
+                        var markerTruck = new google.maps.Marker({position: start, map: map, icon: 'images/icon/truck3.png'});
                         markerTruck.setMap(map);
                         markerTruck.addListener('click', function () {
 //                            for (i = 0; i < arrInfowindows.length; i++) {
