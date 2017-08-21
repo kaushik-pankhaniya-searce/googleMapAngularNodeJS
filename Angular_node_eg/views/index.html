@@ -41,6 +41,9 @@
 <script src="/vendor/angular-strap.min.js"></script>
 <script src="/vendor/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript"
         charset="utf-8"></script>
@@ -76,7 +79,7 @@
             Tracking</a></li>
         <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
-        <!--<li><a ng-click="showFilters('zipCodes')"><img src="images/icon/zipCode3.jpg"> Zip Codes Search </a></li>-->
+        <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png"> Zip Codes </a></li>
     </ul>
 </div>
 
@@ -237,26 +240,47 @@
 <div class="main">
 
 
-    <div id="mymap"></div>
+<div id="mymap"></div>
 
-    <div class="filterBlock">
-        <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
-            <div class="filter_group" flex>
-                <div>
-                    <label>Category </label>
-                    <select ui-select2 id="categori" ng-model="filter.selectedCategory"
-                            ng-change="loadFilter(filter.selectedCategory)">
-                        <option value="All">All</option>
-                        <option ng-selected="{{cat == filter.selectedCategory}}"
-                                ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}
-                        </option>
-                    </select>
-                </div>
-
-
+<div class="filterBlock">
+    <button id=findplace" ng-click="findPlaces()">Find places</button>
+    <label>Place</label>
+    <input type="text" ng-model="placeName" />
+    <label>Type</label>
+    <input type="text" ng-model="placeType1" />
+    <div id="filter1" ng-show="whichOverlayToShow == 'filter1'">
+        <div class="filter_group" flex>
+            <div>
+                <label>Category </label>
+                <select ui-select2 id="categori" ng-model="filter.selectedCategory"
+                        ng-change="loadFilter(filter.selectedCategory)">
+                    <option value="All">All</option>
+                    <option ng-selected="{{cat == filter.selectedCategory}}"
+                            ng-repeat="cat in filter.filterCategories" value="{{cat}}">{{cat}}
+                    </option>
+                </select>
             </div>
 
-            <div id="filter">
+
+        </div>
+
+        <div id="filter">
+            <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
+                <label>{{filterObj.label}}</label>
+                <select ui-select2 multiple id="{{filterObj.key}}" ng-model="selectedFilterValue"
+                        ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
+                    <!--<option value=""></option>-->
+                    <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">
+                        {{dataObj[filterObj.key]}}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
+        <div class="filter_group">
+            <div id="filterSales">
                 <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
                     <label>{{filterObj.label}}</label>
                     <select ui-select2 multiple id="{{filterObj.key}}" ng-model="selectedFilterValue"
@@ -268,195 +292,217 @@
                     </select>
                 </div>
             </div>
-        </div>
 
-        <div id="salesPerson" ng-show="whichOverlayToShow == 'salesPerson'">
-            <div class="filter_group">
-                <div id="filterSales">
-                    <div class="filter_group" ng-repeat="filterObj in filter.filterFields">
-                        <label>{{filterObj.label}}</label>
-                        <select ui-select2 multiple id="{{filterObj.key}}" ng-model="selectedFilterValue"
-                                ng-change="filterMarkerData(filter.selectedCategory,filterObj.key,selectedFilterValue)">
-                            <!--<option value=""></option>-->
-                            <option ng-repeat="dataObj in filter.categoryData | unique: filterObj.key">
-                                {{dataObj[filterObj.key]}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="top20">
-                    <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
-                    <label id="cntSalesPeople">{{top20}}</label>
-                </div>
-                <div id="2080">
-                    <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
-                    <label id="cntSalesPeople">{{middle2080}}</label>
-                </div>
-                <div id="Bottom20">
-                    <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
-                    <label id="cntSalesPeople">{{bottom20}}</label>
-                </div>
+            <div id="top20">
+                <label id="categorySalesPeople" style="font-weight:bold">Top 20% -</label>
+                <label id="cntSalesPeople">{{top20}}</label>
             </div>
-        </div>
-
-        <div id="reports" ng-show="whichOverlayToShow == 'reports'">
-            <div class="filter_group_report" style="margin-left: 25px;margin-top: 50px;">
-                <div><a href="" ng-click="showReport(true,'Sales Report.pdf','Sales Report')">Sales Report</a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-                <div><a href="" ng-click="showReport(true,'Monthly Summary.pdf','Monthly Sales Report' )">Monthly Sales
-                    Report</a></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-                <div><a href="" ng-click="showReport(true,'Sale 3.pdf','Weekly Sales Activity')">Weekly Sales
-                    Activity</a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-                <!-- <div><a href="" ng-click="showReport(true,'Sale 4.pdf','Sales Activity Report')">Sales Activity Report</a><br></div>
-                 <div style="height: 10px;margin-left: 10px;"></div>-->
-
-                <div><a href=""
-                        ng-click="showReport(true,'Report - Geo 1.pdf','Asset Tracking Report - Geofence/Status')">Asset
-                    Tracking Report - Geofence/Status</a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-
-                <div><a href=""
-                        ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf','Asset Tracking Report - Daily')">Asset
-                    Tracking Report - Daily </a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-
-                <div><a href="" ng-click="showReport(true,'Vehicle Tracking Report.pdf','Vehicle Tracking Report')">Vehicle
-                    Tracking Report </a><br></div>
-                <div style="height: 10px;margin-left: 10px;"></div>
-
+            <div id="2080">
+                <label id="categorySalesPeople" style="font-weight:bold">20 - 80% -</label>
+                <label id="cntSalesPeople">{{middle2080}}</label>
+            </div>
+            <div id="Bottom20">
+                <label id="categorySalesPeople" style="font-weight:bold">Bottom 20% -</label>
+                <label id="cntSalesPeople">{{bottom20}}</label>
             </div>
         </div>
     </div>
-    <!-- Filterblock -->
 
-    <div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
-        <div class="img_block" ng-repeat="salesP in salesPersonData">
-            <img class="trigger" ng-src="images/{{salesP.Images}}" ng-click="showModal(true,'images/' + salesP.Images)">
+    <div id="reports" ng-show="whichOverlayToShow == 'reports'">
+        <div class="filter_group_report" style="margin-left: 25px;margin-top: 50px;">
+            <div><a href="" ng-click="showReport(true,'Sales Report.pdf','Sales Report')">Sales Report</a><br></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+            <div><a href="" ng-click="showReport(true,'Monthly Summary.pdf','Monthly Sales Report' )">Monthly Sales
+                Report</a></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+            <div><a href="" ng-click="showReport(true,'Sale 3.pdf','Weekly Sales Activity')">Weekly Sales
+                Activity</a><br></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+            <!-- <div><a href="" ng-click="showReport(true,'Sale 4.pdf','Sales Activity Report')">Sales Activity Report</a><br></div>
+             <div style="height: 10px;margin-left: 10px;"></div>-->
 
-            <p class="{{ salesP.Ranking >= '8' ? 'salesRed': salesP.Ranking >= '5' ? 'salesBlue':'salesGreen'}}">
-                {{salesP['Sales Rep Code']}}</p>
+            <div><a href=""
+                    ng-click="showReport(true,'Report - Geo 1.pdf','Asset Tracking Report - Geofence/Status')">Asset
+                Tracking Report - Geofence/Status</a><br></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+
+            <div><a href=""
+                    ng-click="showReport(true,'Asset Tracking Report - Dail Report.pdf','Asset Tracking Report - Daily')">Asset
+                Tracking Report - Daily </a><br></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+
+            <div><a href="" ng-click="showReport(true,'Vehicle Tracking Report.pdf','Vehicle Tracking Report')">Vehicle
+                Tracking Report </a><br></div>
+            <div style="height: 10px;margin-left: 10px;"></div>
+
         </div>
     </div>
+</div>
+<!-- Filterblock -->
 
-    <div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'" style="min-height: 500px;">
-        <label class="onlyMarginPadding" style="color: lawngreen;">Select route</label>
+<div id="salerPersonPics" class="client_img_list" ng-if="whichOverlayToShow == 'salesPerson'">
+    <div class="img_block" ng-repeat="salesP in salesPersonData">
+        <img class="trigger" ng-src="images/{{salesP.Images}}" ng-click="showModal(true,'images/' + salesP.Images)">
 
-        <div id="pac-container">
-            <input class="pac-input" id="src" googleplace autocomplete="off" ng-model="srcAddress" type="text" placeholder="Source location" required>
+        <p class="{{ salesP.Ranking >= '8' ? 'salesRed': salesP.Ranking >= '5' ? 'salesBlue':'salesGreen'}}">
+            {{salesP['Sales Rep Code']}}</p>
+    </div>
+</div>
 
-            <div style="height: 10px;"></div>
-            <input class="pac-input" id="dest"  googleplace autocomplete="off" ng-model="destAddress" type="text" placeholder="Destination location" required>
-            <!--<span> srcAddress = {{srcAddress}}</span>-->
-            <!--<span> destAddress = {{destAddress}}</span>-->
-        </div>
+<div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'" style="min-height: 500px;">
+    <label class="onlyMarginPadding" style="color: lawngreen;">Select route</label>
+
+    <div id="pac-container">
+        <input class="pac-input" id="src" googleplace autocomplete="off" ng-model="srcAddress" type="text"
+               placeholder="Source location" required>
 
         <div style="height: 10px;"></div>
-        <div class="onlyMarginPadding" style="max-height: 300px;">
-            <label >Paste way points to search</label>
-            <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
-                 selectedIndex="MySelectedIndex" columnSorting="true"
-                 contextMenu="true" datarows="add in addresses" id="lineitems-grid" height= "300" style="overflow: hidden;" >
-                <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
-                </datacolumn>
-                <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
-                <datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>
-
-            </div>
-        </div>
-        <div style="height: 10px;"></div>
-        <center><button ng-click="findWaypoints();" class="mail_data_send"  >Search way points</button></center>
-
-
-        <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
-        <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
-        <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
-        <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
-        <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
-        <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
-        <!--<optionlist datarows="option in item.Product.Options"-->
-        <!--clickrow="item.Product.Description = option.Description">-->
-        <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
-        <!--{{option.Description}}-->
-        <!--</optionlist>-->
-        <!--</datacolumn>-->
-        <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
-        <!--uncheckedTemplate="'No'"></datacolumn>-->
-        <!--</div>-->
+        <input class="pac-input" id="dest" googleplace autocomplete="off" ng-model="destAddress" type="text"
+               placeholder="Destination location" required>
+        <!--<span> srcAddress = {{srcAddress}}</span>-->
+        <!--<span> destAddress = {{destAddress}}</span>-->
     </div>
 
-    <div id="zipCodes" class="filterBlock" ng-if="whichOverlayToShow == 'zipCodes'" style="min-height: 500px;">
+    <div style="height: 10px;"></div>
+    <div class="onlyMarginPadding" style="max-height: 300px;">
+        <label>Paste way points to search</label>
 
-        <div class="onlyMarginPadding" style="max-height: 300px;">
-            <label >Paste zip codes to search</label>
-            <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
-                 selectedIndex="MySelectedIndex" columnSorting="true"
-                 contextMenu="true" datarows="ziipCode in zipCodesToShow" id="lineitems-grid" height= "300" style="overflow: hidden;" >
-                <datacolumn width="100" value="ziipCode.zipCode" title="'Latitude'" type="'text'"></datacolumn>
-                <!--<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>-->
+        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+             selectedIndex="MySelectedIndex" columnSorting="true"
+             contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="300" style="overflow: hidden;">
+            <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
+            </datacolumn>
+            <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
+            <datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>
 
-            </div>
-        </div>
-        <div style="height: 10px;"></div>
-        <center><button ng-click="placeZipcodesBoundries();" class="mail_data_send"  >Place Zip Codes</button></center>
-
-
-        <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
-        <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
-        <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
-        <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
-        <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
-        <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
-        <!--<optionlist datarows="option in item.Product.Options"-->
-        <!--clickrow="item.Product.Description = option.Description">-->
-        <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
-        <!--{{option.Description}}-->
-        <!--</optionlist>-->
-        <!--</datacolumn>-->
-        <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
-        <!--uncheckedTemplate="'No'"></datacolumn>-->
-        <!--</div>-->
-    </div>
-
-    <div class="marker_detail">
-        <div class="row">
-            <div class="col-md-1">
-                <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
-            </div>
-            <div class="col-md-10">
-                Registered Office
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-1">
-                <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
-            </div>
-            <div class="col-md-10">
-                Plants
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-1">
-                <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
-            </div>
-            <div class="col-md-10">
-                WareHouses
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-10">
-                Competitors
-            </div>
         </div>
     </div>
+    <div style="height: 10px;"></div>
+    <center>
+        <button ng-click="findWaypoints();" class="mail_data_send">Search way points</button>
+    </center>
+
+
+    <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
+    <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
+    <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
+    <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
+    <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
+    <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
+    <!--<optionlist datarows="option in item.Product.Options"-->
+    <!--clickrow="item.Product.Description = option.Description">-->
+    <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
+    <!--{{option.Description}}-->
+    <!--</optionlist>-->
+    <!--</datacolumn>-->
+    <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
+    <!--uncheckedTemplate="'No'"></datacolumn>-->
+    <!--</div>-->
+</div>
+
+<div id="zipCodes" class="filterBlock" ng-if="whichOverlayToShow == 'zipCodes'" style="min-height: 500px;">
+    <div id="filter">
+        <div class="filter_group">
+            <label>State</label>
+            <select ui-select2 ng-model="statesData.selectedStates" ng-change="listStateData(statesData.selectedStates)">
+                <option value=""></option>
+                <option ng-repeat="state in statesData.states"> {{state}}</option>
+            </select>
+        </div>
+        <div class="filter_group">
+            <label>PinCode</label>
+
+            <select ui-select2 multiple ng-model="statesData.selectedZipcodes" ng-change="resetOtherData('zipcode');" >
+                <option ng-repeat="zip in statesData.zipCodes"> {{zip}}</option>
+            </select>
+        </div>
+
+        <div class="filter_group">
+            <label>Taluka</label>
+            <select ui-select2 multiple ng-model="statesData.selectedTalukas" ng-change="resetOtherData('taluka');">
+                <option value=""></option>
+                <option ng-repeat="taluka in statesData.talukas"> {{taluka}}</option>
+            </select>
+        </div>
+        <div class="filter_group">
+            <label>District</label>
+
+            <select ui-select2 multiple ng-model="statesData.selectedDistricts" ng-change="resetOtherData('district');">
+                <option ng-repeat="dist in statesData.districts"> {{dist}}</option>
+            </select>
+        </div>
+    </div>
+    <!--<div class="onlyMarginPadding" style="max-height: 300px;">-->
+    <!--<label >Paste zip codes to search</label>-->
+    <!--<div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"-->
+    <!--selectedIndex="MySelectedIndex" columnSorting="true"-->
+    <!--contextMenu="true" datarows="ziipCode in zipCodesToShow" id="lineitems-grid" height= "300" style="overflow: hidden;" >-->
+    <!--<datacolumn width="100" value="ziipCode.zipCode" title="'Latitude'" type="'text'"></datacolumn>-->
+    <!--&lt;!&ndash;<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>&ndash;&gt;
+    -->
+
+    <!--</div>-->
+    <!--</div>-->
+    <div style="height: 10px;"></div>
+    <center>
+        <button ng-click="placeZipcodesBoundries();" class="btn-default btn-warning">Place Zip Codes</button>
+    </center>
+
+
+    <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
+    <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
+    <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
+    <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
+    <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
+    <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
+    <!--<optionlist datarows="option in item.Product.Options"-->
+    <!--clickrow="item.Product.Description = option.Description">-->
+    <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
+    <!--{{option.Description}}-->
+    <!--</optionlist>-->
+    <!--</datacolumn>-->
+    <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
+    <!--uncheckedTemplate="'No'"></datacolumn>-->
+    <!--</div>-->
+</div>
+
+<div class="marker_detail">
+    <div class="row">
+        <div class="col-md-1">
+            <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
+        </div>
+        <div class="col-md-10">
+            Registered Office
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
+        </div>
+        <div class="col-md-10">
+            Plants
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
+        </div>
+        <div class="col-md-10">
+            WareHouses
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            Competitors
+        </div>
+    </div>
+</div>
 
 </div>
 

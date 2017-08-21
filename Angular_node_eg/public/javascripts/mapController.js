@@ -1,4 +1,4 @@
-angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout, $filter) {
+angular.module('angularjs_with_Nodejs').controller('mapController', function ($scope, $timeout, $filter, $http) {
     var CSS_COLOR_NAMES = ["BlueViolet", "Darkorange", "DeepPink", "Cyan", "Gold", "LawnGreen", "DarkKhaki", "AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "Brown",
         "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "DarkBlue", "DarkCyan", "DarkGoldenRod",
         "DarkGray", "DarkGrey", "DarkGreen", "DarkMagenta", "DarkOliveGreen", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen",
@@ -147,14 +147,27 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "antiquewhite": "faebd7",
         "black": "000000"
     };
+
+    $scope.statesData = {
+        'selectedStates': [],
+        'selectedZipcodes': [],
+        'selectedTalukas': [],
+        'selectedDistricts': [],
+        'states': [],
+        'talukas': [],
+        'districts': [],
+        'zipCodes': []
+    };
     $scope.addresses = [
-        {"lat": 22.4846, "lng": 88.13232, status:"0"}//,
+        {"lat": 22.4846, "lng": 88.13232, status: "0"}//,
 //        {"lat":23.11254, "lng":85.61646},
 //        {"lat":23.858459,"lng":84.356532},
 //        {"lat":23.4846, "lng":88.13232}
     ];
 
-    $scope.zipCodesToShow = [{"zipCode":""}];
+    $scope.zipCodesToShow = [
+        {"zipCode": ""}
+    ];
 
     $scope.srcAddress;
     $scope.destAddress;
@@ -164,83 +177,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     $scope.zipCodesData = null;
     var geoCodes = {};
-
-    //    var arrLatLongTruck = [
-//        [22.58608, 88.37402],
-//        [22.58608, 88.19824],
-//        [22.4846, 88.13232],
-//        [22.47445, 87.96753],
-//        [22.43892, 87.84668],
-//        [22.40845, 87.66541],
-//        [22.39829, 87.52808],
-//        [22.38813, 87.39624],
-//        [22.35766, 87.31384],
-//        [22.32717, 87.22046],
-//        [22.35258, 87.07764],
-//        [22.32209, 86.98425],
-//        [22.31193, 86.90186],
-//        [22.28651, 86.79199],
-//        [22.28143, 86.72607],
-//        [22.35258, 86.68213],
-//        [22.43892, 86.61072],
-//        [22.54042, 86.5448],
-//        [22.62665, 86.44592],
-//        [22.69761, 86.39099],
-//        [22.7888, 86.32507],
-//        [22.84956, 86.20972],
-//        [22.90017, 86.09985],
-//        [22.95582, 86.01196],
-//        [22.97606, 85.92957],
-//        [22.98617, 85.84717],
-//        [23.02662, 85.72083],
-//        [23.06706, 85.65491],
-//        [23.11254, 85.61646],
-//        [23.17315, 85.58899],
-//        [23.20345, 85.5011],
-//        [23.26402, 85.42969],
-//        [23.33969, 85.38025],
-//        [23.35987, 85.3363],
-//        [23.378157, 85.320415],
-//        [23.415926, 85.227822],
-//        [23.453684, 85.108481],
-//        [23.491431, 85.003542],
-//        [23.538599, 84.908892],
-//        [23.546144, 84.812185],
-//        [23.619689, 84.771032],
-//        [23.655504, 84.731938],
-//        [23.706381, 84.664036],
-//        [23.74829, 84.54686],
-//        [23.858459, 84.356532],
-//        [23.972084, 84.216699],
-//        [24.021763, 84.10794],
-//        [24.163598, 84.05356],
-//        [24.227373, 83.917611],
-//        [24.191946, 83.684556],
-//        [24.284034, 83.478691],
-//        [24.245082, 83.303899],
-//        [24.255707, 83.156298],
-//        [24.206118, 83.008696],
-//        [24.227373, 82.853326],
-//        [24.174229, 82.760104],
-//        [24.096246, 82.562007],
-//        [24.220288, 82.429942],
-//        [24.326514, 82.286225],
-//        [24.44326, 82.146392],
-//        [24.404357, 81.812346],
-//        [24.439724, 81.664744],
-//        [24.347749, 81.458879],
-//        [24.36898, 81.334583],
-//        [24.457403, 81.214171],
-//        [24.513962, 81.097643],
-//        [24.559898, 80.95781],
-//        [24.584625, 80.767482],
-//        [24.581093, 80.596574],
-//        [24.623472, 80.351866],
-//        [24.722302, 80.138232],
-//        [24.761107, 79.932367],
-//        [24.817529, 79.730386],
-//        [24.902113, 79.602205]
-//    ];
 
     $scope.title = "Dashboard";
     $scope.logoFileName = "images/VLCC.png";
@@ -333,18 +269,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         });
 
 
-            // NOTE: This uses cross-domain XHR, and may not work on older browsers.
-//            map.data.loadGeoJson('images/ga.geojson.json');
+        // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+//            map.data.loadGeoJson('mapdata/districtCensus/uttarakhand_district.json');
 //                'https://storage.googleapis.com/mapsdevsite/json/google.json');
 
 
 //        map.data.loadGeoJson('images/gj.geojson.json');
 //        map.data.loadGeoJson('images/ka.geojson.json');
 
-        map.data.setStyle({
-//            fillColor: 'green',
-            strokeWeight: 1
-        });
+//        map.data.setStyle({
+////            fillColor: 'green',
+//            strokeWeight: 1
+//        });
         $scope.getTemplates();
     };
 
@@ -624,7 +560,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             if (angular.isArray(value)) {
 
                 for (var m = 0; m < value1.length; m++) {
-                    value1[m] = value1[m].replace(/\n/g,'').trim()
+                    value1[m] = value1[m].replace(/\n/g, '').trim()
                 }
                 objMarkersFilterQuery[keyName] = { '$in': value1};
             }
@@ -1054,28 +990,333 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     }
 
-    $scope.placeZipcodesBoundries = function() {
-        var mapDataToload = {"type":"FeatureCollection","features":[]};
-        if ($scope.zipCodesData == null) {
-            $.getJSON('images/gj.geojson.json', function(data) {
-                $scope.zipCodesData = data.features;
-                angular.forEach($scope.zipCodesData, function(item,index){
-                    angular.forEach($scope.zipCodesToShow, function(itemzipCodesToShow, indexzipCodesToShow){
-                        if (itemzipCodesToShow.zipCode == item.properties.PINCODE) {
-                            mapDataToload['features'].push(item);
-                        }
-                    });
-                });
-
-                map.data.loadGeoJson(mapDataToload);
-            }, function(error){
-
+    $scope.listDistrictNames = function () {
+        $.getJSON('/stateNames', {}, function (data) {
+            $scope.statesData.states = data;
+            $scope.$apply();
+            $scope.statesData.selectedStates = data[0];
+        });
+    };
+    $scope.listStateData = function (selectedStates) {
+        if (selectedStates != null && selectedStates != undefined && selectedStates != "") {
+            var query = {
+                'properties.STATE': selectedStates.trim()
+            };
+            $.getJSON('/stateData', query, function (data) {
+                $scope.statesData.zipCodes = data.zipCodes;
+                $scope.statesData.talukas = data.talukas;
+                $scope.statesData.districts = data.districts;
+                $scope.$apply();
             });
         }
     };
-    //////////////////////////////////////Defailt function calling on load////////////////////////////////
+
+    $scope.resetOtherData = function (selectedCategory) {
+        $scope.selectedFilterCategory = selectedCategory;
+//        switch (selectedCategory) {
+//            case 'zipcode':
+//                $scope.statesData.selectedTalukas = [];
+//                $scope.statesData.selectedDistricts = [];
+//                break;
+//            case 'taluka':
+//                $scope.statesData.selectedDistricts = [];
+//                $scope.statesData.selectedZipcodes = [];
+//                break;
+//            case 'district':
+//                $scope.statesData.selectedTalukas = [];
+//                $scope.statesData.selectedZipcodes = [];
+//                break;
+//
+//        }
+    };
+
+    $scope.placeZipcodesBoundries = function () {
+        var mapDataToload = {"type": "FeatureCollection", "features": []};
+        var value1 = "";
+        var query = {};
+        var queryMetadata = {};
+        var queryParam = "";
+        var queryParamMetadata = "";
+
+        switch ($scope.selectedFilterCategory) {
+            case 'zipcode':
+                value1 = angular.copy($scope.statesData.selectedZipcodes);
+                for (var m = 0; m < value1.length; m++) {
+                    value1[m] = parseInt(value1[m])
+                }
+                queryParam = "properties.PINCODE";
+                queryParamMetadata = "PINCODE";
+                break;
+            case 'taluka':
+                value1 = angular.copy($scope.statesData.selectedTalukas);
+                queryParam = "properties.SUB_DISTRICT";
+                queryParamMetadata = "SUB_DISTRICT";
+                break;
+            case 'district':
+                value1 = angular.copy($scope.statesData.selectedDistricts);
+                queryParam = "properties.DISTRICT";
+                queryParamMetadata = "DISTRICT";
+                break;
+
+        }
+        if (angular.isArray(value1)) {
+            for (var m = 0; m < value1.length; m++) {
+                if (typeof(value1[m]) == "string")
+                    value1[m] = value1[m].replace(/\n/g, '').trim();
+            }
+            query[queryParam] = { '$in': value1};
+            queryMetadata[queryParamMetadata] = { '$in': value1};
+        }
+        else {
+            query[queryParam] = value1.trim();
+            queryMetadata[queryParamMetadata] = value1.trim();
+        }
+        $scope.placeMarkesrs(null);
+        $.getJSON('/zipcodBoundries', query, function (data) {
+            $scope.zipCodesData = data.shapeFile;
+
+            angular.forEach($scope.zipCodesData, function (item, index) {
+                if (index == 1) {
+                    var geocoder = new google.maps.Geocoder();
+                    // Get LatLng information by name
+                    geocoder.geocode({
+                        address: item.properties.PINCODE,
+//                                    location: item.properties.PINCODE
+                    }, function (results, status) {
+                        if (status === 'OK') {
+                            map.setCenter(results[0].geometry.location);
+                        }
+                    });
+                }
+                mapDataToload['features'].push(item);
+            });
+
+            map.data.forEach(function(feature) {
+                // If you want, check here for some constraints.
+                map.data.remove(feature);
+            });
+            map.data.addGeoJson(mapDataToload);
+            map.data.addListener('click', function (event) {
+                for (i = 0; i < arrInfowindows.length; i++) {
+                    arrInfowindows[i].close();
+                }
+                arrInfowindows = [];
+
+                var myHTML = '<div id="content"  class="infowindow_warehouse">' +
+                    '<label id="firstHeading" class="firstHeading">' + event.feature.f['NAME'] + ', ' + event.feature.f['DISTRICT'] + ', ' +
+                    event.feature.f['STATE'] + '</label>' +
+                    '</div>';
+                var infowindow = new google.maps.InfoWindow({content: myHTML});
+                infowindow.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
+                infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
+                infowindow.open(map);
+                arrInfowindows.push(infowindow);
+            });
+            var featureStyle = {
+                strokeColor: '#ff3333',
+                strokeWeight: 1
+            };
+
+            map.data.setStyle(featureStyle);
+//            map.setZoom(8);
+
+        }, function (error) {
+
+        });
+
+        $.getJSON('/zipcodMetadata', queryMetadata, function (data) {
+            $scope.placeMarkesrs(data.metaData);
+        }, function(error){
+
+        });
+    };
+
+    var places = [];
+    function writePlaces(places, fileName) {
+//        angular.forEach(places, function (place, index) {
+//            try
+//            {
+//                console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat + " : " + place.geometry.location.lng);
+//            }
+//            catch (err) {
+//                        console.log("error - " + err.message + " - " + index )
+//            }
+//
+////            var txtFile = new File(fileName+ '.json');
+////            var txtFile = new File([""], "/tmp/"+fileName + ".json", {type: "text/plain"});
+////            txtFile.open("w"); // open file with write access
+////            txtFile.writeln(place);
+////            txtFile.close();
+//
+////            var txtFile1 = new File(fileName + '.txt');
+////            txtFile1.writeln(place);
+////            txtFile1.close();
+//        });
+    }
+
+    function addPlaces(data){
+        angular.forEach(data, function (item, index) {
+            places.push(item)
+        });
+    }
+
+    $scope.placeType1 = "bus";
+    $scope.placeName = "kadappa";
+    $scope.findPlaces = function() {
+//        https://maps.googleapis.com/maps/api/place/textsearch/xml?query=jalgaon&key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo
+        var arrplaces = [$scope.placeName];
+//        var searchPlacesTypes = ['bus','government office','railway', 'hospital', 'restaurant'];
+        var searchPlacesTypes = [$scope.placeType1];
+        var counter = 1;
+        var next_page_token = false, next_page_tokenval = "";
+        var queryToSend = {};
+
+        var proceed;
+
+        for (var l = 0; l < arrplaces.length; l++) {
+            for (var j = 0; j < searchPlacesTypes.length; j++) {
+                var fileName = arrplaces[l] + '_' + searchPlacesTypes[j] + '_' + counter;
+                queryToSend = {
+                    'query' : arrplaces[l] + " " + searchPlacesTypes[j],
+                    'key' : 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
+                };
+                $.getJSON('/searchText', queryToSend, function (data) {
+                    console.log(data);
+                    addPlaces(data.results);
+                    if (data.next_page_token)
+                    {
+                        next_page_token = true;
+                        next_page_tokenval = data.next_page_token;
+                        queryToSend = {
+                            'next_page_token' : next_page_tokenval
+                        };
+                        setTimeout(function() {
+                            $.getJSON('/searchText', queryToSend, function (data) {
+                                console.log(data);
+                                places.push(data.results);
+                                if (data.next_page_token)
+                                {
+                                    next_page_token = true;
+                                    next_page_tokenval = data.next_page_token;
+                                    queryToSend = {
+                                        'next_page_token' : next_page_tokenval
+                                    };
+                                    setTimeout(function() {
+                                    $.getJSON('/searchText', queryToSend, function (data) {
+                                        console.log(data);
+                                        places.push(data.results);
+                                        if (data.next_page_token)
+                                        {
+                                            next_page_token = true;
+                                            next_page_tokenval = data.next_page_token;
+                                        }
+                                        else
+                                        {
+                                            next_page_token = false;
+                                            writePlaces(places,fileName);
+                                        }
+
+
+                                    }, function (error) {
+                                        console.log(error);
+                                    });
+                                    }, 1500);
+                                }
+
+                                else
+                                {
+                                    next_page_token = false;
+                                    writePlaces(places,fileName);
+                                }
+
+
+                            }, function (error) {
+                                console.log(error);
+                            });
+                        }, 1500);
+
+
+                    }
+                    else
+                    {
+                        next_page_token = false;
+                        writePlaces(places,fileName);
+                    }
+
+
+//                    while (next_page_token && proceed) {
+//
+//                    }
+                }, function (error) {
+                    console.log(error);
+                });
+
+
+            }
+        }
+//        for (var i = 0; i < arrplaces.length; i++) {
+//            for (var j = 0; j < searchPlacesTypes.length; j++) {
+//                $http.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + arrplaces[i] + ' ' + searchPlacesTypes[j] + '&key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo')
+//                    .then(function(response) {
+////                        $scope.myWelcome = response.data;
+////                    });
+////                $.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + arrplaces[i] + ' ' + searchPlacesTypes[j] + '&key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo',  function (data) {
+//                    counter = 1;
+//                    if (data.status == 'OK') {
+//                        angular.forEach(data.results, function (place, index) {
+//                            console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat + " : " + place.geometry.location.lng);
+//                            var txtFile = new File(arrplaces[i] + '_' + searchPlacesTypes[j] + '_' + counter + '.json');
+//                            txtFile.writeln(place);
+//                            txtFile.close();
+//
+//                            var txtFile1 = new File(arrplaces[i] + '_' + searchPlacesTypes[j] + '_' + counter + '.txt');
+//                            txtFile1.writeln(place);
+//                            txtFile1.close();
+//                        });
+//                        if (data.next_page_token)
+//                            next_page_token = true;
+//
+//                        else
+//                            next_page_token= false;
+//
+//                        while (next_page_token) {
+//                            counter++;
+//                            $.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=' + data.next_page_token + 'query=' + arrplaces[i] + ' ' + searchPlacesTypes[j] + '&key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo',  function (data) {
+//                                counter = 1;
+//                                if (data.status == 'OK') {
+//                                    angular.forEach(data.results, function (place, index) {
+//                                        console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat() + " : " + place.geometry.location.lng());
+//                                        var txtFile = new File(arrplaces[i] + '_' + searchPlacesTypes[j] + '_' + counter + '.json');
+//                                        txtFile.writeln(place);
+//                                        txtFile.close();
+//
+//                                        var txtFile1 = new File(arrplaces[i] + '_' + searchPlacesTypes[j] + '_' + counter + '.txt');
+//                                        txtFile1.writeln(place);
+//                                        txtFile1.close();
+//                                    });
+//                                    if (data.next_page_token)
+//                                        next_page_token = true;
+//
+//                                    else
+//                                        next_page_token= false;
+//                                }
+//                            }, function (error) {
+//
+//                            });
+//                        }
+//                    }
+//                }, function (error) {
+//
+//                });
+//            }
+//        }
+
+};
+
+    //////////////////////////////////////Default function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();
+//        $scope.placeZipcodesBoundries();
     }, 100);
 });
 
