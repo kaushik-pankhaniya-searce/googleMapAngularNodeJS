@@ -1132,6 +1132,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     };
 
     var places = [];
+
+    /**
+     * function will log places on console
+     * @param places
+     * @param fileName
+     */
     function writePlaces(places, fileName) {
 //        angular.forEach(places, function (place, index) {
 //            try
