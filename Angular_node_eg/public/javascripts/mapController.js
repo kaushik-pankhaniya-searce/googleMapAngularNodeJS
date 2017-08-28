@@ -417,6 +417,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '</p></big>' +
                         '</div>' +
                         '</div>'
+                } else if (this.docType == 'Distributors') {
+                    infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' + this['Manager Name'] + '</h1>' +
+                        '</div>'
                 } else if (this.docType == 'StoreLocations') {
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
@@ -438,10 +444,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +
-                        '<h1 id="firstHeading" class="firstHeading">' + this['Dealer Name'] + '</h1>' +
+                        '<h1 id="firstHeading" class="firstHeading">' + this['Manager Name'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p>' +
-                        '<label> nothing to show </label>' +
+
                         '</p></big>' +
                         '</div>' +
                         '</div>'
