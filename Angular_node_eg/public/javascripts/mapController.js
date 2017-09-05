@@ -355,7 +355,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 ////            fillColor: 'green',
 //            strokeWeight: 1
 //        });
-//        $scope.getTemplates();
+        $scope.getTemplates();
     };
 
     /**
@@ -414,12 +414,15 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 arrdirectionsDisplay = [];
             }
 
-            if(map.data)
+            if (map)
             {
-                map.data.forEach(function (feature) {
-                    // If you want, check here for some constraints.
-                    map.data.remove(feature);
-                });
+                if(map.data)
+                {
+                    map.data.forEach(function (feature) {
+                        // If you want, check here for some constraints.
+                        map.data.remove(feature);
+                    });
+                }
             }
         }
         if (data != null) {
