@@ -211,6 +211,74 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     var arrLatLongTruck = [];
 
     var k = 0;
+
+    function setMapStyle(styleType) {
+        var stylez = [];
+        switch (styleType) {
+            case 'default':
+                stylez = [];
+                break;
+            case 'businessGeography':
+            stylez
+                = [
+                    {
+                        featureType: "all",
+                        elementType: "all",
+                        stylers: [
+                            {
+                                color: "#ffffff"} // <-- THIS
+                        ]
+                    },
+
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#d1c6c6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "color": "#d1c6c6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "color": "#b8cad2"
+                            },
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    }
+                ];
+                break;
+
+
+        }
+        var mapType = new google.maps.StyledMapType(stylez, { name: "Grayscale" });
+        map.mapTypes.set('applyThisStyle', mapType);
+        map.setMapTypeId('applyThisStyle');
+    }
+
     /**
      * To initaliza the map
      */
@@ -221,12 +289,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         var tableContent = '';
         directionsDisplay = new google.maps.DirectionsRenderer();
 
-        map = new google.maps.Map(document.getElementById('mymap'), {
+        var mapOpts = {
             center: myLatLng,
             zoom: 5,
             streetViewControl: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'applyThisStyle']
+            }
+        };
+        map = new google.maps.Map(document.getElementById('mymap'), mapOpts);
+
+
         directionsDisplay.setMap(map);
 
         if (navigator.geolocation) {
@@ -270,7 +344,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 
         // NOTE: This uses cross-domain XHR, and may not work on older browsers.
-//            map.data.loadGeoJson('mapdata/districtCensus/uttarakhand_district.json');
+//        map.data.loadGeoJson('mapdata/districtCensus/uttarakhand_district.json');
 //                'https://storage.googleapis.com/mapsdevsite/json/google.json');
 
 
@@ -281,7 +355,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 ////            fillColor: 'green',
 //            strokeWeight: 1
 //        });
-        $scope.getTemplates();
+//        $scope.getTemplates();
     };
 
     /**
@@ -339,6 +413,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 }
                 arrdirectionsDisplay = [];
             }
+
+            map.data.forEach(function (feature) {
+                // If you want, check here for some constraints.
+                map.data.remove(feature);
+            });
         }
         if (data != null) {
             var markerImage = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
@@ -647,6 +726,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
+        setMapStyle('default');
 
         if (filterName == "filter1") {
             $scope.title = "Dashboard";
@@ -681,6 +761,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             else if (filterName == "zipCodes") {
                 $scope.title = "Zip Codes";
                 $scope.placeMarkesrs(null);
+                setMapStyle('businessGeography');
             }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
@@ -1097,7 +1178,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 mapDataToload['features'].push(item);
             });
 
-            map.data.forEach(function(feature) {
+            map.data.forEach(function (feature) {
                 // If you want, check here for some constraints.
                 map.data.remove(feature);
             });
@@ -1132,7 +1213,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         $.getJSON('/zipcodMetadata', queryMetadata, function (data) {
             $scope.placeMarkesrs(data.metaData);
-        }, function(error){
+        }, function (error) {
 
         });
     };
@@ -1166,7 +1247,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        });
     }
 
-    function addPlaces(data){
+    function addPlaces(data) {
         angular.forEach(data, function (item, index) {
             places.push(item)
         });
@@ -1174,7 +1255,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     $scope.placeType1 = "bus";
     $scope.placeName = "kadappa";
-    $scope.findPlaces = function() {
+    $scope.findPlaces = function () {
 //        https://maps.googleapis.com/maps/api/place/textsearch/xml?query=jalgaon&key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo
         var arrplaces = [$scope.placeName];
 //        var searchPlacesTypes = ['bus','government office','railway', 'hospital', 'restaurant'];
@@ -1189,56 +1270,51 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             for (var j = 0; j < searchPlacesTypes.length; j++) {
                 var fileName = arrplaces[l] + '_' + searchPlacesTypes[j] + '_' + counter;
                 queryToSend = {
-                    'query' : arrplaces[l] + " " + searchPlacesTypes[j],
-                    'key' : 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
+                    'query': arrplaces[l] + " " + searchPlacesTypes[j],
+                    'key': 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
                 };
                 $.getJSON('/searchText', queryToSend, function (data) {
                     console.log(data);
                     addPlaces(data.results);
-                    if (data.next_page_token)
-                    {
+                    if (data.next_page_token) {
                         next_page_token = true;
                         next_page_tokenval = data.next_page_token;
                         queryToSend = {
-                            'next_page_token' : next_page_tokenval
+                            'next_page_token': next_page_tokenval
                         };
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $.getJSON('/searchText', queryToSend, function (data) {
                                 console.log(data);
                                 places.push(data.results);
-                                if (data.next_page_token)
-                                {
+                                if (data.next_page_token) {
                                     next_page_token = true;
                                     next_page_tokenval = data.next_page_token;
                                     queryToSend = {
-                                        'next_page_token' : next_page_tokenval
+                                        'next_page_token': next_page_tokenval
                                     };
-                                    setTimeout(function() {
-                                    $.getJSON('/searchText', queryToSend, function (data) {
-                                        console.log(data);
-                                        places.push(data.results);
-                                        if (data.next_page_token)
-                                        {
-                                            next_page_token = true;
-                                            next_page_tokenval = data.next_page_token;
-                                        }
-                                        else
-                                        {
-                                            next_page_token = false;
-                                            writePlaces(places,fileName);
-                                        }
+                                    setTimeout(function () {
+                                        $.getJSON('/searchText', queryToSend, function (data) {
+                                            console.log(data);
+                                            places.push(data.results);
+                                            if (data.next_page_token) {
+                                                next_page_token = true;
+                                                next_page_tokenval = data.next_page_token;
+                                            }
+                                            else {
+                                                next_page_token = false;
+                                                writePlaces(places, fileName);
+                                            }
 
 
-                                    }, function (error) {
-                                        console.log(error);
-                                    });
+                                        }, function (error) {
+                                            console.log(error);
+                                        });
                                     }, 1500);
                                 }
 
-                                else
-                                {
+                                else {
                                     next_page_token = false;
-                                    writePlaces(places,fileName);
+                                    writePlaces(places, fileName);
                                 }
 
 
@@ -1249,10 +1325,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 
                     }
-                    else
-                    {
+                    else {
                         next_page_token = false;
-                        writePlaces(places,fileName);
+                        writePlaces(places, fileName);
                     }
 
 
@@ -1323,7 +1398,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //            }
 //        }
 
-};
+    };
+
 
     //////////////////////////////////////Default function calling on load////////////////////////////////
     setTimeout(function () {
