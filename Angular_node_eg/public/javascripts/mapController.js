@@ -414,10 +414,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 arrdirectionsDisplay = [];
             }
 
-            map.data.forEach(function (feature) {
-                // If you want, check here for some constraints.
-                map.data.remove(feature);
-            });
+            if(map.data)
+            {
+                map.data.forEach(function (feature) {
+                    // If you want, check here for some constraints.
+                    map.data.remove(feature);
+                });
+            }
         }
         if (data != null) {
             var markerImage = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
@@ -433,11 +436,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '<h1 id="firstHeading" class="firstHeading">' + this['Warehouse Code'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p >' +
-                        '<label>Manager Name ' + this['Manager Name'] + '</label> <br>' +
-                        '<label>City  ' + this['City'] + '</label> <br>' +
-                        '<label>State  ' + this['State'] + '</label> <br>' +
-                        '<label>Capacity Utilization ' + this['Capacity Utilization'] + '</label> <br>' +
-                        '<label>Area (SQ FT)' + this['Area'] + '</label> <br>' +
+                        '<label>Manager Name - ' + this['Manager Name'] + '</label> <br>' +
+                        '<label>City -  ' + this['City'] + '</label> <br>' +
+                        '<label>State -  ' + this['State'] + '</label> <br>' +
+                        '<label>Capacity Utilization - ' + this['Capacity Utilization'] + '</label> <br>' +
+                        '<label>Area (SQ FT) - ' + this['Area'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
@@ -448,9 +451,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '<h1 id="firstHeading" class="firstHeading">' + this['Plant'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p>' +
-                        '<label>FY 15-16 MT ' + this['FY15-16MT'] + '</label> <br>' +
-                        '<label>Type  ' + this['Type'] + '</label> <br>' +
-                        '<label>State  ' + this['State'] + '</label> <br>' +
+                        '<label>FY 15-16 MT - ' + this['FY15-16MT'] + '</label> <br>' +
+                        '<label>Type  - ' + this['Type'] + '</label> <br>' +
+                        '<label>State -  ' + this['State'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
@@ -461,9 +464,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '<h1 id="firstHeading" class="firstHeading">' + this['Name'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p >' +
-                        '<label>State  ' + this['State'] + '</label> <br>' +
-                        '<label>Net Profit ' + this['Net Profit'] + '</label> <br>' +
-                        '<label>Total Assets ' + this['Total Assets'] + '</label> <br>' +
+                        '<label>State -  ' + this['State'] + '</label> <br>' +
+                        '<label>Net Profit - ' + this['Net Profit'] + '</label> <br>' +
+                        '<label>Total Assets - ' + this['Total Assets'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
@@ -474,11 +477,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '<img src=" images/' + this['Image Source'] + '"><h1 id="firstHeading" class="firstHeading">' + this['Dealer Name'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p>' +
-                        '<label>Manager Name ' + this['Manager Name'] + '</label> <br>' +
-                        '<label>Sales Rep  ' + this['Sales Rep First Name'] + ' ' + this['Sales Rep Last Name'] + '</label> <br>' +
-                        '<label>Average Monthly Billing  ' + this['Average Monthly Billing'] + ' ' + this['Sales Rep Last Name'] + '</label> <br>' +
-                        '<label>City  ' + this['City'] + '</label> <br>' +
-                        '<label>State  ' + this['State'] + '</label> <br>' +
+                        '<label>Manager Name - ' + this['Manager Name'] + '</label> <br>' +
+                        '<label>Sales Rep  - ' + this['Sales Rep First Name'] + ' ' + this['Sales Rep Last Name'] + '</label> <br>' +
+                        '<label>Average Monthly Billing -  ' + this['Average Monthly Billing'] + ' ' + this['Sales Rep Last Name'] + '</label> <br>' +
+                        '<label>City -  ' + this['City'] + '</label> <br>' +
+                        '<label>State -  ' + this['State'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
@@ -490,9 +493,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '<img src=" images/' + this['Images'] + '"><h1 id="firstHeading" class="firstHeading">' + this['First Name'] + ' ' + this['Last Name'] + '</h1>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p>' +
-                        '<label>City ' + this['City'] + '</label> <br>' +
-                        '<label>State  ' + this['State'] + '</label> <br>' +
-                        '<label>Ranking  ' + this['Ranking'] + '</label> <br>' +
+                        '<label>City - ' + this['City'] + '</label> <br>' +
+                        '<label>State  - ' + this['State'] + '</label> <br>' +
+                        '<label>Ranking -  ' + this['Ranking'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
