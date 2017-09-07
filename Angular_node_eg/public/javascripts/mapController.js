@@ -228,47 +228,47 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                             {
                                 color: "#ffffff"} // <-- THIS
                         ]
-                    },
-
-                    {
-                        "featureType": "administrative.country",
-                        "elementType": "geometry.stroke",
-                        "stylers": [
-                            {
-                                "color": "#d1c6c6"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "administrative.country",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "color": "#d1c6c6"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "administrative.country",
-                        "elementType": "geometry",
-                        "stylers": [
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "color": "#b8cad2"
-                            },
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    }
+                    }//,
+//
+//                    {
+//                        "featureType": "administrative.country",
+//                        "elementType": "geometry.stroke",
+//                        "stylers": [
+//                            {
+//                                "color": "#d1c6c6"
+//                            }
+//                        ]
+//                    },
+//                    {
+//                        "featureType": "administrative.country",
+//                        "elementType": "geometry.fill",
+//                        "stylers": [
+//                            {
+//                                "color": "#d1c6c6"
+//                            }
+//                        ]
+//                    },
+//                    {
+//                        "featureType": "administrative.country",
+//                        "elementType": "geometry",
+//                        "stylers": [
+//                            {
+//                                "visibility": "on"
+//                            }
+//                        ]
+//                    },
+//                    {
+//                        "featureType": "water",
+//                        "elementType": "all",
+//                        "stylers": [
+//                            {
+//                                "color": "#b8cad2"
+//                            },
+//                            {
+//                                "visibility": "on"
+//                            }
+//                        ]
+//                    }
                 ];
                 break;
 
@@ -931,7 +931,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.moveTruck(map, markerTruck, markerIndex, latLngindex, countDotMarker);
             }
 //            k++;
-        }, 1000)
+        }, 5000)
     };
 
     $scope.showReport = function (showToUser, fileName, heading) {
@@ -1207,7 +1207,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             });
             var featureStyle = {
                 strokeColor: '#ff3333',
-                strokeWeight: 1
+                strokeWeight: 1,
+                fillColor: 'green'
             };
 
             map.data.setStyle(featureStyle);
