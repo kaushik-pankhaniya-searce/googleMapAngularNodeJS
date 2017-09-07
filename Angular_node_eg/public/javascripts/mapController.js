@@ -228,47 +228,47 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                             {
                                 color: "#ffffff"} // <-- THIS
                         ]
-                    }//,
-//
-//                    {
-//                        "featureType": "administrative.country",
-//                        "elementType": "geometry.stroke",
-//                        "stylers": [
-//                            {
-//                                "color": "#d1c6c6"
-//                            }
-//                        ]
-//                    },
-//                    {
-//                        "featureType": "administrative.country",
-//                        "elementType": "geometry.fill",
-//                        "stylers": [
-//                            {
-//                                "color": "#d1c6c6"
-//                            }
-//                        ]
-//                    },
-//                    {
-//                        "featureType": "administrative.country",
-//                        "elementType": "geometry",
-//                        "stylers": [
-//                            {
-//                                "visibility": "on"
-//                            }
-//                        ]
-//                    },
-//                    {
-//                        "featureType": "water",
-//                        "elementType": "all",
-//                        "stylers": [
-//                            {
-//                                "color": "#b8cad2"
-//                            },
-//                            {
-//                                "visibility": "on"
-//                            }
-//                        ]
-//                    }
+                    },
+
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#d1c6c6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "color": "#d1c6c6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "color": "#b8cad2"
+                            },
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    }
                 ];
                 break;
 
