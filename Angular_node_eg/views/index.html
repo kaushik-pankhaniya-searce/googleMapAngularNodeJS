@@ -349,7 +349,7 @@
     </div>
 </div>
 
-<div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'" style="min-height: 500px;">
+<div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'" style="min-height: 500px; max-height: 680px;">
     <label class="onlyMarginPadding" style="color: lawngreen;">Select route</label>
 
     <div id="pac-container">
@@ -358,26 +358,38 @@
 
         <div style="height: 10px;"></div>
         <input class="pac-input" id="dest" googleplace autocomplete="off" ng-model="destAddress" type="text"
-               placeholder="Destination location" required>
+               placeholder="Destination location"  required>
         <!--<span> srcAddress = {{srcAddress}}</span>-->
         <!--<span> destAddress = {{destAddress}}</span>-->
     </div>
 
     <div style="height: 10px;"></div>
-    <div class="onlyMarginPadding" style="max-height: 300px;">
-        <label>Paste way points to search</label>
-
-        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
-             selectedIndex="MySelectedIndex" columnSorting="true"
-             contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="300" style="overflow: hidden;">
-            <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
-            </datacolumn>
-            <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
-            <datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>
-
-        </div>
+    <div class="onlyMarginPadding" style="max-height: 250px; max-width: 150px; ">
+        <label class="onlyMarginPadding" style="color: lawngreen;">Select Waypoints</label> <br>
+        <i>(Ctrl+Click for multiple selection)</i> <br>
+        <select multiple id="waypoints" ng-model="selectedrouteWaypoints" style="max-height: 200px; max-width: 300px; width:300px; height:100px; ">
+            <option value={{wpt}} ng-repeat="wpt in routeSelected.routeWaypoints | unique: wpt">
+                {{wpt}}
+            </option>
+        </select>
+        <br>
+        <hr>
+        <div id="directions-panel"  style="max-height: 150px; max-width: 300px; width:300px; height:100px; overflow: auto; ">{{wayPointDescription}}</div>
     </div>
-    <div style="height: 10px;"></div>
+    <!--<div class="onlyMarginPadding" style="max-height: 250px;">-->
+        <!--<label>Or Paste way points to search</label>-->
+
+        <!--<div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"-->
+             <!--selectedIndex="MySelectedIndex" columnSorting="true"-->
+             <!--contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="210" style="overflow: hidden;">-->
+            <!--<datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">-->
+            <!--</datacolumn>-->
+            <!--<datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>-->
+            <!--<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>-->
+
+        <!--</div>-->
+    <!--</div>-->
+    <div style="height: 100px;"></div>
     <center>
         <button ng-click="findWaypoints();" class="mail_data_send">Search way points</button>
     </center>

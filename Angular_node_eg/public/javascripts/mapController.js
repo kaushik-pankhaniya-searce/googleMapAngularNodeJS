@@ -148,6 +148,11 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "black": "000000"
     };
 
+    $scope.routeSelected = {};
+    $scope.routeSelected.routeWaypoints = [];
+    $scope.routeSelected.selectedrouteWaypoints = [];
+    $scope.selectedrouteWaypoints = [];
+
     $scope.statesData = {
         'selectedStates': [],
         'selectedZipcodes': [],
@@ -811,6 +816,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             var request = {
                 origin: start,
                 destination: end,
+                optimizeWaypoints: true,
+                waypoints: $scope.routeSelected.selectedrouteWaypoints,
                 travelMode: google.maps.TravelMode.DRIVING
             };
             var directionsService = new google.maps.DirectionsService();
@@ -827,6 +834,18 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     directionsDisplay.setDirections(response);
                     arrdirectionsDisplay.push(directionsDisplay);
                     infowindow2.setContent(response.routes[0].legs[0].distance.text + "<br>" + response.routes[0].legs[0].duration.text + " ");
+
+                    var summaryPanel = document.getElementById('directions-panel');
+                    for (var l = 0; l < response.routes[0].legs.length; l++) {
+                        var routeSegment = l + 1;
+                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                            '</b><br>';
+                        summaryPanel.innerHTML += response.routes[0].legs[l].start_address + ' to ';
+                        summaryPanel.innerHTML += response.routes[0].legs[l].end_address + '<br>';
+                        summaryPanel.innerHTML += response.routes[0].legs[l].distance.text + '<br><br>';
+                    }
+//                    $scope.wayPointDescription = summaryPanel;
+
                     if (response.routes) {
                         if (response.routes[0].overview_path) {
                             if (arrLatLongTruck.length == 0) {
@@ -874,6 +893,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     }
                     else if ($scope.whichOverlayToShow == "wayPoints") {
                         checkWaypointsExist();
+                        showWaypoints(arrLatLongTruck);
                     }
                 }
             });
@@ -949,13 +969,112 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.salePersonImage = img;
     };
 
+    $scope.listWaypoints = function() {
+        flgShowAllMarkers = false;
+        var summaryPanel = document.getElementById('directions-panel');
+        summaryPanel.innerHTML = "";
+        if (arrdirectionsDisplay != null) {
+            for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                arrdirectionsDisplay[i].setMap(null);
+                arrdirectionsDisplay[i] = null;
+            }
+            arrdirectionsDisplay = [];
+        }
+        $scope.placeMarkesrs(null);
+
+        var start = new google.maps.LatLng($scope.wayPoints[0].origin.Latitude, $scope.wayPoints[0].origin.Longitude);
+        var end = new google.maps.LatLng($scope.wayPoints[0].destination.Latitude, $scope.wayPoints[0].destination.Longitude);
+
+        var directionsService = new google.maps.DirectionsService();
+        directionsService.route({
+            origin: start,
+            destination: end,
+            travelMode: 'DRIVING'
+        }, function(response, status) {
+            if (status === 'OK') {
+//                directionsDisplay.setDirections(response);
+//                var route = response.routes[0];
+//                var summaryPanel = document.getElementById('directions-panel');
+//                summaryPanel.innerHTML = '';
+
+                showWaypoints(response.routes[0].overview_path);
+//                // For each route, display summary information.
+//                for (var i = 0; i < route.legs.length; i++) {
+//                    var routeSegment = i + 1;
+//                    summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+//                        '</b><br>';
+//                    summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+//                    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+//                    summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+//                }
+            } else {
+//                window.alert('Directions request failed due to ' + status);
+            }
+        });
+    }
 
     $scope.findWaypoints = function () {
+        var checkboxArray = document.getElementById('waypoints');
+        $scope.routeSelected.selectedrouteWaypoints = [];
+        for (var i = 0; i < checkboxArray.length; i++) {
+            if (checkboxArray.options[i].selected) {
+                $scope.routeSelected.selectedrouteWaypoints.push({
+                    location: checkboxArray[i].value,
+                    stopover: true
+                });
+            }
+        }
 
+//        $scope.routeSelected.selectedrouteWaypoints = [];
+//        for (var i = 0; i < $scope.selectedrouteWaypoints.length; i++) {
+//            if ($scope.selectedrouteWaypoints[i].selected) {
+//                $scope.routeSelected.selectedrouteWaypoints.push({
+//                    location: $scope.routeSelected.selectedrouteWaypoints[i].value,
+//                    stopover: true
+//                });
+//            }
+//        }
         calcRoute($scope.wayPoints, false, false);
 
 
     };
+
+    function codeLatLng(latlng, callback) {  ///<<-------CHANGE HERE
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+
+                    callback(results[0].formatted_address);   ///<<-------CHANGE HERE
+                    //return results[0].formatted_address;   ///<<------- CAN'T DO THIS..
+                } else {
+//                    alert('No results found');
+                }
+            } else {
+//                alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+    function showWaypoints(routeLatLngs) {
+        var modVal = 10;
+//        for (var k = 0; k < routeLatLngs.length; k++)
+//        {
+            modVal = parseInt(routeLatLngs.length / 10);
+            console.log(routeLatLngs.length + " , " + modVal);
+            for (var i = 0; i < routeLatLngs.length; i++) {
+                if (i % modVal == 0)
+                {
+                    console.log(i);
+                    codeLatLng(routeLatLngs[i],function(address){   ///<<-------CHANGE HERE
+                        $scope.routeSelected.routeWaypoints.push(address);
+                        $scope.$apply();
+                    });
+                }
+            }
+
+//        }
+
+    }
 
     /**
      * check if given lat long exists on route found
@@ -1429,10 +1548,12 @@ angular.module('angularjs_with_Nodejs').directive('googleplace', function () {
 
                 if (element.context.id == "src") {
                     $scope.wayPoints[0]['origin'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                    $scope.listWaypoints();
 
                 }
                 else {
                     $scope.wayPoints[0]['destination'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                    $scope.listWaypoints();
                 }
 
             });
