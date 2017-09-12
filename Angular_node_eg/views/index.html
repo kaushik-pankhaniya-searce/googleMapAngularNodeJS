@@ -78,6 +78,7 @@
         <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset
             Tracking</a></li>
         <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
+        <li><a ng-click="showFilters('routeOptimization')"><img src="images/icon/routeOptimized_small2.png"> Route Optimization </a></li>
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business Geography</a></li>
     </ul>
@@ -364,32 +365,21 @@
     </div>
 
     <div style="height: 10px;"></div>
-    <div class="onlyMarginPadding" style="max-height: 250px; max-width: 150px; ">
-        <label class="onlyMarginPadding" style="color: lawngreen;">Select Waypoints</label> <br>
-        <i>(Ctrl+Click for multiple selection)</i> <br>
-        <select multiple id="waypoints" ng-model="selectedrouteWaypoints" style="max-height: 200px; max-width: 300px; width:300px; height:100px; ">
-            <option value={{wpt}} ng-repeat="wpt in routeSelected.routeWaypoints | unique: wpt">
-                {{wpt}}
-            </option>
-        </select>
-        <br>
-        <hr>
-        <div id="directions-panel"  style="max-height: 150px; max-width: 300px; width:300px; height:100px; overflow: auto; ">{{wayPointDescription}}</div>
+
+    <div class="onlyMarginPadding" style="max-height: 250px;">
+        <label>Or Paste way points to search</label>
+
+        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+             selectedIndex="MySelectedIndex" columnSorting="true"
+             contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="210" style="overflow: hidden;">
+            <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
+            </datacolumn>
+            <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
+            <datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>
+
+        </div>
     </div>
-    <!--<div class="onlyMarginPadding" style="max-height: 250px;">-->
-        <!--<label>Or Paste way points to search</label>-->
-
-        <!--<div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"-->
-             <!--selectedIndex="MySelectedIndex" columnSorting="true"-->
-             <!--contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="210" style="overflow: hidden;">-->
-            <!--<datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">-->
-            <!--</datacolumn>-->
-            <!--<datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>-->
-            <!--<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>-->
-
-        <!--</div>-->
-    <!--</div>-->
-    <div style="height: 100px;"></div>
+    <div style="height: 10px;"></div>
     <center>
         <button ng-click="findWaypoints();" class="mail_data_send">Search way points</button>
     </center>
@@ -410,6 +400,46 @@
     <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
     <!--uncheckedTemplate="'No'"></datacolumn>-->
     <!--</div>-->
+</div>
+
+<div id="routeOptimization" class="filterBlock" ng-if="whichOverlayToShow == 'routeOptimization'" style="min-height: 500px; max-height: 680px;">
+    <div class="routeOptimization">
+        <div>
+        <label>Start:</label>
+        <select id="start">
+            <option value="Nigdi, Pune">Nigdi, Pune</option>
+            <option value="Swargate, Pune">, Pune</option>
+            <option value="Camp, Pune">New York, Pune</option>
+            <option value="Katraj, Pune">Miami, Pune</option>
+        </select>
+        <div style="height: 10px;"></div>
+        <label>Waypoints:</label> <br>
+        <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br>
+        <select multiple id="waypoints">
+            <option value="Ahmednagar, MH">Ahmednagar, MH</option>
+            <option value="Sangamner, MH">Sangamner, MH</option>
+            <option value="Shirdi, MH">Shirdi</option>
+            <option value="Kopargaon, MH">Kopargaon</option>
+            <option value="Paithan, MH">Paithan</option>
+            <option value="CIDCO, Aurangabad, MH">CIDCO, Aurangabad</option>
+            <option value="Mukundwadi, Aurangabad, MH">Mukundwadi, Aurangabad</option>
+        </select>
+        <div style="height: 10px;"></div>
+        <label>End:</label>
+        <select id="end">
+            <option value="Airport, Aurangabad" selected>Airport, Aurangabad</option>
+            <!--<option value="Seattle, Nagpur">Seattle, Nagpur</option>-->
+            <!--<option value="San Francisco, Nagpur">San Francisco, Nagpur</option>-->
+            <!--<option value="Los Angeles, Nagpur">Los Angeles, Nagpur</option>-->
+        </select>
+        <div style="height: 30px;"></div>
+        <center>
+            <button ng-click="optimizeRoute();" class="btn-success">Get optimized route</button>
+        </center>
+        </div>
+
+    <div id="directions-panel" style="overflow: auto; max-height: 180px; width: 300px;"></div>
+    </div>
 </div>
 
 <div id="zipCodes" class="filterBlock" ng-if="whichOverlayToShow == 'zipCodes'" style="min-height: 500px;">
@@ -478,7 +508,7 @@
     <!--</div>-->
 </div>
 
-<div class="marker_detail">
+<div class="marker_detail" ng-if="whichOverlayToShow == 'filter1' || whichOverlayToShow == 'zipCodes'">
     <div class="row">
         <div class="col-md-1">
             <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">

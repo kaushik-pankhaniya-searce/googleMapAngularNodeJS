@@ -816,8 +816,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             var request = {
                 origin: start,
                 destination: end,
-                optimizeWaypoints: true,
-                waypoints: $scope.routeSelected.selectedrouteWaypoints,
                 travelMode: google.maps.TravelMode.DRIVING
             };
             var directionsService = new google.maps.DirectionsService();
@@ -835,16 +833,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     arrdirectionsDisplay.push(directionsDisplay);
                     infowindow2.setContent(response.routes[0].legs[0].distance.text + "<br>" + response.routes[0].legs[0].duration.text + " ");
 
-                    var summaryPanel = document.getElementById('directions-panel');
-                    for (var l = 0; l < response.routes[0].legs.length; l++) {
-                        var routeSegment = l + 1;
-                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                            '</b><br>';
-                        summaryPanel.innerHTML += response.routes[0].legs[l].start_address + ' to ';
-                        summaryPanel.innerHTML += response.routes[0].legs[l].end_address + '<br>';
-                        summaryPanel.innerHTML += response.routes[0].legs[l].distance.text + '<br><br>';
-                    }
-//                    $scope.wayPointDescription = summaryPanel;
 
                     if (response.routes) {
                         if (response.routes[0].overview_path) {
@@ -893,7 +881,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     }
                     else if ($scope.whichOverlayToShow == "wayPoints") {
                         checkWaypointsExist();
-                        showWaypoints(arrLatLongTruck);
+//                        showWaypoints(arrLatLongTruck);
                     }
                 }
             });
@@ -1014,16 +1002,6 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     }
 
     $scope.findWaypoints = function () {
-        var checkboxArray = document.getElementById('waypoints');
-        $scope.routeSelected.selectedrouteWaypoints = [];
-        for (var i = 0; i < checkboxArray.length; i++) {
-            if (checkboxArray.options[i].selected) {
-                $scope.routeSelected.selectedrouteWaypoints.push({
-                    location: checkboxArray[i].value,
-                    stopover: true
-                });
-            }
-        }
 
 //        $scope.routeSelected.selectedrouteWaypoints = [];
 //        for (var i = 0; i < $scope.selectedrouteWaypoints.length; i++) {
@@ -1037,6 +1015,61 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         calcRoute($scope.wayPoints, false, false);
 
 
+    };
+
+    $scope.optimizeRoute = function() {
+        flgShowAllMarkers = false;
+        if (arrdirectionsDisplay != null) {
+            for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                arrdirectionsDisplay[i].setMap(null);
+                arrdirectionsDisplay[i] = null;
+            }
+            arrdirectionsDisplay = [];
+        }
+        $scope.placeMarkesrs(null);
+        map.setZoom(6);
+        map.setCenter({lat: 19.864011, lng: 75.396782});
+        var waypts = [];
+        var checkboxArray = document.getElementById('waypoints');
+        $scope.routeSelected.selectedrouteWaypoints = [];
+        for (var i = 0; i < checkboxArray.length; i++) {
+            if (checkboxArray.options[i].selected) {
+                waypts.push({
+                    location: checkboxArray[i].value,
+                    stopover: true
+                });
+            }
+        }
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsDisplay.setMap(map);
+
+        directionsService.route({
+            origin: document.getElementById('start').value,
+            destination: document.getElementById('end').value,
+            waypoints: waypts,
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING'
+        }, function(response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+                arrdirectionsDisplay.push(directionsDisplay);
+                var route = response.routes[0];
+                var summaryPanel = document.getElementById('directions-panel');
+                summaryPanel.innerHTML = '';
+                // For each route, display summary information.
+                for (var i = 0; i < route.legs.length; i++) {
+                    var routeSegment = i + 1;
+                    summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                        '</b><br>';
+                    summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                    summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                }
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
     };
 
     function codeLatLng(latlng, callback) {  ///<<-------CHANGE HERE
@@ -1548,12 +1581,10 @@ angular.module('angularjs_with_Nodejs').directive('googleplace', function () {
 
                 if (element.context.id == "src") {
                     $scope.wayPoints[0]['origin'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
-                    $scope.listWaypoints();
 
                 }
                 else {
                     $scope.wayPoints[0]['destination'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
-                    $scope.listWaypoints();
                 }
 
             });

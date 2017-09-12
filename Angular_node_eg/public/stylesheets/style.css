@@ -397,3 +397,28 @@ table{
 .onlyMarginPadding label {
     color: lawngreen;!important;
 }
+
+.routeOptimization{
+    position: absolute;
+    width : 320px;
+    /*background:rgba(80,120,255,1);*/
+    min-height: 650px;
+    margin-left: 20px;
+    margin-top: 20px;
+    z-index: 7;
+    height: 670px;
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.routeOptimization label{
+    color: lawngreen;!important;
+}
+
+.routeOptimization select{
+    width: 300px;
+}
+
+.routeOptimization button{
+    height: 30px;
+}
