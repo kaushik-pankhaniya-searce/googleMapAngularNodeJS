@@ -734,6 +734,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.showFilters = function (filterName) {
         $scope.whichOverlayToShow = filterName;
         $scope.filter.selectedCategory = "All";
+        map.setZoom(5);
 
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
