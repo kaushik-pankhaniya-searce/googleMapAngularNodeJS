@@ -1017,6 +1017,21 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 
     };
+    /**
+     * reset route displayed on end point selection change
+     */
+
+    $scope.resetRouting = function() {
+        flgShowAllMarkers = false;
+        if (arrdirectionsDisplay != null) {
+            for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                arrdirectionsDisplay[i].setMap(null);
+                arrdirectionsDisplay[i] = null;
+            }
+            arrdirectionsDisplay = [];
+        }
+        $scope.placeMarkesrs(null);
+    };
 
     $scope.optimizeRoute = function() {
         flgShowAllMarkers = false;
