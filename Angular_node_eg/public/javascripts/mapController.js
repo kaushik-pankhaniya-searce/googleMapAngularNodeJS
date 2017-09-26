@@ -738,7 +738,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         flgShowAllMarkers = false;
         $scope.placeMarkesrs(null);
-        setMapStyle('default');
+//        setMapStyle('default');
 
         if (filterName == "filter1") {
             $scope.title = "Dashboard";
@@ -773,7 +773,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             else if (filterName == "zipCodes") {
                 $scope.title = "Zip Codes";
                 $scope.placeMarkesrs(null);
-                setMapStyle('businessGeography');
+//                setMapStyle('businessGeography');
             }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
