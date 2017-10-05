@@ -1806,7 +1806,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             var distanceInkm = google.maps.geometry.spherical.computeDistanceBetween(bikePosition, marker.getPosition()) / 1000;
             var distanceInmeters = google.maps.geometry.spherical.computeDistanceBetween(bikePosition, marker.getPosition());
 
-            if (distanceInkm < 500) {
+            if (distanceInmeters < 500) {
 // To add the marker to the map, call setMap();
                 marker.setAnimation(google.maps.Animation.BOUNCE);
 //                marker.setIcon('images/icon/graphics-food-burger_round.gif')
