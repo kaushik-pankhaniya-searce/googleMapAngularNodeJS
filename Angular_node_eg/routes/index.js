@@ -236,8 +236,9 @@ router.get('/saveRoute', function (req, res) {
     console.log('----------------');
 
     collection.insert(req.query.routeInfo);
+    res.json({"msg":""})
 
-    res.msg("Route saved successfully.")
+//    res.msg("Route saved successfully.")
 });
 
 

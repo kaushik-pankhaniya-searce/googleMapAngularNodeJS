@@ -1670,7 +1670,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 infowindow2.open(map);
                 arrInfowindows.push(infowindow2);
 
-                map.setZoom(11);
+                map.setZoom(8);
                 map.setCenter({lat: response.routes[0].overview_path[0].lat(), lng: response.routes[0].overview_path[0].lng()});
 //                console.log('lat: ' + response.routes[0].overview_path[0].lat() + 'lng: ' + response.routes[0].overview_path[0].lng());
 //                console.log('lat: ' + response.routes[0].overview_path[response.routes[0].overview_path.length - 1].lat() + 'lng: ' + response.routes[0].overview_path[response.routes[0].overview_path.length - 1].lng());
@@ -1927,10 +1927,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $.getJSON('/saveRoute', query, function (data) {
                 console.log(data);
                 alert('Route saved successfully');
+                $scope.getRoutes();
             },
             function (error) {
                 alert('Route saved unsuccessful.');
                 console.log(error);
+                $scope.getRoutes();
             });
     };
 
