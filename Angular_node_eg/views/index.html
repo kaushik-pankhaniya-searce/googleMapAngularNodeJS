@@ -75,6 +75,7 @@
         <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
         <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img
                 src="images/icon/coin.png">Sales Tracking</a></li>
+        <li><a ng-click="showFilters('navigation');"><img src="images/icon/canyon-2.png">Navigation</a></li>
         <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset
             Tracking</a></li>
         <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
@@ -83,6 +84,7 @@
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business
             Geography</a></li>
+
     </ul>
 </div>
 
@@ -541,6 +543,73 @@
     <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
     <!--uncheckedTemplate="'No'"></datacolumn>-->
     <!--</div>-->
+</div>
+
+<div id="modalNavigationSaveConfirmation" style="width:40%; display:block;" ng-show="showNavigationSaveConfirmation == true" class="modal fade in">
+    <div class="modal-dialog">
+        <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
+            <form name="formSaveRoute" novalidate="novalidate">
+                <div class="modal-header">
+                    <button aria-hidden="true" type="button" ng-click="showReport(false)"
+                            class="close">    &times;</button>
+                    <h4 class="modal-title">Save Route</h4>
+                </div>
+                <div class="modal-body">
+                    <!--<div id="dialog" ng-click="" ng-show="showDialog"  class="modal fade in">-->
+                    <div inner-html="inner-html" class="modal-msg"> Do you want to save the route taken?</div>
+                    <h6>Route title</h6>
+                    <input id="txtRouteTitle" ng-model="routeSearch.routeTitle">
+
+                    <h6>Rider Name</h6>
+                    <input id="txtRouteTitle" ng-model="routeSearch.riderName">
+
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="showNavigationSaveConfirmation = false;" class="btn btn-sm btn-default">No</button>
+                    <button ng-click="saveRoute()" ng-focus="true"  type="submit" class="btn btn-sm btn-success">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="navigation" class="filterBlock" ng-if="whichOverlayToShow == 'navigation'"
+     style="min-height: 500px; max-height: 680px;">
+    <label class="onlyMarginPadding" style="color: lawngreen;">Select route to navigate</label>
+
+    <div id="pac-container"  class="onlyMarginPadding" >
+        <input class="pac-input" id="srcNav" googleplace autocomplete="off" ng-model="srcNavAddress" type="text"
+               placeholder="Source location" required>
+
+        <div style="height: 10px;"></div>
+        <input class="pac-input" id="destNav" googleplace autocomplete="off" ng-model="destNavAddress" type="text"
+               placeholder="Destination location" required>
+        <div style="height: 10px;"></div>
+        <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37;height: 21;"><img src="images/icon/route.png" style="margin-left: -5;margin-top: -8;" /></button>-->
+        <center>
+        <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-search"></span></button>-->
+        <!--<button ng-click="startBikerNavigation();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-play"></span></button>-->
+            <button ng-click="showDirections();" class="btn btn-default" ><span  class=" fa fa-search"></span></button>
+            <button ng-click="startBikerNavigation();" class="btn btn-default" ><span  class=" fa fa-play"></span></button>
+        </center>
+        <!--<div style="height: 10px;"></div>-->
+        <!--<label>Search route using key words</label>-->
+        <!--<input class="pac-input" type="text" ng-model="routeSearch.searchRouteBy"/>-->
+        <!--<button ng-click="getRoutes();" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>-->
+
+    </div>
+
+    <div class="onlyMarginPadding overflow-auto" style="max-height: 250px;">
+        <label >Select the route</label>
+        <select ui-select2 ng-model="routeSearch.showRoute" ng-change="showSelectedRoute(routeSearch.showRoute);" style="width: 230px; margin-left: 12px;"  >
+            <option value="" ></option>
+            <option ng-repeat="r in routeSearch.routesSearched" value="{{r}}" > {{r.routeName}}</option>
+        </select>
+        <button ng-click="" class="btn btn-default" ng-if="routeSearch.showRoute != ''" ><span class=" fa fa-road"></span></button>
+
+        <div id="right-panel"  class="panel panel-primary overflow-auto" ng-show="routeSearch.showDirectionPanel" ></div>
+    </div>
+
 </div>
 
 <div class="marker_detail" ng-if="whichOverlayToShow == 'filter1' || whichOverlayToShow == 'zipCodes'">

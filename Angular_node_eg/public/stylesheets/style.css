@@ -20,7 +20,7 @@ fieldset {
     /*background:rgba(80,120,255,1);*/
     min-height: 350px;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     z-index: 7;
 }
 .filterBlock,.marker_detail{
@@ -365,7 +365,7 @@ table{
     margin-left: 12px;
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
-    width: 250px;
+    width: 240px;
 }
 
 .pac-input:focus {
@@ -421,4 +421,45 @@ table{
 
 .routeOptimization button{
     height: 30px;
+}
+
+#right-panel {
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+#right-panel select, #right-panel input {
+    font-size: 15px;
+}
+
+#right-panel select {
+    width: 100%;
+}
+
+#right-panel i {
+    font-size: 12px;
+}
+#right-panel {
+    height: 320px;
+    /*float: right;*/
+    width: 290px;
+    overflow: auto;
+}
+
+.modal-msg {
+    font-size: 15px;
+    color: #666;
+    font-weight: normal;
+}
+
+.onlyMarginPaddingNav {
+    margin-left: 5px;
+    padding: 5px;
+    max-height: 220px;
+    width: 227px;
+
+}
+.onlyMarginPaddingNav label {
+    color: lawngreen;!important;
 }

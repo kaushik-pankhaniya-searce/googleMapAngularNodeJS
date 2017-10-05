@@ -91,7 +91,7 @@ router.get('/getNearestData', function (req, res) {
             ]
         };
     }
-//    console.log(query);
+    console.log(query);
     collection.find(query, {}, function (e, docs) {
 //        console.log(docs);
         res.json(docs);
@@ -229,4 +229,37 @@ router.get('/searchText', function (req, res) {
     });
 });
 
+router.get('/saveRoute', function (req, res) {
+    var db = req.db;
+    var collection = db.get('routesHistory');
+    console.log(req.query.routeInfo);
+    console.log('----------------');
+
+    collection.insert(req.query.routeInfo);
+
+    res.msg("Route saved successfully.")
+});
+
+
+router.get('/getRoute', function (req, res) {
+    var db = req.db;
+    var collection = db.get('routesHistory');
+    console.log( req.query['search'] );
+    var query1 = [
+            {'origin': {'$options': '-i', '$regex':  req.query['search']  }},
+            {'destination': {'$options': '-i', '$regex': req.query['search']  }},
+            {'routeName': {'$options': '-i', '$regex': req.query['search']  }}];
+
+    var query = {
+        '$or': query1
+    };
+    console.log(query);
+    console.log('=============');
+
+//    collection.find(query, {'_id':0} , function(err, items) {
+    collection.find({}, {'_id':0} , function(err, items) {
+//        result.metaData = items;
+        res.json(items);
+    });
+});
 module.exports = router;

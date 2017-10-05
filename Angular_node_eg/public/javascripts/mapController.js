@@ -148,6 +148,20 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "black": "000000"
     };
 
+    $scope.routeSearch = {
+        'searchRouteBy': "",
+        "showRoute": "",
+        "routeTitle": "",
+        "riderName": "",
+        "showDirectionPanel": false,
+        "showSearchRouteCombo": false
+    };
+    $scope.routeSearchKeywords = "";
+    $scope.routeSearchKeywords1 = "qubix";
+    $scope.searchRouteBy = "";
+    $scope.showNavigationSaveConfirmation = false;
+
+
     $scope.routeSelected = {};
     $scope.routeSelected.routeWaypoints = [];
     $scope.routeSelected.selectedrouteWaypoints = [];
@@ -174,10 +188,16 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         {"zipCode": ""}
     ];
 
-    $scope.srcAddress;
-    $scope.destAddress;
+
     $scope.wayPoints = [
         {'origin': {}, 'destination': {}}
+    ];
+
+    $scope.wayPointsNav = [
+        {
+            'origin': {}, 'destination': {},
+            'originName': {}, 'destinationName': {}
+        }
     ];
 
     $scope.zipCodesData = null;
@@ -210,10 +230,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //    $scope.categoryData = [];
     var wareHouses, selectedCategory, objMarkersFilterQuery = {};
     var arrdirectionsDisplay = [];
+    var arrPolylines = [];
     var arrdirectionsService = [];//= new google.maps.DirectionsService();
     var flgShowAllMarkers = true;
     $scope.showDialog = false;
     var arrLatLongTruck = [];
+    var arrLatLongBike = [];
 
     var k = 0;
 
@@ -224,8 +246,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 stylez = [];
                 break;
             case 'businessGeography':
-            stylez
-                = [
+                stylez
+                    = [
                     {
                         featureType: "all",
                         elementType: "all",
@@ -419,10 +441,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 arrdirectionsDisplay = [];
             }
 
-            if (map)
-            {
-                if(map.data)
-                {
+            if (map) {
+                if (map.data) {
                     map.data.forEach(function (feature) {
                         // If you want, check here for some constraints.
                         map.data.remove(feature);
@@ -734,6 +754,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.showFilters = function (filterName) {
         $scope.whichOverlayToShow = filterName;
         $scope.filter.selectedCategory = "All";
+        $scope.showNavigationSaveConfirmation = false;
         map.setZoom(5);
 
         flgShowAllMarkers = false;
@@ -756,6 +777,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             $scope.getData('Top Perforrming Sales Executives');
             $scope.placeMarkesrs();
 
+        }
+        else if (filterName == "navigation") {
+            $scope.getRoutes();
         }
         else {
             if (filterName == "assetTracking") {
@@ -958,7 +982,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.salePersonImage = img;
     };
 
-    $scope.listWaypoints = function() {
+    $scope.listWaypoints = function () {
         flgShowAllMarkers = false;
         var summaryPanel = document.getElementById('directions-panel');
         summaryPanel.innerHTML = "";
@@ -979,7 +1003,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             origin: start,
             destination: end,
             travelMode: 'DRIVING'
-        }, function(response, status) {
+        }, function (response, status) {
             if (status === 'OK') {
 //                directionsDisplay.setDirections(response);
 //                var route = response.routes[0];
@@ -1021,7 +1045,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
      * reset route displayed on end point selection change
      */
 
-    $scope.resetRouting = function() {
+    $scope.resetRouting = function () {
         flgShowAllMarkers = false;
         if (arrdirectionsDisplay != null) {
             for (i = 0; i < arrdirectionsDisplay.length; i++) {
@@ -1033,7 +1057,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         $scope.placeMarkesrs(null);
     };
 
-    $scope.optimizeRoute = function() {
+    $scope.optimizeRoute = function () {
         flgShowAllMarkers = false;
         if (arrdirectionsDisplay != null) {
             for (i = 0; i < arrdirectionsDisplay.length; i++) {
@@ -1066,7 +1090,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             waypoints: waypts,
             optimizeWaypoints: true,
             travelMode: 'DRIVING'
-        }, function(response, status) {
+        }, function (response, status) {
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
                 arrdirectionsDisplay.push(directionsDisplay);
@@ -1090,7 +1114,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     function codeLatLng(latlng, callback) {  ///<<-------CHANGE HERE
         var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'latLng': latlng}, function(results, status) {
+        geocoder.geocode({'latLng': latlng}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
 
@@ -1104,22 +1128,22 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
         });
     }
+
     function showWaypoints(routeLatLngs) {
         var modVal = 10;
 //        for (var k = 0; k < routeLatLngs.length; k++)
 //        {
-            modVal = parseInt(routeLatLngs.length / 10);
-            console.log(routeLatLngs.length + " , " + modVal);
-            for (var i = 0; i < routeLatLngs.length; i++) {
-                if (i % modVal == 0)
-                {
-                    console.log(i);
-                    codeLatLng(routeLatLngs[i],function(address){   ///<<-------CHANGE HERE
-                        $scope.routeSelected.routeWaypoints.push(address);
-                        $scope.$apply();
-                    });
-                }
+        modVal = parseInt(routeLatLngs.length / 10);
+        console.log(routeLatLngs.length + " , " + modVal);
+        for (var i = 0; i < routeLatLngs.length; i++) {
+            if (i % modVal == 0) {
+                console.log(i);
+                codeLatLng(routeLatLngs[i], function (address) {   ///<<-------CHANGE HERE
+                    $scope.routeSelected.routeWaypoints.push(address);
+                    $scope.$apply();
+                });
             }
+        }
 
 //        }
 
@@ -1574,7 +1598,491 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        }
 
     };
+    var markerBike;
 
+    /**
+     * display route and distance from user location to selected store
+     * @param start
+     * @param end
+     */
+    $scope.showDirections = function () {
+        $scope.placeMarkesrs(null);
+        $scope.routeSearch.showSearchRouteCombo = false;
+        $scope.routeSearch.searchRouteBy = "";
+        routeTakenBreadcrums = [];
+        routeDetails = {};
+
+        var start = new google.maps.LatLng($scope.wayPointsNav[0].origin.Latitude, $scope.wayPointsNav[0].origin.Longitude);
+        var end = new google.maps.LatLng($scope.wayPointsNav[0].destination.Latitude, $scope.wayPointsNav[0].destination.Longitude);
+        var directionsDisplay, directionsService;
+        // Instantiate a directions service.
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer();
+
+        if (arrdirectionsDisplay != null) {
+            for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                arrdirectionsDisplay[i].setMap(null);
+                arrdirectionsDisplay[i] = null;
+            }
+            arrdirectionsDisplay = [];
+        }
+        if (arrPolylines != null) {
+            for (i = 0; i < arrPolylines.length; i++) {
+                arrPolylines[i].setMap(null);
+                arrPolylines[i] = null;
+            }
+            arrPolylines = [];
+        }
+
+
+        var infowindow2 = new google.maps.InfoWindow();
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+
+                directionsDisplay.setMap(map);
+                directionsDisplay.setOptions({ preserveViewport: true });
+                directionsDisplay.setDirections(response);
+                arrdirectionsDisplay.push(directionsDisplay);
+                $scope.routeSearch.showDirectionPanel = true;
+                directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+//                $scope.directionsPanel.showList = true;
+                $scope.$apply();
+
+                arrLatLongBike = response.routes[0].overview_path;
+                routeDetails = response.routes[0];
+
+                infowindow2.setContent(response.routes[0].legs[0].distance.text + "<br>" + response.routes[0].legs[0].duration.text + " ");
+                if (response.routes) {
+                    if (response.routes[0].overview_path) {
+                        var index = parseInt(response.routes[0].overview_path.length / 2);
+                        var infoposition = new google.maps.LatLng(response.routes[0].overview_path[index].lat(), response.routes[0].overview_path[index].lng());
+                    }
+                }
+                infowindow2.setPosition(infoposition ? infoposition : end);
+                infowindow2.open(map);
+                arrInfowindows.push(infowindow2);
+
+                map.setZoom(11);
+                map.setCenter({lat: response.routes[0].overview_path[0].lat(), lng: response.routes[0].overview_path[0].lng()});
+//                console.log('lat: ' + response.routes[0].overview_path[0].lat() + 'lng: ' + response.routes[0].overview_path[0].lng());
+//                console.log('lat: ' + response.routes[0].overview_path[response.routes[0].overview_path.length - 1].lat() + 'lng: ' + response.routes[0].overview_path[response.routes[0].overview_path.length - 1].lng());
+//                var bounds = new google.maps.LatLngBounds();
+//                for (var i = 0; i < routeDetails.overview_polyline.getPath().getLength(); i++) {
+//                    bounds.extend(routeDetails.overview_polyline.getPath().getAt(i));
+//                }
+//                map.fitBounds(bounds);
+
+                markerBike = new google.maps.Marker({position: start, map: map, icon: 'images/map_marker_animated_orange.gif', optimized: false});
+                markerBike.setMap(map);
+                markerBike.addListener('click', function () {
+//                            for (i = 0; i < arrInfowindows.length; i++) {
+//                                arrInfowindows[i].close();
+//                            }
+//                            arrInfowindows = [];
+                    var infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' + this['Dealer Name'] + '</h1>' +
+                        '<div id="bodyContent" class="infowindow_warehouse">' +
+                        '<big> <p>' +
+                        '<label> nothing to show </label>' +
+                        '</p></big>' +
+                        '</div>' +
+                        '</div>'
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: item.markerContent ? item.markerContent : infoWindowContent
+                    });
+                    infoWindow.open(map, markerBike);
+                    arrInfowindows.push(infoWindow);
+                });
+                arrMarkers.push(markerBike);
+                routeTakenBreadcrums = [];
+
+                countPOI = 0;
+                arrPOI = [];
+                clearTimeout(callPlacesapi);
+                clearTimeout(callPlacesapi);
+                getAllPointOfInterests();
+//                moveBiker(map, markerBike, 0, 0);
+
+
+            }
+        });
+    };
+
+    $scope.startBikerNavigation = function() {
+        moveBiker(map, markerBike, 0, 0);
+    };
+
+    var routeTakenBreadcrums = [];
+    var callPlacesapi, resultPlacesapi;
+    var routeDetails = {};
+    var countPOI = 0;
+    var arrPOI = [];
+    var arrPOISelected = [];
+
+    function getAllPointOfInterests() {
+        for (var l = 0; l < arrLatLongBike.length; l+=30) {
+//        var l = 0, interval = 1;
+//            (function (ind) {
+//            callPlacesapi = setTimeout(function () {
+//                if ((ind < arrLatLongBike.length) && (ind % 5 == 0)) {
+                    var service = new google.maps.places.PlacesService(map);
+                    service.textSearch({
+                        location: arrLatLongBike[l],
+                        radius: 500,
+                        type: ['restaurant']
+//                query:' jalgaon'
+
+                    }, callbackForAllPOI);
+//                    l += 5;
+//                }
+//                else {
+//                    clearTimeout(callPlacesapi);
+//                }
+////                interval += 1;
+//            }, 1000); // With each iteration, the delay increases
+//            })(l);
+        }
+    }
+
+
+    function callbackForAllPOI(results, status, next_page_token) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+//                    for (var i = 0; i <= 10; i++) {
+//                (function (ind) {
+//                    setTimeout(function () {
+                        var place = results[i];
+//                        console.log(place.name + " : " + place.vicinity + " : " + place.geometry.location.lat() + " : " + place.geometry.location.lng());
+//                        console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat + " : " + place.geometry.location.lng);
+                        var placeLoc = place.geometry.location;
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: place.geometry.location,
+                            icon: "images/icon/restaurant.png"
+                        });
+                        arrMarkers.push(marker);
+
+                        google.maps.event.addListener(marker, 'click', function () {
+                            arrPOISelected.push(this);
+                            for (i = 0; i < arrInfowindows.length; i++) {
+                                arrInfowindows[i].close();
+                            }
+                            this.setIcon('images/icon/hotspring.png');
+                            arrInfowindows = [];
+                            var infowindow = new google.maps.InfoWindow();
+                            infowindow.setContent(place.name);
+                            infowindow.open(map, this);
+                            arrInfowindows.push(infowindow);
+                        });
+
+                        arrPOI.push(place);
+//                    }, 500);
+//                })(i);
+            }
+//                }
+        }
+    }
+
+    function checkPOIinRange(bikePosition) {
+        for (i = 0; i < arrPOISelected.length; i++) {
+            var marker = arrPOISelected[i];
+//            var targetLat = marker.getPosition().lat();
+//            var targetLng = marker.getPosition().lng();
+//
+//            var targetLoc = new google.maps.LatLng(targetLat, targetLng);
+
+//        var center= new GLatLng(centerLat, centerLng);
+
+            var distanceInkm = google.maps.geometry.spherical.computeDistanceBetween(bikePosition, marker.getPosition()) / 1000;
+            var distanceInmeters = google.maps.geometry.spherical.computeDistanceBetween(bikePosition, marker.getPosition());
+
+            if (distanceInkm < 500) {
+// To add the marker to the map, call setMap();
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+//                marker.setIcon('images/icon/graphics-food-burger_round.gif')
+            }
+            else {
+//                marker.setIcon('images/icon/restaurant.png')
+                marker.setAnimation(null);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param map
+     * @param markerBike
+     * @param latLngindex
+     * @param countDotMarker
+     * $param routes
+     */
+    function moveBiker (map, markerBike, latLngindex, countDotMarker) {
+        setTimeout(function () {
+            if ($scope.whichOverlayToShow == 'navigation') {
+                countDotMarker = 0;
+                routeTakenBreadcrums.push({"latitude": arrLatLongBike[latLngindex].lat(), "longitude": arrLatLongBike[latLngindex].lng()});
+                var geocoder = geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'latLng': markerBike.position }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            var markerDot = new google.maps.Marker({position: markerBike.position, map: map, icon: 'images/marker-dot.png'});
+
+                            markerDot.setMap(map);
+                            markerDot.setPosition(markerBike.position);
+                            markerDot.addListener('click', function () {
+                                for (i = 0; i < arrInfowindowsAssetTrackingMarkers.length; i++) {
+                                    arrInfowindowsAssetTrackingMarkers[i].close();
+                                }
+                                arrInfowindowsAssetTrackingMarkers = [];
+
+                                var infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
+                                    '<div id="siteNotice">' +
+                                    '</div>' +
+                                    '<div id="bodyContent" class="infowindow_warehouse">' +
+                                    '<big> <p>' +
+                                    '<label> ' + results[1].formatted_address + ' </label>' +
+                                    '</p></big>' +
+                                    '<p><i> Time : ' + $filter("date")(new Date(), "HH:mm:ss")
+                                    + '</i></p></div>' +
+                                    '</div>';
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: infoWindowContent
+                                });
+                                infoWindow.open(map, markerDot);
+                                arrInfowindowsAssetTrackingMarkers.push(infoWindow);
+                            });
+                            arrMarkers.push(markerDot);
+
+
+                            if (countPOI > 5) {
+//                                getPointOfInterests(markerBike.position);
+                                checkPOIinRange(markerBike.position);
+                                countPOI = 0;
+                            }
+                            else {
+                                countPOI++;
+                            }
+
+                        }
+                    }
+                });
+            }
+            else {
+                countDotMarker++;
+            }
+            markerBike.setPosition(new google.maps.LatLng(arrLatLongBike[latLngindex].lat(), arrLatLongBike[latLngindex].lng()));
+            latLngindex++;
+
+            if (latLngindex < arrLatLongBike.length) {
+//            if (k >= 0) {
+                moveBiker(map, markerBike, latLngindex, countDotMarker);
+            }
+            else {
+                clearTimeout(callPlacesapi);
+                clearTimeout(callPlacesapi);
+                $scope.showNavigationSaveConfirmation = true;
+                $scope.$apply();
+//                $scope.saveRoute($scope.wayPointsNav[0].originName, $scope.wayPointsNav[0].destinationName, "trialRoute", "PAllavi",routes );
+            }
+//            k++;
+        }, 500)
+    }
+
+    /**
+     *
+     * @param origin
+     * @param destination
+     * @param routeName
+     * @param userName
+     * This function will save the route to DB for further suggestions to other users
+     */
+    $scope.saveRoute = function () {
+        $scope.showNavigationSaveConfirmation = false;
+        $scope.$apply();
+        var route1 = {
+//          "legs" : routeDetails.legs,
+            "overview_path": routeTakenBreadcrums,
+            "overview_polyline": routeDetails.overview_polyline,
+            "summary": routeDetails.summary
+        };
+        var objToSave = {
+            "origin": $scope.wayPointsNav[0].originName,
+            "destination": $scope.wayPointsNav[0].destinationName,
+            "routeName": $scope.routeSearch.routeTitle ? $scope.routeSearch.routeTitle : $scope.wayPointsNav[0].originName + "_" + $scope.wayPointsNav[0].destinationName + "_" + $filter("date")(new Date(), "dd-MMM-yyyy"),
+            "userName": $scope.routeSearch.riderName ? $scope.routeSearch.riderName : "Vineet",
+            "routeDetails": route1,
+            "routeSaveDate": new Date()
+        };
+        var query = {"routeInfo": objToSave};
+        $.getJSON('/saveRoute', query, function (data) {
+                console.log(data);
+                alert('Route saved successfully');
+            },
+            function (error) {
+                alert('Route saved unsuccessful.');
+                console.log(error);
+            });
+    };
+
+    function getPointOfInterests(currentLocation) {
+        var service = new google.maps.places.PlacesService(map);
+        service.textSearch({
+            location: currentLocation,
+            radius: 2000,
+            type: ['restaurant']
+//                query:' jalgaon'
+
+        }, callback);
+
+
+    }
+
+    function callback(results, status, next_page_token) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+
+
+//                    for (var i = 0; i <= 10; i++) {
+                (function (ind) {
+                    setTimeout(function () {
+                        var place = results[ind];
+//                        console.log(place.name + " : " + place.vicinity + " : " + place.geometry.location.lat() + " : " + place.geometry.location.lng());
+//                        console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat + " : " + place.geometry.location.lng);
+                        var placeLoc = place.geometry.location;
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: place.geometry.location,
+                            icon: "images/icon/restaurant.png"
+                        });
+                        arrMarkers.push(marker);
+
+                        google.maps.event.addListener(marker, 'click', function () {
+                            for (i = 0; i < arrInfowindows.length; i++) {
+                                arrInfowindows[i].close();
+                            }
+                            arrInfowindows = [];
+
+                            var infowindow = new google.maps.InfoWindow();
+                            infowindow.setContent(place.name);
+                            infowindow.open(map, this);
+                            arrInfowindows.push(infowindow);
+                        });
+                    }, 2500);
+                })(i);
+            }
+//                }
+        }
+    }
+
+    $scope.getRoutes = function () {
+        var query = {};
+
+        $scope.placeMarkesrs(null);
+        if (arrdirectionsDisplay != null) {
+            for (i = 0; i < arrdirectionsDisplay.length; i++) {
+                arrdirectionsDisplay[i].setMap(null);
+                arrdirectionsDisplay[i] = null;
+            }
+            arrdirectionsDisplay = [];
+        }
+        $scope.routeSearch.showDirectionPanel = false;
+
+//        if ($scope.wayPointsNav[0].originName != {}) {
+//            query['origin'] ={ '$regex': "^" + $scope.wayPointsNav[0].originName, '$options': '-i'};
+//        }
+//
+//        if ($scope.wayPointsNav[0].destinationName != {}) {
+//            query['destination'] ={ '$regex': "^" + $scope.wayPointsNav[0].destinationName, '$options': '-i'};
+//        }
+
+//        if ($scope.routeSearch.searchRouteBy) {
+//
+//            query['search'] = $scope.routeSearch.searchRouteBy;
+//
+//        }
+        $.getJSON('/getRoute', query, function (data) {
+                $scope.showRoute = {};
+                $scope.routeSearch.routesSearched = data;
+                $scope.routeSearch.showSearchRouteCombo = true;
+                $scope.$apply();
+            },
+            function (error) {
+                $scope.showRoute = {};
+                $scope.routeSearch.routesSearched = [];
+                $scope.routeSearch.showSearchRouteCombo = false;
+                console.log(error);
+            });
+    };
+
+    $scope.showSelectedRoute = function (routeName) {
+        $scope.routeSearch.showDirectionPanel = false;
+        routeName = JSON.parse(routeName);
+        var polyline = new google.maps.Polyline({
+            path: google.maps.geometry.encoding.decodePath(routeName.routeDetails.overview_polyline),
+            map: map,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 4
+        });
+
+        arrPolylines.push(polyline);
+        var latitude = polyline.getPath().b[0].lat();
+        var longitude = polyline.getPath().b[0].lng();
+        var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude)),
+            icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        });
+        marker.addListener('click', function () {
+            var infoWindow = new google.maps.InfoWindow({
+                content: routeName.origin
+            });
+            for (i = 0; i < arrInfowindows.length; i++) {
+                arrInfowindows[i].close();
+            }
+            arrInfowindows = [];
+            infoWindow.open(map, marker);
+            arrInfowindows.push(infoWindow);
+        });
+        arrMarkers.push(marker);
+
+        var latitude1 = polyline.getPath().b[polyline.getPath().b.length - 1].lat();
+        var longitude1 = polyline.getPath().b[polyline.getPath().b.length - 1].lng();
+        var marker1 = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(parseFloat(latitude1), parseFloat(longitude1)),
+            icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        });
+        marker1.addListener('click', function () {
+            var infoWindow1 = new google.maps.InfoWindow({
+                content: routeName.destination
+            });
+            for (i = 0; i < arrInfowindows.length; i++) {
+                arrInfowindows[i].close();
+            }
+            arrInfowindows = [];
+            infoWindow1.open(map, marker);
+            arrInfowindows.push(infoWindow1);
+        });
+        arrMarkers.push(marker1);
+
+
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0; i < polyline.getPath().getLength(); i++) {
+            bounds.extend(polyline.getPath().getAt(i));
+        }
+        map.fitBounds(bounds);
+    };
 
     //////////////////////////////////////Default function calling on load////////////////////////////////
     setTimeout(function () {
@@ -1599,8 +2107,18 @@ angular.module('angularjs_with_Nodejs').directive('googleplace', function () {
                     $scope.wayPoints[0]['origin'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
 
                 }
-                else {
+                else if (element.context.id == "dest") {
                     $scope.wayPoints[0]['destination'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                }
+                else if (element.context.id == "srcNav") {
+                    $scope.wayPointsNav[0]['origin'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                    $scope.wayPointsNav[0]['originName'] = place.name;
+
+                }
+                else if (element.context.id == "destNav") {
+                    $scope.wayPointsNav[0]['destination'] = {"Latitude": place.geometry.location.lat(), "Longitude": place.geometry.location.lng()};
+                    $scope.wayPointsNav[0]['destinationName'] = place.name;
+                    ;
                 }
 
             });
