@@ -456,6 +456,15 @@
                 <option value="Raipur, Chattisgarh">Raipur, Chattisgarh</option>
                 <option value="Jamshedpur, Jharkhand">Jamshedpur, Jharkhand</option>
             </select>
+            <select multiple id="waypoints" ng-if="endPoint == 'Magarpatta, Pune'">
+                <option value="Wakad">Wakad</option>
+                <option value="Pune Station">Pune Station</option>
+                <option value="Shivaji Nagar, Pune">Shivaji Nagar</option>
+                <option value="Baner">Baner</option>
+                <option value="Aundh, Pune">Aundh</option>
+                <option value="Yerwada, Pune">Yerwada</option>
+                <option value="Kalyani Nagar, Pune">Kalyani Nagar</option>
+            </select>
             <select multiple id="waypoints" ng-if="endPoint == ''">
 
             </select>
@@ -466,6 +475,7 @@
                 <option value="Bengaluru, Karnataka">Bengaluru, Karnataka</option>
                 <option value="Delhi">Delhi</option>
                 <option value="Ranchi, Jharkhand">Ranchi, Jharkhand</option>
+                <option value="Magarpatta, Pune">Magarpatta, Pune</option>
             </select>
 
             <div style="height: 30px;"></div>
@@ -545,7 +555,7 @@
     <!--</div>-->
 </div>
 
-<div id="modalNavigationSaveConfirmation" style="width:40%; display:block;" ng-show="showNavigationSaveConfirmation == true" class="modal fade in">
+<div id="modalNavigationSaveConfirmation" style="width:40%; display:block;" ng-show="showNavigationSaveConfirmation == true && whichOverlayToShow == 'navigation'" class="modal fade in">
     <div class="modal-dialog">
         <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
             <form name="formSaveRoute" novalidate="novalidate">
@@ -587,8 +597,8 @@
         <div style="height: 10px;"></div>
         <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37;height: 21;"><img src="images/icon/route.png" style="margin-left: -5;margin-top: -8;" /></button>-->
         <center>
-        <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-search"></span></button>-->
-        <!--<button ng-click="startBikerNavigation();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-play"></span></button>-->
+            <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-search"></span></button>-->
+            <!--<button ng-click="startBikerNavigation();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-play"></span></button>-->
             <button ng-click="showDirections();" class="btn btn-default" ><span  class=" fa fa-search"></span></button>
             <button ng-click="startBikerNavigation();" class="btn btn-default" ><span  class=" fa fa-play"></span></button>
         </center>

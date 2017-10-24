@@ -148,6 +148,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "black": "000000"
     };
 
+    var apiKey = 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo';
+    var drawingManager;
+    var placeIdArray = [];
+    var polylines = [];
+    var snappedCoordinates = [];
+
+
     $scope.routeSearch = {
         'searchRouteBy': "",
         "showRoute": "",
@@ -369,6 +376,32 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
         });
 
+        // Enables the polyline drawing control. Click on the map to start drawing a
+        // polyline. Each click will add a new vertice. Double-click to stop drawing.
+//        drawingManager = new google.maps.drawing.DrawingManager({
+//            drawingMode: google.maps.drawing.OverlayType.POLYLINE,
+//            drawingControl: true,
+//            drawingControlOptions: {
+//                position: google.maps.ControlPosition.TOP_CENTER,
+//                drawingModes: [
+//                    google.maps.drawing.OverlayType.POLYLINE
+//                ]
+//            },
+//            polylineOptions: {
+//                strokeColor: '#696969',
+//                strokeWeight: 2
+//            }
+//        });
+//        drawingManager.setMap(map);
+
+        // Snap-to-road when the polyline is completed.
+//        drawingManager.addListener('polylinecomplete', function(poly) {
+//            var path = poly.getPath();
+//            polylines.push(poly);
+//            placeIdArray = [];
+//            runSnapToRoad(path);
+//        });
+
 
         // NOTE: This uses cross-domain XHR, and may not work on older browsers.
 //        map.data.loadGeoJson('mapdata/districtCensus/uttarakhand_district.json');
@@ -397,6 +430,53 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             console.log($scope.filter.filterCategories);
             $scope.showMarkersforAllCategories();
         });
+
+
+        // parse a pbf file from disk in Node
+//        var pbf = new Pbf(fs.readFileSync('data.pbf'));
+//        pbf.readFields(function (tag) {
+//            if (tag === 1) pbf.readVarint();
+//            else if (tag === 2) pbf.readString();
+//            else var numbers = pbf.readPackedVarint();
+//        })
+
+//        var parser = new OSMParser();
+//
+//        parser.on('node', function(data) {
+//            console.log(data);
+//        });
+//
+//        parser.on('way', function(data) {
+//            console.log(data);
+//        });
+//
+//        parser.on('relation', function(data) {
+//            console.log(data);
+//        });
+//
+//        parser.on('error', function(err) {
+//            console.error(err);
+//        });
+//
+//        parser.on('end', function(err) {
+//            console.log('done!');
+//        });
+//
+//        parser.filterNode = function(node, callback) {
+//            if (node.tags['place']) callback(null, node);
+//            else callback(null, null);
+//        }
+//
+//        parser.filterWay = function(way, callback) {
+//            callback(null, null);
+//        }
+//
+//        parser.filterRelation = function(relation, callback) {
+//            if (node.tags['water']) callback(null, node);
+//            else callback(null, null);
+//        }
+//
+//        parser.parse('/images/pbf/india-latest.osm (1).pbf');
     };
 
     /**
@@ -515,15 +595,17 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         '</div>'
                 } else if (this.docType == 'Top Perforrming Sales Executives') {
                     markerImage = this['Ranking'] >= 8 ? 'images/icon/user_red.png' : this['Ranking'] >= 5 ? 'images/icon/user_blue.png' : 'images/icon/user_green.png';
+//                    console.log(this['Latitude']+','+this['Longitude']);
                     infoWindowContent = '<div id="content"  class="infowindow_warehouse">' +
                         '<div id="siteNotice">' +
                         '</div>' +
-                        '<img src=" images/' + this['Images'] + '"><h1 id="firstHeading" class="firstHeading">' + this['First Name'] + ' ' + this['Last Name'] + '</h1>' +
+                        '<img src=" images/' + this['Images1'] + '"><h2 id="firstHeading" class="firstHeading">' + this['First Name'] + ' ' + this['Last Name'] + '</h2>' +
                         '<div id="bodyContent" class="infowindow_warehouse">' +
                         '<big> <p>' +
-                        '<label>City - ' + this['City'] + '</label> <br>' +
-                        '<label>State  - ' + this['State'] + '</label> <br>' +
-                        '<label>Ranking -  ' + this['Ranking'] + '</label> <br>' +
+                        '<label>City - ' + this['City'] + ', ' +
+                        'State  - ' + this['State'] + '</label> <br>' +
+                        '<label>Last location -  ' + this['Lastlocation'] + '</label> <br>' +
+                        '<label>Battery -  ' + this['Battery'] + '</label> <br>' +
                         '</p></big>' +
                         '</div>' +
                         '</div>'
@@ -818,10 +900,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        k = arrLatLongTruck.length - 1;
         k = 0;
         var assetOriginDestDetails = [
-            {"destination": {"Latitude": 26.8467, "Longitude": 80.9462}, "origin": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Ankush Jain </h7><br>' + '<h7 Vehicle# - > MH 12 JX 1634 </h7><br>' + '<h7 Mobile# - > 9673990425 </h7>' + '</div>'},
-            {"destination": {"Latitude": 21.1702, "Longitude": 72.8311}, "origin": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akhilesh Aggarwal </h7><br>' + '<h7 Vehicle# - > MH 12 BQ 5454 </h7><br>' + '<h7 Mobile# - > 8551089000 </h7>' + '</div>'},
-            {"destination": {"Latitude": 24.5854, "Longitude": 73.7125}, "origin": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Abhishek Jha </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'},
-            {"destination": {"Latitude": 24.5854, "Longitude": 74.7125}, "origin": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h7 > Akash Joshi </h7><br>' + '<h7 Vehicle# - > DL 2C AS 2935 </h7><br>' + '<h7 Mobile# - > 7838757968 </h7>' + '</div>'}
+            {"destination": {"Latitude": 26.8467, "Longitude": 80.9462}, "origin": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Ankush Jain </h6><br>' + '<h7> Vehicle# -  MH 12 JX 1634 </h7><br>' + '<h7> Mobile# -  9673990425 </h7><br>' + '<h7> Goods Type -  Food Product </h7><br>' + '<h7> Battery -  67% </h7><br>'  + '</div>'},
+            {"destination": {"Latitude": 21.1702, "Longitude": 72.8311}, "origin": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akhilesh Aggarwal </h6><br>' + '<h7> Vehicle# -  MH 12 BQ 5454 </h7><br>' + '<h7> Mobile# -  8551089000 </h7><br>' + '<h7> Goods Type -  Electronics Items </h7><br>' + '<h7> Battery -  43% </h7><br>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 73.7125}, "origin": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Abhishek Jha </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Cement </h7><br>' + '<h7> Battery -  87% </h7><br>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 74.7125}, "origin": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akash Joshi </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Furniture </h7><br>' + '<h7> Battery -  10% </h7><br>' + '</div>'}
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
@@ -1735,14 +1817,14 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //            (function (ind) {
 //            callPlacesapi = setTimeout(function () {
 //                if ((ind < arrLatLongBike.length) && (ind % 5 == 0)) {
-                    var service = new google.maps.places.PlacesService(map);
-                    service.textSearch({
-                        location: arrLatLongBike[l],
-                        radius: 500,
-                        type: ['restaurant']
+            var service = new google.maps.places.PlacesService(map);
+            service.textSearch({
+                location: arrLatLongBike[l],
+                radius: 500,
+                type: ['restaurant']
 //                query:' jalgaon'
 
-                    }, callbackForAllPOI);
+            }, callbackForAllPOI);
 //                    l += 5;
 //                }
 //                else {
@@ -1761,31 +1843,31 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //                    for (var i = 0; i <= 10; i++) {
 //                (function (ind) {
 //                    setTimeout(function () {
-                        var place = results[i];
+                var place = results[i];
 //                        console.log(place.name + " : " + place.vicinity + " : " + place.geometry.location.lat() + " : " + place.geometry.location.lng());
 //                        console.log(place.name + " : " + place.formatted_address + " : " + place.geometry.location.lat + " : " + place.geometry.location.lng);
-                        var placeLoc = place.geometry.location;
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: place.geometry.location,
-                            icon: "images/icon/restaurant.png"
-                        });
-                        arrMarkers.push(marker);
+                var placeLoc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location,
+                    icon: "images/icon/restaurant.png"
+                });
+                arrMarkers.push(marker);
 
-                        google.maps.event.addListener(marker, 'click', function () {
-                            arrPOISelected.push(this);
-                            for (i = 0; i < arrInfowindows.length; i++) {
-                                arrInfowindows[i].close();
-                            }
-                            this.setIcon('images/icon/hotspring.png');
-                            arrInfowindows = [];
-                            var infowindow = new google.maps.InfoWindow();
-                            infowindow.setContent(place.name);
-                            infowindow.open(map, this);
-                            arrInfowindows.push(infowindow);
-                        });
+                google.maps.event.addListener(marker, 'click', function () {
+                    arrPOISelected.push(this);
+                    for (i = 0; i < arrInfowindows.length; i++) {
+                        arrInfowindows[i].close();
+                    }
+                    this.setIcon('images/icon/hotspring.png');
+                    arrInfowindows = [];
+                    var infowindow = new google.maps.InfoWindow();
+                    infowindow.setContent(place.name);
+                    infowindow.open(map, this);
+                    arrInfowindows.push(infowindow);
+                });
 
-                        arrPOI.push(place);
+                arrPOI.push(place);
 //                    }, 500);
 //                })(i);
             }
@@ -2085,6 +2167,137 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         }
         map.fitBounds(bounds);
     };
+
+
+
+    ///////////////////////////////SPEED LIMIT/////////////////////////////////////////
+
+//    function initialize() {
+//
+//
+//        // Clear button. Click to remove all polylines.
+//        $('#clear').click(function(ev) {
+//            for (var i = 0; i < polylines.length; ++i) {
+//                polylines[i].setMap(null);
+//            }
+//            polylines = [];
+//            ev.preventDefault();
+//            return false;
+//        });
+//    }
+
+// Snap a user-created polyline to roads and draw the snapped path
+    function runSnapToRoad(path) {
+        var pathValues = [];
+        for (var i = 0; i < path.getLength(); i++) {
+            pathValues.push(path.getAt(i).toUrlValue());
+        }
+
+        $.get('https://roads.googleapis.com/v1/snapToRoads', {
+            interpolate: true,
+            key: apiKey,
+            path: pathValues.join('|')
+        }, function(data) {
+            processSnapToRoadResponse(data);
+            drawSnappedPolyline();
+            getAndDrawSpeedLimits();
+        });
+    }
+
+// Store snapped polyline returned by the snap-to-road service.
+    function processSnapToRoadResponse(data) {
+        snappedCoordinates = [];
+        placeIdArray = [];
+        for (var i = 0; i < data.snappedPoints.length; i++) {
+            var latlng = new google.maps.LatLng(
+                data.snappedPoints[i].location.latitude,
+                data.snappedPoints[i].location.longitude);
+            snappedCoordinates.push(latlng);
+            placeIdArray.push(data.snappedPoints[i].placeId);
+        }
+    }
+
+// Draws the snapped polyline (after processing snap-to-road response).
+    function drawSnappedPolyline() {
+        var snappedPolyline = new google.maps.Polyline({
+            path: snappedCoordinates,
+            strokeColor: 'black',
+            strokeWeight: 3
+        });
+
+        snappedPolyline.setMap(map);
+        polylines.push(snappedPolyline);
+    }
+
+// Gets speed limits (for 100 segments at a time) and draws a polyline
+// color-coded by speed limit. Must be called after processing snap-to-road
+// response.
+    function getAndDrawSpeedLimits() {
+        for (var i = 0; i <= placeIdArray.length / 100; i++) {
+            // Ensure that no query exceeds the max 100 placeID limit.
+            var start = i * 100;
+            var end = Math.min((i + 1) * 100 - 1, placeIdArray.length);
+
+            drawSpeedLimits(start, end);
+        }
+    }
+
+// Gets speed limits for a 100-segment path and draws a polyline color-coded by
+// speed limit. Must be called after processing snap-to-road response.
+    function drawSpeedLimits(start, end) {
+        var placeIdQuery = '';
+        for (var i = start; i < end; i++) {
+            placeIdQuery += '&placeId=' + placeIdArray[i];
+        }
+
+        $.get('https://roads.googleapis.com/v1/speedLimits',
+                'key=' + apiKey + placeIdQuery,
+            function(speedData) {
+                processSpeedLimitResponse(speedData, start);
+            }
+        );
+    }
+
+// Draw a polyline segment (up to 100 road segments) color-coded by speed limit.
+    function processSpeedLimitResponse(speedData, start) {
+        var end = start + speedData.speedLimits.length;
+        for (var i = 0; i < speedData.speedLimits.length - 1; i++) {
+            var speedLimit = speedData.speedLimits[i].speedLimit;
+            var color = getColorForSpeed(speedLimit);
+
+            // Take two points for a single-segment polyline.
+            var coords = snappedCoordinates.slice(start + i, start + i + 2);
+
+            var snappedPolyline = new google.maps.Polyline({
+                path: coords,
+                strokeColor: color,
+                strokeWeight: 6
+            });
+            snappedPolyline.setMap(map);
+            polylines.push(snappedPolyline);
+        }
+    }
+
+    function getColorForSpeed(speed_kph) {
+        if (speed_kph <= 40) {
+            return 'purple';
+        }
+        if (speed_kph <= 50) {
+            return 'blue';
+        }
+        if (speed_kph <= 60) {
+            return 'green';
+        }
+        if (speed_kph <= 80) {
+            return 'yellow';
+        }
+        if (speed_kph <= 100) {
+            return 'orange';
+        }
+        return 'red';
+    }
+
+
 
     //////////////////////////////////////Default function calling on load////////////////////////////////
     setTimeout(function () {
