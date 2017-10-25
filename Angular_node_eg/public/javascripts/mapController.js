@@ -861,6 +861,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         }
         else if (filterName == "navigation") {
+            $scope.title = "Route Navigation";
             $scope.getRoutes();
         }
         else {
@@ -877,9 +878,15 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.placeMarkesrs(null);
             }
             else if (filterName == "zipCodes") {
-                $scope.title = "Zip Codes";
+                $scope.title = "Business Geography";
                 $scope.placeMarkesrs(null);
 //                setMapStyle('businessGeography');
+            }
+            else if (filterName == "routeOptimization") {
+                $scope.title = "Route Optimization";
+            }
+            else if (filterName == "navigation") {
+                $scope.title = "Route Navigation";
             }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;

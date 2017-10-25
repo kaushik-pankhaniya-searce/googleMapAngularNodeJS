@@ -116,22 +116,6 @@
     <!-- /.container-fluid -->
 
 
-    <!--<ul class="dropdown-menu col-md-12">-->
-    <!--<div class="container2" id="dashboardButtons">-->
-
-    <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/SalesManReport.png"></button>-->
-    <!--<button class="menu_item" ng-click="showReport(true)"><img src="images/WarehouseInv.png"></button>-->
-    <!--<button class="menu_item" ng-click="addKMLLAyer()"><img src="images/WarehouseInv.png"></button>-->
-    <!--&lt;!&ndash;label(style="font-weight: bold;color: blue; font-size: -webkit-xxx-large;") &nbsp; &nbsp; &nbsp;&nbsp;
-    &nbsp; &nbsp; VLCC &nbsp; &nbsp;&ndash;&gt;-->
-    <!--<img src="images/searce.png" style="width : 200px; margin-left : 170px">-->
-    <!--<div class="logo_bnr">-->
-    <!--&lt;!&ndash;img(src="images/image.png")&ndash;&gt;-->
-    <!--<button class="menu_item" ng-click=""><img src="images/help1.png"></button>-->
-    <!--<button class="menu_item" ng-click=""><img src="images/support1.png"></button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</ul>-->
 
 
 </nav>
@@ -365,8 +349,7 @@
         <div style="height: 10px;"></div>
         <input class="pac-input" id="dest" googleplace autocomplete="off" ng-model="destAddress" type="text"
                placeholder="Destination location" required>
-        <!--<span> srcAddress = {{srcAddress}}</span>-->
-        <!--<span> destAddress = {{destAddress}}</span>-->
+
     </div>
 
     <div style="height: 10px;"></div>
@@ -390,21 +373,7 @@
     </center>
 
 
-    <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
-    <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
-    <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
-    <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
-    <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
-    <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
-    <!--<optionlist datarows="option in item.Product.Options"-->
-    <!--clickrow="item.Product.Description = option.Description">-->
-    <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
-    <!--{{option.Description}}-->
-    <!--</optionlist>-->
-    <!--</datacolumn>-->
-    <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
-    <!--uncheckedTemplate="'No'"></datacolumn>-->
-    <!--</div>-->
+
 </div>
 
 <div id="routeOptimization" class="filterBlock" ng-if="whichOverlayToShow == 'routeOptimization'"
@@ -521,38 +490,14 @@
             </select>
         </div>
     </div>
-    <!--<div class="onlyMarginPadding" style="max-height: 300px;">-->
-    <!--<label >Paste zip codes to search</label>-->
-    <!--<div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"-->
-    <!--selectedIndex="MySelectedIndex" columnSorting="true"-->
-    <!--contextMenu="true" datarows="ziipCode in zipCodesToShow" id="lineitems-grid" height= "300" style="overflow: hidden;" >-->
-    <!--<datacolumn width="100" value="ziipCode.zipCode" title="'Latitude'" type="'text'"></datacolumn>-->
-    <!--<!--<datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>-->
-    -->
 
-    <!--</div>-->
-    <!--</div>-->
     <div style="height: 10px;"></div>
     <center>
         <button ng-click="placeZipcodesBoundries();" class="btn-default btn-warning">Place Zip Codes</button>
     </center>
 
 
-    <!--<div ui-handsontable minSpareRows="1" datarows="item in items">-->
-    <!--<datacolumn value="item.id" title="'ID'"></datacolumn>-->
-    <!--<datacolumn type="grayedOut" value="item.name.first" title="'First Name'" readOnly></datacolumn>-->
-    <!--<datacolumn type="grayedOut" value="item.name.last" title="'Last Name'" readOnly></datacolumn>-->
-    <!--<datacolumn value="item.address" title="'Address'"></datacolumn>-->
-    <!--<datacolumn value="item.Product.Description" title="'Favorite food'" type="'autocomplete'" live strict>-->
-    <!--<optionlist datarows="option in item.Product.Options"-->
-    <!--clickrow="item.Product.Description = option.Description">-->
-    <!--<img src="{{option.Image}}" style="width: 16px; height: 16px; border-width: 0">-->
-    <!--{{option.Description}}-->
-    <!--</optionlist>-->
-    <!--</datacolumn>-->
-    <!--<datacolumn type="'checkbox'" value="item.isActive" title="'Is active'" checkedTemplate="'Yes'"-->
-    <!--uncheckedTemplate="'No'"></datacolumn>-->
-    <!--</div>-->
+
 </div>
 
 <div id="modalNavigationSaveConfirmation" style="width:40%; display:block;" ng-show="showNavigationSaveConfirmation == true && whichOverlayToShow == 'navigation'" class="modal fade in">
@@ -595,17 +540,11 @@
         <input class="pac-input" id="destNav" googleplace autocomplete="off" ng-model="destNavAddress" type="text"
                placeholder="Destination location" required>
         <div style="height: 10px;"></div>
-        <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37;height: 21;"><img src="images/icon/route.png" style="margin-left: -5;margin-top: -8;" /></button>-->
         <center>
-            <!--<button ng-click="showDirections();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-search"></span></button>-->
-            <!--<button ng-click="startBikerNavigation();" class="btn btn-default" style="width: 37px;height: 21px;"><span style="margin-left: -5px;margin-top: -5px;" class=" fa fa-play"></span></button>-->
             <button ng-click="showDirections();" class="btn btn-default" ><span  class=" fa fa-search"></span></button>
             <button ng-click="startBikerNavigation();" class="btn btn-default" ><span  class=" fa fa-play"></span></button>
         </center>
-        <!--<div style="height: 10px;"></div>-->
-        <!--<label>Search route using key words</label>-->
-        <!--<input class="pac-input" type="text" ng-model="routeSearch.searchRouteBy"/>-->
-        <!--<button ng-click="getRoutes();" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>-->
+
 
     </div>
 
