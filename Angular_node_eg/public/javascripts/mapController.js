@@ -154,6 +154,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     var polylines = [];
     var snappedCoordinates = [];
 
+    $scope.geo = {};
+    $scope.geo.addressesToGetGeolocations = "";
+    $scope.geo.geolocatedAddresses = [];
+
 
     $scope.routeSearch = {
         'searchRouteBy': "",
@@ -888,6 +892,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             else if (filterName == "navigation") {
                 $scope.title = "Route Navigation";
             }
+            else if (filterName == "geolocations") {
+                $scope.title = "Geolocations";
+            }
             flgShowAllMarkers = false;
             $scope.showPersonAnalysis = false;
             $scope.placeMarkesrs(null);
@@ -907,10 +914,10 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //        k = arrLatLongTruck.length - 1;
         k = 0;
         var assetOriginDestDetails = [
-            {"destination": {"Latitude": 26.8467, "Longitude": 80.9462}, "origin": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Ankush Jain </h6><br>' + '<h7> Vehicle# -  MH 12 JX 1634 </h7><br>' + '<h7> Mobile# -  9673990425 </h7><br>' + '<h7> Goods Type -  Food Product </h7><br>' + '<h7> Battery -  67% </h7><br>'  + '</div>'},
-            {"destination": {"Latitude": 21.1702, "Longitude": 72.8311}, "origin": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akhilesh Aggarwal </h6><br>' + '<h7> Vehicle# -  MH 12 BQ 5454 </h7><br>' + '<h7> Mobile# -  8551089000 </h7><br>' + '<h7> Goods Type -  Electronics Items </h7><br>' + '<h7> Battery -  43% </h7><br>' + '</div>'},
-            {"destination": {"Latitude": 24.5854, "Longitude": 73.7125}, "origin": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Abhishek Jha </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Cement </h7><br>' + '<h7> Battery -  87% </h7><br>' + '</div>'},
-            {"destination": {"Latitude": 24.5854, "Longitude": 74.7125}, "origin": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akash Joshi </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Furniture </h7><br>' + '<h7> Battery -  10% </h7><br>' + '</div>'}
+            {"destination": {"Latitude": 26.8467, "Longitude": 80.9462}, "origin": {"Latitude": 22.58608, "Longitude": 88.37402}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Ankush Jain </h6><br>' + '<h7> Vehicle# -  MH 12 JX 1634 </h7><br>' + '<h7> Mobile# -  9673990425 </h7><br>' + '<h7> Goods Type -  Food Product </h7><br>' + '<h7> Speed -  40 km/h </h7><br>' + '<h7> Battery -  67% </h7><br>'  + '</div>'},
+            {"destination": {"Latitude": 21.1702, "Longitude": 72.8311}, "origin": {"Latitude": 21.1458, "Longitude": 79.0882}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akhilesh Aggarwal </h6><br>' + '<h7> Vehicle# -  MH 12 BQ 5454 </h7><br>' + '<h7> Mobile# -  8551089000 </h7><br>' + '<h7> Goods Type -  Electronics Items </h7><br>' + '<h7> Speed -  50 km/h </h7><br>' + '<h7> Battery -  43% </h7><br>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 73.7125}, "origin": {"Latitude": 28.7041, "Longitude": 77.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Abhishek Jha </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Cement </h7><br>' + '<h7> Speed -  30 km/h </h7><br>' + '<h7> Battery -  87% </h7><br>' + '</div>'},
+            {"destination": {"Latitude": 24.5854, "Longitude": 74.7125}, "origin": {"Latitude": 26.7041, "Longitude": 80.1025}, "markerContent": '<div id="content"  class="infowindow_warehouse">' + '<div id="siteNotice">' + '<h6 >Driver Name - Akash Joshi </h6><br>' + '<h7> Vehicle# -  DL 2C AS 2935 </h7><br>' + '<h7> Mobile# -  7838757968 </h7><br>' + '<h7> Goods Type -  Furniture </h7><br>' + '<h7> Speed -  65 km/h </h7><br>' + '<h7> Battery -  10% </h7><br>' + '</div>'}
         ];
         calcRoute(assetOriginDestDetails, false, true);
     };
@@ -1053,7 +1060,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 $scope.moveTruck(map, markerTruck, markerIndex, latLngindex, countDotMarker);
             }
 //            k++;
-        }, 5000)
+        }, 3000)
     };
 
     $scope.showReport = function (showToUser, fileName, heading) {
@@ -2304,6 +2311,22 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         return 'red';
     }
 
+
+    $scope.getGeolocationandAddresses = function() {
+        console.log($scope.geo.addressesToGetGeolocations);
+        var query = {
+            'addresses' : $scope.geo.addressesToGetGeolocations
+        };
+
+        $.getJSON('/getGeolocation', query, function (data) {
+                $scope.geo.geolocatedAddresses = data;
+                $scope.$apply();
+            },
+            function (error) {
+                $scope.geo.geolocatedAddresses = [];
+                console.log(error);
+            });
+    };
 
 
     //////////////////////////////////////Default function calling on load////////////////////////////////

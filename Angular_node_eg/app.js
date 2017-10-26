@@ -8,6 +8,24 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var fs = require("fs");
+var request = require('request');
+//var config = require('./config');
+var googlemaps = require('@google/maps');
+var csv = require('fast-csv');
+
+var Pbf = require('pbf');
+var parseOSM = require('osm-pbf-parser');
+
+var googleMapsClient = googlemaps.createClient({
+    key: "AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"
+});
+
+//var schema = require('protocol-buffers-schema');
+//var proto = require('/home/pallavidandane/googleMapAngularNodeJS/Angular_node_eg/node_modules/pbf/node_modules/resolve-protobuf-schema/node_modules/protocol-buffers-schema/example.proto');
+//
+//var Test = proto.Test;
+
 // Database
 var mongo = require('mongodb');
 //console.log(mongo);
@@ -56,4 +74,67 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function readCSVfile(){
+    fs.createReadStream("addresses.csv")
+        .pipe(csv())
+        .on("data", function(data){
+            // console.log(data);
+            getGeolocation(data);
+            // console.log(data);
+        })
+        .on("end", function(){
+            // console.log("done");
+        });
+
+}
+
+function getLocationFromArray(dataArr, index){
+    var DELIM = " ";
+    if(index == 1){
+        for(var j = 3; j>0 ; j--){
+            dataArr[j] = dataArr[j].replace(/[.,;:*&'"@$%()]/g,"");
+            var tempArr = dataArr[j].split(DELIM);
+            if(tempArr.length > 1){
+                dataArr.splice(j,1);
+                tempArr.map(function(x, k){
+                    dataArr.splice(j+k,0,x);
+                })
+            }
+        }
+    };
+
+    var retString = "";
+    for(var i = index; i < dataArr.length-3; i++){
+        retString = retString + " " + dataArr[i];
+    };
+
+    return retString;
+}
+
+function getGeolocation(dataArray, index){
+    // console.log("dataArray", dataArray);
+    if(!index)
+        index = 0;
+    index++;
+    var location = getLocationFromArray(dataArray, index);
+    // console.log("location", location);
+    googleMapsClient.geocode({
+        address: location
+    }, function(err, response) {
+        if (!err) {
+            if(response.json.results.length > 0){
+                response.json.results.map(function(x){
+                    console.log("%s,%s,%s,%s", dataArray[0], x.formatted_address.replace(/,/g,' '), x.geometry.location.lat, x.geometry.location.lng);
+                })
+            }
+            else
+                getGeolocation(dataArray, index);
+        } else {
+            console.log("error", err);
+        }
+    });
+}
+
+readCSVfile();
 module.exports = app;

@@ -4,6 +4,7 @@ var path = require('path');
 var isArray = require('isarray');
 //var querystring = require('querystring');
 var https = require('https');
+var googlemaps = require('@google/maps');
 // include httpModule which accumulates the response data
 //var httpmodule = require('./httpModule');
 
@@ -19,6 +20,11 @@ router.get('/vlcc', function (req, res, next) {
 router.get('/places', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'PlacesFind.html'));
 });
+
+var googleMapsClient = googlemaps.createClient({
+    key: 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
+});
+var index = -1;
 
 //router.get('/data', function(req,res){
 //	res.json([{"id": 1, "name": "Mymm", "city": "Pantano do Sul"},
@@ -44,7 +50,7 @@ router.get('/wareHouses', function (req, res) {
 
 router.get('/filter', function (req, res) {
     var db = req.db;
-    var filter = req.filter;
+//    var filter = req.filter;
     var collection = db.get(req.query['dbToSearchFor']);
     delete req.query['dbToSearchFor'];
     console.log(req.query);
@@ -151,10 +157,6 @@ router.get('/stateData', function (req, res) {
     });
 
 
-
-
-
-
 });
 
 router.get('/zipcodBoundries', function (req, res) {
@@ -163,12 +165,12 @@ router.get('/zipcodBoundries', function (req, res) {
     var result = {};
     console.log(req.query);
 
-    collection.find(req.query, {'_id':0} , function(err, items) {
+    collection.find(req.query, {'_id': 0}, function (err, items) {
 //       res.json(items);
         result.shapeFile = items;
         collection = db.get('metadata');
 
-        collection.find(req.query, {'_id':0} , function(err, items) {
+        collection.find(req.query, {'_id': 0}, function (err, items) {
             result.metaData = items;
             res.json(result);
         });
@@ -184,8 +186,7 @@ router.get('/zipcodMetadata', function (req, res) {
     console.log(req.query);
 
 
-
-    collection.find(req.query, {'_id':0} , function(err, items) {
+    collection.find(req.query, {'_id': 0}, function (err, items) {
         result.metaData = items;
         res.json(result);
     });
@@ -196,23 +197,23 @@ router.get('/zipcodMetadata', function (req, res) {
 var types = "bus";
 var keyword = "jalgaon";
 router.get('/searchText', function (req, res) {
-    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?" + "key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&"  + "query=" + req.query['query'];
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?" + "key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&" + "query=" + req.query['query'];
     if (req.query['next_page_token']) {
-        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?" + "key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&"  + "pagetoken=" + req.query['next_page_token'] ;
+        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?" + "key=AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo&" + "pagetoken=" + req.query['next_page_token'];
 
     }
 
 
     console.log(url);
-    https.get(url, function(response) {
+    https.get(url, function (response) {
 
-        var body ='';
-        response.on('data', function(chunk) {
+        var body = '';
+        response.on('data', function (chunk) {
 
             body += chunk;
         });
 
-        response.on('end', function() {
+        response.on('end', function () {
             var places = JSON.parse(body);
             console.log(JSON.parse(body));
             var db = req.db;
@@ -224,7 +225,7 @@ router.get('/searchText', function (req, res) {
 
             res.json(places);
         });
-    }).on('error', function(e) {
+    }).on('error', function (e) {
         console.log("Got error: " + e.message);
     });
 });
@@ -236,7 +237,7 @@ router.get('/saveRoute', function (req, res) {
     console.log('----------------');
 
     collection.insert(req.query.routeInfo);
-    res.json({"msg":""})
+    res.json({"msg": ""})
 
 //    res.msg("Route saved successfully.")
 });
@@ -245,11 +246,12 @@ router.get('/saveRoute', function (req, res) {
 router.get('/getRoute', function (req, res) {
     var db = req.db;
     var collection = db.get('routesHistory');
-    console.log( req.query['search'] );
+    console.log(req.query['search']);
     var query1 = [
-            {'origin': {'$options': '-i', '$regex':  req.query['search']  }},
-            {'destination': {'$options': '-i', '$regex': req.query['search']  }},
-            {'routeName': {'$options': '-i', '$regex': req.query['search']  }}];
+        {'origin': {'$options': '-i', '$regex': req.query['search']  }},
+        {'destination': {'$options': '-i', '$regex': req.query['search']  }},
+        {'routeName': {'$options': '-i', '$regex': req.query['search']  }}
+    ];
 
     var query = {
         '$or': query1
@@ -258,9 +260,88 @@ router.get('/getRoute', function (req, res) {
     console.log('=============');
 
 //    collection.find(query, {'_id':0} , function(err, items) {
-    collection.find({}, {'_id':0} , function(err, items) {
+    collection.find({}, {'_id': 0}, function (err, items) {
 //        result.metaData = items;
         res.json(items);
     });
 });
+
+function getLocationFromArray(dataArr, index) {
+    var DELIM = " ";
+    if (index == 1) {
+        for (var j = 3; j > 0; j--) {
+            dataArr[j] = dataArr[j].replace(/[.,;:*&'"@$%()]/g, "");
+            var tempArr = dataArr[j].split(DELIM);
+            if (tempArr.length > 1) {
+                dataArr.splice(j, 1);
+                tempArr.map(function (x, k) {
+                    dataArr.splice(j + k, 0, x);
+                })
+            }
+        }
+    };
+
+    var retString = "";
+    for (var i = index; i < dataArr.length - 3; i++) {
+        retString = retString + "" + dataArr[i];
+    };
+
+    return retString;
+}
+
+var geoAddress = [];
+
+function getGeolocation(dataArray, index) {
+    if (!index)
+        index = 0;
+//    else if (index >= dataArray.length)
+//        return true;
+//    else
+    index++;
+
+    console.log('provided location is --------------------------------------',dataArray);
+
+
+    var location = getLocationFromArray(dataArray, index);
+//    console.log("location", location);
+    googleMapsClient.geocode({
+        address: location
+    }, function (err, response) {
+        if (!err) {
+            if (response.json.results.length > 0) {
+                console.log("location", location);
+                response.json.results.map(function (x) {
+                    console.log("%s,%s,%s,%s,%s", dataArray[0], x.formatted_address.replace(/,/g, ' '), x.geometry.location.lat, x.geometry.location.lng, response.json.results.length);
+                    geoAddress.push({'addr':  x.formatted_address.replace(/,/g, ' '),
+                        'lat':x.geometry.location.lat,'lng': x.geometry.location.lng});
+                    console.log('--------------------------------------------------------------------------')
+                    return true;
+                })
+            }
+            else
+            {
+//                console.log('calling again - ', index);
+                getGeolocation(dataArray, index);
+            }
+        } else {
+            console.log("error", err);
+        }
+    });
+}
+router.get('/getGeolocation', function (req, res) {
+    console.log(req.query);
+    var dataArray = req.query['addresses'];
+    var tempArr1 = dataArray.split("\n");
+    geoAddress = [];
+    for (var i = 0; i < tempArr1.length; i++) {
+        console.log('starting for - ', tempArr1[i]);
+        var result = getGeolocation(tempArr1[i], 0);
+    }
+
+    console.log("finished--------------------------");
+
+    res.json(geoAddress);
+
+});
+
 module.exports = router;

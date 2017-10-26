@@ -75,7 +75,7 @@
         <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
         <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img
                 src="images/icon/coin.png">Sales Tracking</a></li>
-        <li><a ng-click="showFilters('navigation');"><img src="images/icon/canyon-2.png">Navigation</a></li>
+        <li><a ng-click="showFilters('navigation');"><img src="images/icon/Navigation3.jpg">Navigation</a></li>
         <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset
             Tracking</a></li>
         <li><a ng-click="showFilters('reports')"><img src="images/icon/analytics.png"> Reports </a></li>
@@ -84,6 +84,7 @@
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business
             Geography</a></li>
+        <!--<li><a ng-click="showFilters('geolocations');"><img src="images/icon/geocode1.png">Geolocations</a></li>-->
 
     </ul>
 </div>
@@ -114,8 +115,6 @@
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
-
-
 
 
 </nav>
@@ -373,7 +372,6 @@
     </center>
 
 
-
 </div>
 
 <div id="routeOptimization" class="filterBlock" ng-if="whichOverlayToShow == 'routeOptimization'"
@@ -437,9 +435,10 @@
             <select multiple id="waypoints" ng-if="endPoint == ''">
 
             </select>
+
             <div style="height: 10px;"></div>
             <label>End:</label>
-            <select id="end" ng-model="endPoint" ng-change="resetRouting()" >
+            <select id="end" ng-model="endPoint" ng-change="resetRouting()">
                 <option value="Airport, Aurangabad" selected>Airport, Aurangabad</option>
                 <option value="Bengaluru, Karnataka">Bengaluru, Karnataka</option>
                 <option value="Delhi">Delhi</option>
@@ -497,10 +496,10 @@
     </center>
 
 
-
 </div>
 
-<div id="modalNavigationSaveConfirmation" style="width:40%; display:block;" ng-show="showNavigationSaveConfirmation == true && whichOverlayToShow == 'navigation'" class="modal fade in">
+<div id="modalNavigationSaveConfirmation" style="width:40%; display:block;"
+     ng-show="showNavigationSaveConfirmation == true && whichOverlayToShow == 'navigation'" class="modal fade in">
     <div class="modal-dialog">
         <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
             <form name="formSaveRoute" novalidate="novalidate">
@@ -520,8 +519,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button ng-click="showNavigationSaveConfirmation = false;" class="btn btn-sm btn-default">No</button>
-                    <button ng-click="saveRoute()" ng-focus="true"  type="submit" class="btn btn-sm btn-success">Yes</button>
+                    <button ng-click="showNavigationSaveConfirmation = false;" class="btn btn-sm btn-default">No
+                    </button>
+                    <button ng-click="saveRoute()" ng-focus="true" type="submit" class="btn btn-sm btn-success">Yes
+                    </button>
                 </div>
             </form>
         </div>
@@ -532,31 +533,35 @@
      style="min-height: 500px; max-height: 680px;">
     <label class="onlyMarginPadding" style="color: lawngreen;">Select route to navigate</label>
 
-    <div id="pac-container"  class="onlyMarginPadding" >
+    <div id="pac-container" class="onlyMarginPadding">
         <input class="pac-input" id="srcNav" googleplace autocomplete="off" ng-model="srcNavAddress" type="text"
                placeholder="Source location" required>
 
         <div style="height: 10px;"></div>
         <input class="pac-input" id="destNav" googleplace autocomplete="off" ng-model="destNavAddress" type="text"
                placeholder="Destination location" required>
+
         <div style="height: 10px;"></div>
         <center>
-            <button ng-click="showDirections();" class="btn btn-default" ><span  class=" fa fa-search"></span></button>
-            <button ng-click="startBikerNavigation();" class="btn btn-default" ><span  class=" fa fa-play"></span></button>
+            <button ng-click="showDirections();" class="btn btn-default"><span class=" fa fa-search"></span></button>
+            <button ng-click="startBikerNavigation();" class="btn btn-default"><span class=" fa fa-play"></span>
+            </button>
         </center>
 
 
     </div>
 
     <div class="onlyMarginPadding overflow-auto" style="max-height: 250px;">
-        <label >Select the route</label>
-        <select ui-select2 ng-model="routeSearch.showRoute" ng-change="showSelectedRoute(routeSearch.showRoute);" style="width: 230px; margin-left: 12px;"  >
-            <option value="" ></option>
-            <option ng-repeat="r in routeSearch.routesSearched" value="{{r}}" > {{r.routeName}}</option>
+        <label>Select the route</label>
+        <select ui-select2 ng-model="routeSearch.showRoute" ng-change="showSelectedRoute(routeSearch.showRoute);"
+                style="width: 230px; margin-left: 12px;">
+            <option value=""></option>
+            <option ng-repeat="r in routeSearch.routesSearched" value="{{r}}"> {{r.routeName}}</option>
         </select>
-        <button ng-click="" class="btn btn-default" ng-if="routeSearch.showRoute != ''" ><span class=" fa fa-road"></span></button>
+        <button ng-click="" class="btn btn-default" ng-if="routeSearch.showRoute != ''"><span
+                class=" fa fa-road"></span></button>
 
-        <div id="right-panel"  class="panel panel-primary overflow-auto" ng-show="routeSearch.showDirectionPanel" ></div>
+        <div id="right-panel" class="panel panel-primary overflow-auto" ng-show="routeSearch.showDirectionPanel"></div>
     </div>
 
 </div>
@@ -597,6 +602,32 @@
             Competitors
         </div>
     </div>
+</div>
+<div id="geolocations" class="filterBlock" ng-if="whichOverlayToShow == 'geolocations'"
+     style="min-height: 500px; max-height: 680px;">
+    <label class="onlyMarginPadding" style="color: lawngreen;">Paste comma(,) seperated addresses</label>
+
+    <textarea rows="4" cols="50" ng-model="geo.addressesToGetGeolocations" style="width: 220px;  margin-left: 5px;" ></textarea>
+
+    <div style="height: 10px;"></div>
+
+    <div class="onlyMarginPadding" style="max-height: 250px;">
+
+        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+             selectedIndex="MySelectedIndex" columnSorting="true"
+             contextMenu="true" datarows="geoadd in geo.geolocatedAddresses" id="lineitems-grid" height="210" style="overflow: hidden;">
+            <datacolumn width="100" value="geoadd.lat" title="'Latitude'" type="'text'" readOnly></datacolumn>
+            <datacolumn width="100" value="geoadd.lng" title="'Longitude'" type="'text'" readOnly></datacolumn>
+            <datacolumn width="100" value="geoadd.addr" title="'Address'" type="'text'" readOnly></datacolumn>
+
+        </div>
+    </div>
+    <div style="height: 10px;"></div>
+    <center>
+        <button ng-click="getGeolocationandAddresses();" class="mail_data_send">Get geolocations</button>
+    </center>
+
+
 </div>
 
 </div>
