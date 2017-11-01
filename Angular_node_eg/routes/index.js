@@ -4,7 +4,7 @@ var path = require('path');
 var isArray = require('isarray');
 //var querystring = require('querystring');
 var https = require('https');
-var googlemaps = require('@google/maps');
+//var googlemaps = require('@google/maps');
 // include httpModule which accumulates the response data
 //var httpmodule = require('./httpModule');
 
@@ -21,9 +21,9 @@ router.get('/places', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'PlacesFind.html'));
 });
 
-var googleMapsClient = googlemaps.createClient({
-    key: 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
-});
+//var googleMapsClient = googlemaps.createClient({
+//    key: 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
+//});
 var index = -1;
 
 //router.get('/data', function(req,res){
