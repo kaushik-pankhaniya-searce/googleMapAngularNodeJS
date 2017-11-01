@@ -8,18 +8,18 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var fs = require("fs");
-var request = require('request');
-//var config = require('./config');
-var googlemaps = require('@google/maps');
-var csv = require('fast-csv');
-
-var Pbf = require('pbf');
-var parseOSM = require('osm-pbf-parser');
-
-var googleMapsClient = googlemaps.createClient({
-    key: "AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"
-});
+//var fs = require("fs");
+//var request = require('request');
+////var config = require('./config');
+//var googlemaps = require('@google/maps');
+//var csv = require('fast-csv');
+//
+//var Pbf = require('pbf');
+//var parseOSM = require('osm-pbf-parser');
+//
+//var googleMapsClient = googlemaps.createClient({
+//    key: "AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"
+//});
 
 //var schema = require('protocol-buffers-schema');
 //var proto = require('/home/pallavidandane/googleMapAngularNodeJS/Angular_node_eg/node_modules/pbf/node_modules/resolve-protobuf-schema/node_modules/protocol-buffers-schema/example.proto');
@@ -136,5 +136,5 @@ function getGeolocation(dataArray, index){
     });
 }
 
-readCSVfile();
+//readCSVfile();
 module.exports = app;
