@@ -84,6 +84,7 @@
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business
             Geography</a></li>
+        <li><a ng-click="showFilters('POI')"><img src="images/icon/route.png"> Points of Intrests</a></li>
         <!--<li><a ng-click="showFilters('geolocations');"><img src="images/icon/geocode1.png">Geolocations</a></li>-->
 
     </ul>
@@ -374,6 +375,28 @@
 
 </div>
 
+<div id="POI" class="filterBlock" ng-if="whichOverlayToShow == 'POI'"
+     style="min-height: 500px; max-height: 680px;">
+    <label class="onlyMarginPadding" style="color: lawngreen;">Select location</label>
+
+    <div id="pac-container">
+        <input class="pac-input" id="srcPOI" googleplace autocomplete="off" ng-model="srcAddress" type="text"
+               placeholder="Source location" required>
+        <label>Paste points of interes to search</label>
+        <textarea rows="4" cols="50" ng-model="wayPointsPOI.POI" style="width: 220px;  margin-left: 5px;" ></textarea>
+
+
+    </div>
+
+    <div style="height: 10px;"></div>
+    <center>
+        <button ng-click="searchPOI();" class="mail_data_send">Search way points</button>
+    </center>
+
+
+</div>
+
+
 <div id="routeOptimization" class="filterBlock" ng-if="whichOverlayToShow == 'routeOptimization'"
      style="min-height: 500px; max-height: 680px;">
     <div class="routeOptimization">
@@ -494,6 +517,23 @@
     <center>
         <button ng-click="placeZipcodesBoundries();" class="btn-default btn-warning">Place Zip Codes</button>
     </center>
+
+    <div class="onlyMarginPadding" style="max-height: 250px;">
+        <label>Paste locations to search</label>
+
+        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+             selectedIndex="MySelectedIndex" columnSorting="true"
+             contextMenu="true" datarows="add in addresses" id="lineitems-grid" height="210" style="overflow: hidden;">
+            <datacolumn width="100" value="add.lat" title="'Latitude'" type="'text'">
+            </datacolumn>
+            <datacolumn width="100" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
+            <datacolumn width="100" value="add.status" title="'Status'" type="'text'" readOnly></datacolumn>
+
+        </div>
+        <center>
+            <button ng-click="locatePointsInsideCityorOutside();" class="btn-default btn-success">Search</button>
+        </center>
+    </div>
 
 
 </div>
