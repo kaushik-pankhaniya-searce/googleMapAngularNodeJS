@@ -393,22 +393,24 @@
             <option ng-repeat="state in statesData.allCities"> {{state}}</option>
         </select>
     </div>
-    <!--<div>-->
-        <!--<label>Weightage is - {{TotalWeightage}}</label>-->
 
-
-    <!--</div>-->
     <div ui-handsontable minSpareRows="0" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
          selectedIndex="MySelectedIndex" columnSorting="true"
          contextMenu="true" datarows="add in weightagePOI" id="lineitems-grid" height="300" style="overflow: hidden;">
         <datacolumn width="80" value="add.Category" title="'Category'" type="'text'"></datacolumn>
         <datacolumn width="80" value="add.Brand" title="'Brand'" type="'text'"></datacolumn>
         <datacolumn width="40" value="add.Weigtage" title="'Weigtage'" type="'text'"></datacolumn>
-        <datacolumn width="30" value="add.count" title="'#'" type="'text'"></datacolumn>
+        <datacolumn width="30" value="add.count" title="'#'" type="'text'" readOnly></datacolumn>
         <datacolumn width="40" value="add.TotalWeightage" title="'Total'" type="'text'" readOnly></datacolumn>
 
     </div>
+    <div style="height: 10px;" ></div>
 
+    <div ng-repeat="(key,value) in categorizedWeightage">
+        <label style="color: white;">{{key}} - #{{value.count}} - score - {{value.score}}</label>
+    </div>
+    <div style="height: 10px;" ></div>
+    <label style="color: white;">Total - {{TotalWeightage}}</label>
     <!--<label class="onlyMarginPadding" style="color: lawngreen;">Select location</label>-->
 
     <!--<div id="pac-container">-->

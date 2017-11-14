@@ -167,6 +167,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     $scope.weightagePOI = [];
 
+    $scope.TotalWeightage = 0;
+    $scope.categorizedWeightage = {};
+
 
     $scope.routeSearch = {
         'searchRouteBy': "",
@@ -865,6 +868,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     };
     $scope.showFilters = function (filterName) {
         $scope.whichOverlayToShow = filterName;
+        $scope.TotalWeightage = 0;
+        $scope.categorizedWeightage = {};
+        $scope.statesData.selectedCity="";
         $scope.addresses = [
             {"lat": "", "lng": "", status: ""}
         ];
@@ -3723,7 +3729,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         loadMapShapePolygonJSON(mapDataToload, infoWindowContent);
     }
 
-    $scope.TotalWeightage = 0;
+
         function callCalulationWeightage(locationSelected, mapDataToload) {
         $scope.categorizedWeightage = {};
 
