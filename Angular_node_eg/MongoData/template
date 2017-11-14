@@ -337,4 +337,35 @@ db.templates.insert([,///*  1 */
             "label" : "Gender Ratio"
         }
     ]
+},///*  10 */
+{
+    "_id" : ObjectId("5a05557b9142407d5422f42a"),
+    "docType" : "MarketMapping",
+    "showInFilter" : false,
+    "fields" : [ 
+        {
+            "key" : "Category",
+            "label" : "Category"
+        }, 
+        {
+            "key" : "Brand",
+            "label" : "Brand"
+        }, 
+        {
+            "key" : "Weigtage",
+            "label" : "Weigtage"
+        }, 
+        {
+            "key" : "isActive",
+            "label" : "isActive"
+        }, 
+        {
+            "key" : "updatedBy",
+            "label" : "updatedBy"
+        }, 
+        {
+            "key" : "updatedOn",
+            "label" : "updatedOn"
+        }
+    ]
 }])

@@ -344,4 +344,44 @@ router.get('/getGeolocation', function (req, res) {
 
 });
 
+router.get('/allCities', function (req, res) {
+    var db = req.db;
+    var collection = db.get('censusData');
+    var resultData = {};
+
+    collection.distinct('properties.DISTRICT', {}, function (err, items) {
+        res.json(items.sort());
+    });
+
+
+});
+
+router.get('/citiesShapeFile', function (req, res) {
+    var db = req.db;
+    var collection = db.get('censusData');
+    var resultData = {};
+
+    collection.find(req.query, {'_id': 0}, function (err, items) {
+        res.json(items);
+    });
+
+
+});
+
+router.get('/weightagePOI', function (req, res) {
+    var db = req.db;
+    var collection = db.get('metadata');
+    var resultData = {};
+
+    var query = {"docType" : "MarketMapping","isActive":"true"};
+    collection.find(query, {'_id': 0}, function (err, items) {
+        console.log(err);
+        console.log(items);
+
+        res.json(items);
+    });
+
+
+});
+
 module.exports = router;

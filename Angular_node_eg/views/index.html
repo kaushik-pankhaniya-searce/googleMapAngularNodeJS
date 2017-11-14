@@ -48,6 +48,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.min.js" type="text/javascript"
         charset="utf-8"></script>
 
+<div id="loaderdiv" ng-show="loading">
+    <img src="images/loader4.gif" class="ajax-loader"/>
+</div>
+
+<!--<div class="spinner" ng-show="loading"></div>-->
+
 <div id="modal1" style="width:50%; display:block;" ng-show="showDialog == true" class="modal fade in">
     <div class="modal-dialog">
         <div style="margin: 0 auto;width: 100%; margin-top: 100px;" class="modal-content">
@@ -84,7 +90,7 @@
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business
             Geography</a></li>
-        <li><a ng-click="showFilters('POI')"><img src="images/icon/route.png"> Points of Intrests</a></li>
+        <li><a ng-click="showFilters('POI');listAllCities();getPOIWeightages();"><img src="images/icon/route.png"> Points of Intrest</a></li>
         <!--<li><a ng-click="showFilters('geolocations');"><img src="images/icon/geocode1.png">Geolocations</a></li>-->
 
     </ul>
@@ -377,21 +383,47 @@
 
 <div id="POI" class="filterBlock" ng-if="whichOverlayToShow == 'POI'"
      style="min-height: 500px; max-height: 680px;">
+
     <label class="onlyMarginPadding" style="color: lawngreen;">Select location</label>
+    <div class="filter_group">
+        <label>Cities</label>
+        <select ui-select2 ng-model="statesData.selectedCity"
+                ng-change="calulateWeightageforPOI(statesData.selectedCity)">
+            <option value=""></option>
+            <option ng-repeat="state in statesData.allCities"> {{state}}</option>
+        </select>
+    </div>
+    <!--<div>-->
+        <!--<label>Weightage is - {{TotalWeightage}}</label>-->
 
-    <div id="pac-container">
-        <input class="pac-input" id="srcPOI" googleplace autocomplete="off" ng-model="srcAddress" type="text"
-               placeholder="Source location" required>
-        <label>Paste points of interes to search</label>
-        <textarea rows="4" cols="50" ng-model="wayPointsPOI.POI" style="width: 220px;  margin-left: 5px;" ></textarea>
 
+    <!--</div>-->
+    <div ui-handsontable minSpareRows="0" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+         selectedIndex="MySelectedIndex" columnSorting="true"
+         contextMenu="true" datarows="add in weightagePOI" id="lineitems-grid" height="300" style="overflow: hidden;">
+        <datacolumn width="80" value="add.Category" title="'Category'" type="'text'"></datacolumn>
+        <datacolumn width="80" value="add.Brand" title="'Brand'" type="'text'"></datacolumn>
+        <datacolumn width="40" value="add.Weigtage" title="'Weigtage'" type="'text'"></datacolumn>
+        <datacolumn width="30" value="add.count" title="'#'" type="'text'"></datacolumn>
+        <datacolumn width="40" value="add.TotalWeightage" title="'Total'" type="'text'" readOnly></datacolumn>
 
     </div>
 
-    <div style="height: 10px;"></div>
-    <center>
-        <button ng-click="searchPOI();" class="mail_data_send">Search way points</button>
-    </center>
+    <!--<label class="onlyMarginPadding" style="color: lawngreen;">Select location</label>-->
+
+    <!--<div id="pac-container">-->
+        <!--<input class="pac-input" id="srcPOI" googleplace autocomplete="off" ng-model="srcAddress" type="text"-->
+               <!--placeholder="Source location" required>-->
+
+    <!--</div>-->
+    <!--<label class="onlyMarginPadding" style="color: lawngreen;">Put point of interest to search</label>-->
+    <!--<textarea rows="4" cols="50" ng-model="wayPointsPOI.POI" style="width: 240px;  margin-left: 11px;"  class="onlyMarginPadding"></textarea>-->
+
+
+    <!--<div style="height: 10px;"></div>-->
+    <!--<center>-->
+        <!--<button ng-click="searchPOI();" class="mail_data_send">Search</button>-->
+    <!--</center>-->
 
 
 </div>

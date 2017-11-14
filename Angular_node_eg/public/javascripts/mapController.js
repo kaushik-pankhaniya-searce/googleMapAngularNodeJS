@@ -148,6 +148,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         "black": "000000"
     };
 
+    $scope.loading = false;
     $scope.locationGodrej = {
         "from": null,
         "to": null
@@ -163,6 +164,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.geo = {};
     $scope.geo.addressesToGetGeolocations = "";
     $scope.geo.geolocatedAddresses = [];
+
+    $scope.weightagePOI = [];
 
 
     $scope.routeSearch = {
@@ -189,10 +192,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         'selectedZipcodes': [],
         'selectedTalukas': [],
         'selectedDistricts': [],
+        'selectedCity': [],
         'states': [],
         'talukas': [],
         'districts': [],
-        'zipCodes': []
+        'zipCodes': [],
+        'allCities': []
     };
     $scope.addresses = [
         {"lat": 22.4846, "lng": 88.13232, status: "0"}//,
@@ -221,7 +226,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         {
             'location': {},
             'locationName': {},
-            'POI':""
+            'POI': ""
         }
     ];
 
@@ -867,7 +872,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             {
                 'location': {},
                 'locationName': {},
-                'POI':""
+                'POI': ""
             }
         ];
 
@@ -1685,14 +1690,13 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                     var geocoder = new google.maps.Geocoder();
                     var addressToSearch = "";
                     if (item.properties.NAME != undefined && item.properties.NAME != null)
-                        addressToSearch= addressToSearch + item.properties.NAME
+                        addressToSearch = addressToSearch + item.properties.NAME
                     if (item.properties.DISTRICT != undefined && item.properties.DISTRICT != null)
-                        addressToSearch= addressToSearch + item.properties.DISTRICT
+                        addressToSearch = addressToSearch + item.properties.DISTRICT
                     if (item.properties.PINCODE != undefined && item.properties.PINCODE != null)
-                        addressToSearch= addressToSearch + item.properties.PINCODE
+                        addressToSearch = addressToSearch + item.properties.PINCODE
                     // Get LatLng information by name
-                    if (addressToSearch != "")
-                    {
+                    if (addressToSearch != "") {
                         geocoder.geocode({
                             address: addressToSearch
 //                                    location: item.properties.PINCODE
@@ -1705,41 +1709,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 }
                 mapDataToload['features'].push(item);
             });
+            loadMapShapePolygonJSON(mapDataToload)
 
-            map.data.forEach(function (feature) {
-                // If you want, check here for some constraints.
-                map.data.remove(feature);
-            });
-            map.data.addGeoJson(mapDataToload);
-            map.data.addListener('click', function (event) {
-
-                var polygon = $scope.zipCodesData[0].geometry.coordinates;
-                isPointInPoly([ event.latLng.lat(), event.latLng.lng() ], polygon); // true
-
-
-                for (i = 0; i < arrInfowindows.length; i++) {
-                    arrInfowindows[i].close();
-                }
-                arrInfowindows = [];
-
-                var myHTML = '<div id="content"  class="infowindow_warehouse">' +
-                    '<label id="firstHeading" class="firstHeading">' + event.feature.f['NAME'] + ', ' + event.feature.f['DISTRICT'] + ', ' +
-                    event.feature.f['STATE'] + '</label>' +
-                    '</div>';
-                var infowindow = new google.maps.InfoWindow({content: myHTML});
-                infowindow.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
-                infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
-                infowindow.open(map);
-                arrInfowindows.push(infowindow);
-            });
-            var featureStyle = {
-                strokeColor: '#ff3333',
-                strokeWeight: 1,
-                fillColor: 'green'
-            };
-
-            map.data.setStyle(featureStyle);
-            map.setZoom(8);
 
         }, function (error) {
 
@@ -1751,6 +1722,50 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
         });
     };
+
+    function loadMapShapePolygonJSON(mapDataToload, infowindowContent) {
+        map.data.forEach(function (feature) {
+            // If you want, check here for some constraints.
+            map.data.remove(feature);
+        });
+        map.data.addGeoJson(mapDataToload);
+        map.data.addListener('click', function (event) {
+            var myHTML = '<div id="content"  class="infowindow_warehouse">' +
+                '<label id="firstHeading" class="firstHeading">' + event.feature.f['NAME'] + ', ' + event.feature.f['DISTRICT'] + ', ' +
+                event.feature.f['STATE'] + '</label>' +
+                '</div>';
+
+            if ($scope.whichOverlayToShow == 'zipCodes') {
+                var polygon = $scope.zipCodesData[0].geometry.coordinates;
+                isPointInPoly([ event.latLng.lat(), event.latLng.lng() ], polygon); // true
+            }
+            else if ($scope.whichOverlayToShow == 'POI') {
+                myHTML = infowindowContent;
+            }
+
+            for (i = 0; i < arrInfowindows.length; i++) {
+                arrInfowindows[i].close();
+            }
+            arrInfowindows = [];
+
+
+            var infowindow = new google.maps.InfoWindow({content: myHTML});
+            infowindow.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
+            infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
+            infowindow.open(map);
+            arrInfowindows.push(infowindow);
+        });
+        var featureStyle = {
+            strokeColor: '#ff3333',
+            strokeWeight: 1,
+            fillColor: 'green'
+        };
+
+        map.data.setStyle(featureStyle);
+        if ($scope.whichOverlayToShow != 'POI') {
+            map.setZoom(8);
+        }
+    }
 
     var places = [];
 
@@ -3405,7 +3420,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 
         angular.forEach($scope.addresses, function (item, indx) {
-            if (indx < $scope.addresses.length-1) {
+            if (indx < $scope.addresses.length - 1) {
                 inside = isPointInPoly([ item.lat, item.lng ], polygon);
                 item.status = inside == true ? 'Inside' : 'Outside';
 
@@ -3420,7 +3435,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
                 marker.setMap(map);
                 var infoWindow = new google.maps.InfoWindow({
-                    content:  item.lat + ',' + item.lng
+                    content: item.lat + ',' + item.lng
                 });
                 marker.addListener('click', function () {
                     for (i = 0; i < arrInfowindows.length; i++) {
@@ -3442,10 +3457,24 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         console.log(x);
         console.log(y);
 //        var y = 28.659141, x =  77.083273;
+//        Delhi
 //        28.659141	77.083273
 //        28.552771	76.744832
 //        28.743942	77.057525
 //        28.900662	77.464005
+//Banglore
+//        13.242760	77.430387
+//        13.018079	77.507291
+//        12.869517	77.867093
+//        12.869517	77.312284
+
+//Mumbai
+//        19.194422	72.817316
+//        19.055590	72.939538
+//        19.154860	73.017129
+//        19.337672	73.052835
+//        19.244347	72.955331
+//        19.186640	72.884607
 
 
         vs = vs[0];
@@ -3493,7 +3522,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         return inside;
     }
 
-    $scope.searchPOI = function(){
+    $scope.searchPOI = function () {
         for (var i = 0; i < arrMarkers.length; i++) {
             arrMarkers[i].setMap(null);
         }
@@ -3504,8 +3533,8 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         var request = {
             location: location,
             name: $scope.wayPointsPOI.POI,
-            rankBy : google.maps.places.RankBy.DISTANCE,
-            type:[]
+            rankBy: google.maps.places.RankBy.DISTANCE,
+            type: []
         };
 
         // Create the PlaceService and send the request.
@@ -3524,21 +3553,264 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         }
     }
 
-    function createMarker(place) {
-        var placeLoc = place.geometry.location;
+    function createMarker(place, infoWindowContent) {
+        var placeLoc = place.geometry ? place.geometry.location : place;
         var marker = new google.maps.Marker({
             map: map,
-            position: place.geometry.location,
+            position: placeLoc
 //            icon : place.icon
         });
         var infoWindow = new google.maps.InfoWindow();
 
-        google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(place.name);
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(infoWindowContent ? infoWindowContent : place.name);
             infoWindow.open(map, this);
         });
 
         arrMarkers.push(marker);
+    }
+
+    $scope.listAllCities = function () {
+        $.getJSON('/allCities', {}, function (data) {
+            $scope.statesData.allCities = data;
+            $scope.$apply();
+        });
+    };
+
+    $scope.getPOIWeightages = function () {
+        $.getJSON('/weightagePOI', {}, function (data) {
+            $scope.weightagePOI = data;
+            $scope.$apply();
+        });
+    };
+//    var boundsPOI = new google.maps.LatLngBounds();
+
+    $scope.calulateWeightageforPOI = function (selectedCity) {
+        if (selectedCity == "" ||selectedCity == undefined || selectedCity == null) {
+            return;
+        }
+
+        $scope.loading = true;
+        $scope.TotalWeightage = 0;
+        angular.forEach($scope.weightagePOI, function (item, index) {
+            $scope.weightagePOI[index]['TotalWeightage'] = "";
+            $scope.weightagePOI[index]['count'] = "";
+        });
+        flgShowAllMarkers = false;
+        $scope.placeMarkesrs(null);
+
+        var mapDataToload = {"type": "FeatureCollection", "features": []};
+
+        var itemData;
+        $.getJSON('/citiesShapeFile', {'properties.NAME':selectedCity.trim()}, function (data) {
+            itemData = data;
+
+//            mapDataToload['features'].push(item);
+
+            angular.forEach(itemData, function (item, index) {
+//                if (index == 0) {
+//                    var geocoder = new google.maps.Geocoder();
+//                    var addressToSearch = "";
+//                    if (item.properties.NAME != undefined && item.properties.NAME != null)
+//                        addressToSearch = addressToSearch + item.properties.NAME
+//                    if (item.properties.DISTRICT != undefined && item.properties.DISTRICT != null)
+//                        addressToSearch = addressToSearch + item.properties.DISTRICT
+//                    if (item.properties.PINCODE != undefined && item.properties.PINCODE != null)
+//                        addressToSearch = addressToSearch + item.properties.PINCODE
+//                    // Get LatLng information by name
+//                    if (addressToSearch != "") {
+//                        geocoder.geocode({
+//                            address: addressToSearch
+////                                    location: item.properties.PINCODE
+//                        }, function (results, status) {
+//                            if (status === 'OK') {
+//                                map.setCenter(results[0].geometry.location);
+//                            }
+//                        });
+//                    }
+//                }
+                mapDataToload['features'].push(item);
+            });
+
+//            for (var t=0; t<itemData.length; t++) {
+////                var polygon = item[t].getPath();
+//                // Iterate over the polygonBounds vertices.
+//
+////                    var polygon = mapDataToload['features'];//['geometry']['coordinates'];
+//                itemData[t].geometry.coordinates.forEach(function (path, index) {
+//
+////                    var points = path.getArray();
+//                    for (var p=0;p<  path.length;p++)
+//                        if (path[p])
+//                            boundsPOI.extend(new google.maps.LatLng(parseFloat(path[p][0]), parseFloat(path[p][1])));
+//                });
+//
+//
+//            }
+//            map.fitBounds(bounds);
+//            map.setZoom(getZoomByBounds(map, bounds));
+                });
+
+
+
+//        var location = new google.maps.LatLng($scope.wayPointsPOI[0].location.geometry.location.lat(), $scope.wayPointsPOI[0].location.geometry.location.lng());
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': selectedCity}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    map.setCenter(results[0].geometry.location);
+                    map.setZoom(8);
+//                    createMarkerPOI(results[0].geometry.location);
+                    callCalulationWeightage(results[0].geometry.location, mapDataToload)
+
+                } else {
+                    console.log('No results found');
+                }
+            } else {
+                console.log('Geocoder failed due to: ' + status);
+            }
+        });
+
+    };
+
+    function getZoomByBounds( map, bounds ){
+        var MAX_ZOOM = map.mapTypes.get( map.getMapTypeId() ).maxZoom || 21 ;
+        var MIN_ZOOM = map.mapTypes.get( map.getMapTypeId() ).minZoom || 0 ;
+
+        var ne= map.getProjection().fromLatLngToPoint( bounds.getNorthEast() );
+        var sw= map.getProjection().fromLatLngToPoint( bounds.getSouthWest() );
+
+        var worldCoordWidth = Math.abs(ne.x-sw.x);
+        var worldCoordHeight = Math.abs(ne.y-sw.y);
+
+        //Fit padding in pixels
+        var FIT_PAD = 40;
+
+        for( var zoom = MAX_ZOOM; zoom >= MIN_ZOOM; --zoom ){
+            if( worldCoordWidth*(1<<zoom)+2*FIT_PAD < $(map.getDiv()).width() &&
+                worldCoordHeight*(1<<zoom)+2*FIT_PAD < $(map.getDiv()).height() )
+                return zoom;
+        }
+        return 0;
+    }
+    $scope.TotalWeightage = "";
+    function createMarkerPOI(place, mapDataToload) {
+
+        var marker = new google.maps.Marker({
+            map: map,
+            position: place,
+//            icon : place.icon
+        });
+        var infoWindow = new google.maps.InfoWindow();
+        var infoWindowContent = "";
+
+//        angular.forEach($scope.weightagePOI, function(item, index){
+//            infoWindowContent += '<label> ' + $scope.weightagePOI[index]['Brand']+ ' - ' + $scope.weightagePOI[index]['TotalWeightage'] + '</label> <br>'
+//        });
+
+        angular.forEach($scope.categorizedWeightage, function (item, index) {
+            infoWindowContent += '<label> ' + index + ' -  #' + item['count'] + '  - score - ' +item['score'] + '</label> <br>';
+        });
+        infoWindowContent += '<label> Total - ' + $scope.TotalWeightage + '</label> <br>';
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(infoWindowContent);
+            infoWindow.open(map, this);
+        });
+
+        arrMarkers.push(marker);
+
+        loadMapShapePolygonJSON(mapDataToload, infoWindowContent);
+    }
+
+    $scope.TotalWeightage = 0;
+        function callCalulationWeightage(locationSelected, mapDataToload) {
+        $scope.categorizedWeightage = {};
+
+        angular.forEach($scope.weightagePOI, function (item, index) {
+            if (item != null) {
+                setTimeout(function () {
+                    // Specify location, radius and place types for your Places API search.
+                    var request = {
+                        location: locationSelected,
+//                bounds: boundsPOI,
+//                        radius:10000,
+                        name: item['Brand'],
+                        rankBy: google.maps.places.RankBy.DISTANCE,
+                        type: item['type']
+                    };
+
+                    // Create the PlaceService and send the request.
+                    // Handle the callback with an anonymous function.
+                    var service = new google.maps.places.PlacesService(map);
+//            service.nearbySearch(request, calculateWeightage);
+//            service.radarSearch(request, function (results, status, pagination) {
+                    service.nearbySearch(request, function (results, status, pagination) {
+//                        console.log(item['Brand'] + '  -  ' + results.length + '  -  ' + pagination);
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+//            console.log(request);
+                            console.log('-------------' + index + '--------' + $scope.weightagePOI[index]['Brand'] + '  -----  ' + pagination.hasNextPage + '------' + results.length + '-------------------');
+                            for (var g = 0; g < results.length; g++)
+                                console.log(results[g].name);
+//                    cntSearch++;
+                            var wt = parseFloat(results.length * $scope.weightagePOI[index]['Weigtage']);
+                            $scope.TotalWeightage = parseFloat($scope.TotalWeightage) + wt;
+                            var categoryName = $scope.weightagePOI[index]['Category'];
+
+                            if ($scope.categorizedWeightage[categoryName] == undefined || $scope.categorizedWeightage[categoryName] == null) {
+                                $scope.categorizedWeightage[categoryName] = {'count':0, 'score':0}
+                            }
+
+                            if ($scope.weightagePOI[index]['TotalWeightage'] == "")
+                            {
+                                $scope.weightagePOI[index]['TotalWeightage'] = wt;
+                                $scope.weightagePOI[index]['count'] = results.length;
+                            }
+                            else
+                            {
+                                $scope.weightagePOI[index]['TotalWeightage'] = parseFloat($scope.weightagePOI[index]['TotalWeightage']) + wt;
+                                $scope.weightagePOI[index]['count'] = parseFloat($scope.weightagePOI[index]['count']) + results.length;
+                            }
+
+
+                            $scope.categorizedWeightage[categoryName]['score'] = $scope.categorizedWeightage[categoryName]['score'] + wt;
+                            $scope.categorizedWeightage[categoryName]['count'] = parseFloat($scope.categorizedWeightage[categoryName]['count']) + $scope.weightagePOI[index]['count'];
+
+                            if(pagination.hasNextPage){
+                                setTimeout(function(){
+                                    pagination.nextPage();
+                                },2000)
+
+                            }
+                        }
+                        else {
+                            console.log(status + '   ----' + $scope.weightagePOI[index]['Brand']);
+                        }
+                    });
+                }, 500 * index);
+            }
+        });
+
+
+        setTimeout(function () {
+            $scope.loading = false;
+            createMarkerPOI(locationSelected, mapDataToload);
+            $scope.$apply();
+
+//        $scope.placeZipcodesBoundries();
+        }, 10000);
+
+    }
+
+    var cntSearch = 0;
+
+    function calculateWeightage(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+//            console.log(request);
+            console.log('-------------' + cntSearch + '-------------------');
+            console.log(results[0]);
+            cntSearch++;
+        }
     }
 
 //////////////////////////////////////Default function calling on load////////////////////////////////
