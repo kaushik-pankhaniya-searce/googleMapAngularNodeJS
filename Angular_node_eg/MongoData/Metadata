@@ -1,5 +1,5 @@
 db.metadata.insert([
-,///*  1 */
+/*  1 */
 {
     "_id" : ObjectId("594143ffea2316843d975d43"),
     "docType" : "Plants",
@@ -12,7 +12,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  2 */
+,/*  2 */
 {
     "_id" : ObjectId("594143ffea2316843d975d44"),
     "docType" : "Plants",
@@ -25,7 +25,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  3 */
+,/*  3 */
 {
     "_id" : ObjectId("594143ffea2316843d975d45"),
     "docType" : "Plants",
@@ -38,7 +38,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  4 */
+,/*  4 */
 {
     "_id" : ObjectId("594143ffea2316843d975d46"),
     "docType" : "Plants",
@@ -51,7 +51,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  5 */
+,/*  5 */
 {
     "_id" : ObjectId("594143ffea2316843d975d47"),
     "docType" : "Plants",
@@ -64,7 +64,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  6 */
+,/*  6 */
 {
     "_id" : ObjectId("594143ffea2316843d975d48"),
     "docType" : "Plants",
@@ -77,7 +77,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  7 */
+,/*  7 */
 {
     "_id" : ObjectId("594143ffea2316843d975d49"),
     "docType" : "Plants",
@@ -90,7 +90,7 @@ db.metadata.insert([
     "markerColor" : "green"
 }
 
-,///*  8 */
+,/*  8 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4a"),
     "docType" : "Warehouses",
@@ -104,7 +104,7 @@ db.metadata.insert([
     "Longitude" : 87.900375
 }
 
-,///*  9 */
+,/*  9 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4b"),
     "docType" : "Warehouses",
@@ -118,7 +118,7 @@ db.metadata.insert([
     "Longitude" : 77.888
 }
 
-,///*  10 */
+,/*  10 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4c"),
     "docType" : "Warehouses",
@@ -132,7 +132,7 @@ db.metadata.insert([
     "Longitude" : 79.992981
 }
 
-,///*  11 */
+,/*  11 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4d"),
     "docType" : "Warehouses",
@@ -146,7 +146,7 @@ db.metadata.insert([
     "Longitude" : 76.331978
 }
 
-,///*  12 */
+,/*  12 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4e"),
     "docType" : "Warehouses",
@@ -160,7 +160,7 @@ db.metadata.insert([
     "Longitude" : 70.792297
 }
 
-,///*  13 */
+,/*  13 */
 {
     "_id" : ObjectId("59414459ea2316843d975d4f"),
     "docType" : "Warehouses",
@@ -174,7 +174,7 @@ db.metadata.insert([
     "Longitude" : 75.659157
 }
 
-,///*  14 */
+,/*  14 */
 {
     "_id" : ObjectId("59414459ea2316843d975d50"),
     "docType" : "Warehouses",
@@ -188,7 +188,7 @@ db.metadata.insert([
     "Longitude" : 75.405334
 }
 
-,///*  15 */
+,/*  15 */
 {
     "_id" : ObjectId("59414459ea2316843d975d51"),
     "docType" : "Warehouses",
@@ -202,7 +202,7 @@ db.metadata.insert([
     "Longitude" : 85.688744
 }
 
-,///*  16 */
+,/*  16 */
 {
     "_id" : ObjectId("59414520ea2316843d975d52"),
     "docType" : "Registered Office",
@@ -214,7 +214,7 @@ db.metadata.insert([
     "Longitude" : 77.291332
 }
 
-,///*  17 */
+,/*  17 */
 {
     "_id" : ObjectId("59414520ea2316843d975d53"),
     "docType" : "Registered Office",
@@ -226,7 +226,7 @@ db.metadata.insert([
     "Longitude" : 73.893975
 }
 
-,///*  18 */
+,/*  18 */
 {
     "_id" : ObjectId("59414520ea2316843d975d54"),
     "docType" : "Registered Office",
@@ -238,7 +238,7 @@ db.metadata.insert([
     "Longitude" : 80.331874
 }
 
-,///*  19 */
+,/*  19 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d83"),
     "docType" : "Dealers",
@@ -258,7 +258,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : undefined
 }
 
-,///*  20 */
+,/*  20 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d84"),
     "docType" : "Dealers",
@@ -278,7 +278,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : undefined
 }
 
-,///*  21 */
+,/*  21 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d85"),
     "docType" : "Dealers",
@@ -298,7 +298,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : undefined
 }
 
-,///*  22 */
+,/*  22 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d86"),
     "docType" : "Dealers",
@@ -318,7 +318,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : undefined
 }
 
-,///*  23 */
+,/*  23 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d87"),
     "docType" : "Dealers",
@@ -338,7 +338,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : undefined
 }
 
-,///*  24 */
+,/*  24 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d88"),
     "docType" : "Dealers",
@@ -356,7 +356,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  25 */
+,/*  25 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d89"),
     "docType" : "Dealers",
@@ -376,7 +376,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Mandvi"
 }
 
-,///*  26 */
+,/*  26 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8a"),
     "docType" : "Dealers",
@@ -394,7 +394,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  27 */
+,/*  27 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8b"),
     "docType" : "Dealers",
@@ -412,7 +412,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  28 */
+,/*  28 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8c"),
     "docType" : "Dealers",
@@ -430,7 +430,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  29 */
+,/*  29 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8d"),
     "docType" : "Dealers",
@@ -448,7 +448,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  30 */
+,/*  30 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8e"),
     "docType" : "Dealers",
@@ -466,7 +466,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  31 */
+,/*  31 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d8f"),
     "docType" : "Dealers",
@@ -484,7 +484,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  32 */
+,/*  32 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d90"),
     "docType" : "Dealers",
@@ -502,7 +502,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  33 */
+,/*  33 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d91"),
     "docType" : "Dealers",
@@ -520,7 +520,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  34 */
+,/*  34 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d92"),
     "docType" : "Dealers",
@@ -538,7 +538,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  35 */
+,/*  35 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d93"),
     "docType" : "Dealers",
@@ -556,7 +556,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  36 */
+,/*  36 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d94"),
     "docType" : "Dealers",
@@ -574,7 +574,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  37 */
+,/*  37 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d95"),
     "docType" : "Dealers",
@@ -592,7 +592,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  38 */
+,/*  38 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d96"),
     "docType" : "Dealers",
@@ -610,7 +610,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  39 */
+,/*  39 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d97"),
     "docType" : "Dealers",
@@ -628,7 +628,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  40 */
+,/*  40 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d98"),
     "docType" : "Dealers",
@@ -646,7 +646,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  41 */
+,/*  41 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d99"),
     "docType" : "Dealers",
@@ -664,7 +664,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  42 */
+,/*  42 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d9a"),
     "docType" : "Dealers",
@@ -682,7 +682,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  43 */
+,/*  43 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d9b"),
     "docType" : "Dealers",
@@ -700,7 +700,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  44 */
+,/*  44 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d9c"),
     "docType" : "Dealers",
@@ -718,7 +718,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  45 */
+,/*  45 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d9d"),
     "docType" : "Dealers",
@@ -736,7 +736,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  46 */
+,/*  46 */
 {
     "_id" : ObjectId("59436cb2ea2316843d975d9e"),
     "docType" : "Dealers",
@@ -754,7 +754,7 @@ db.metadata.insert([
     "markerColor" : "purple"
 }
 
-,///*  47 */
+,/*  47 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da0"),
     "docType" : "Competitors",
@@ -772,7 +772,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  48 */
+,/*  48 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da1"),
     "docType" : "Competitors",
@@ -790,7 +790,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  49 */
+,/*  49 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da2"),
     "docType" : "Competitors",
@@ -808,7 +808,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  50 */
+,/*  50 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da3"),
     "docType" : "Competitors",
@@ -826,7 +826,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  51 */
+,/*  51 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da4"),
     "docType" : "Competitors",
@@ -844,7 +844,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  52 */
+,/*  52 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da5"),
     "docType" : "Competitors",
@@ -862,7 +862,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  53 */
+,/*  53 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da6"),
     "docType" : "Competitors",
@@ -880,7 +880,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  54 */
+,/*  54 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da7"),
     "docType" : "Competitors",
@@ -898,7 +898,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  55 */
+,/*  55 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da8"),
     "docType" : "Competitors",
@@ -916,7 +916,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  56 */
+,/*  56 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975da9"),
     "docType" : "Competitors",
@@ -934,7 +934,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  57 */
+,/*  57 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975daa"),
     "docType" : "Competitors",
@@ -952,7 +952,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  58 */
+,/*  58 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975dab"),
     "docType" : "Competitors",
@@ -970,7 +970,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  59 */
+,/*  59 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975dac"),
     "docType" : "Competitors",
@@ -988,7 +988,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  60 */
+,/*  60 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975dad"),
     "docType" : "Competitors",
@@ -1006,7 +1006,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  61 */
+,/*  61 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975dae"),
     "docType" : "Competitors",
@@ -1024,7 +1024,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  62 */
+,/*  62 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975daf"),
     "docType" : "Competitors",
@@ -1042,7 +1042,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  63 */
+,/*  63 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975db0"),
     "docType" : "Competitors",
@@ -1060,7 +1060,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  64 */
+,/*  64 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975db1"),
     "docType" : "Competitors",
@@ -1078,7 +1078,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  65 */
+,/*  65 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975db2"),
     "docType" : "Competitors",
@@ -1096,7 +1096,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  66 */
+,/*  66 */
 {
     "_id" : ObjectId("59436fa8ea2316843d975db3"),
     "docType" : "Competitors",
@@ -1114,7 +1114,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  67 */
+,/*  67 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd1"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1138,7 +1138,7 @@ db.metadata.insert([
     "Longitude" : 73.8567
 }
 
-,///*  68 */
+,/*  68 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd2"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1162,7 +1162,7 @@ db.metadata.insert([
     "Longitude" : 72.8777
 }
 
-,///*  69 */
+,/*  69 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd3"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1186,7 +1186,7 @@ db.metadata.insert([
     "Longitude" : 77.1025
 }
 
-,///*  70 */
+,/*  70 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd4"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1210,7 +1210,7 @@ db.metadata.insert([
     "Longitude" : 77.0266
 }
 
-,///*  71 */
+,/*  71 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd5"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1234,7 +1234,7 @@ db.metadata.insert([
     "Longitude" : 88.3639
 }
 
-,///*  72 */
+,/*  72 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd6"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1258,7 +1258,7 @@ db.metadata.insert([
     "Longitude" : 75.8573
 }
 
-,///*  73 */
+,/*  73 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd7"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1282,7 +1282,7 @@ db.metadata.insert([
     "Longitude" : 78.4867
 }
 
-,///*  74 */
+,/*  74 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd8"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1306,7 +1306,7 @@ db.metadata.insert([
     "Longitude" : 77.5946
 }
 
-,///*  75 */
+,/*  75 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dd9"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1330,7 +1330,7 @@ db.metadata.insert([
     "Longitude" : 75.7873
 }
 
-,///*  76 */
+,/*  76 */
 {
     "_id" : ObjectId("594373c0ea2316843d975dda"),
     "docType" : "Top Perforrming Sales Executives",
@@ -1354,7 +1354,7 @@ db.metadata.insert([
     "Longitude" : 74.6399
 }
 
-,///*  77 */
+,/*  77 */
 {
     "_id" : ObjectId("594374e2ea2316843d975df7"),
     "docType" : "WareHouses",
@@ -1370,7 +1370,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  78 */
+,/*  78 */
 {
     "_id" : ObjectId("594374e2ea2316843d975df8"),
     "docType" : "WareHouses",
@@ -1386,7 +1386,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  79 */
+,/*  79 */
 {
     "_id" : ObjectId("594374e2ea2316843d975df9"),
     "docType" : "WareHouses",
@@ -1402,7 +1402,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  80 */
+,/*  80 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dfa"),
     "docType" : "WareHouses",
@@ -1418,7 +1418,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  81 */
+,/*  81 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dfb"),
     "docType" : "WareHouses",
@@ -1434,7 +1434,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  82 */
+,/*  82 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dfc"),
     "docType" : "WareHouses",
@@ -1450,7 +1450,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  83 */
+,/*  83 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dfd"),
     "docType" : "WareHouses",
@@ -1466,7 +1466,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  84 */
+,/*  84 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dfe"),
     "docType" : "WareHouses",
@@ -1482,7 +1482,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  85 */
+,/*  85 */
 {
     "_id" : ObjectId("594374e2ea2316843d975dff"),
     "docType" : "WareHouses",
@@ -1498,7 +1498,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  86 */
+,/*  86 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e00"),
     "docType" : "WareHouses",
@@ -1514,7 +1514,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  87 */
+,/*  87 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e01"),
     "docType" : "WareHouses",
@@ -1530,7 +1530,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  88 */
+,/*  88 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e02"),
     "docType" : "WareHouses",
@@ -1546,7 +1546,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  89 */
+,/*  89 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e03"),
     "docType" : "WareHouses",
@@ -1562,7 +1562,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  90 */
+,/*  90 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e04"),
     "docType" : "WareHouses",
@@ -1578,7 +1578,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  91 */
+,/*  91 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e05"),
     "docType" : "WareHouses",
@@ -1594,7 +1594,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  92 */
+,/*  92 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e06"),
     "docType" : "WareHouses",
@@ -1610,7 +1610,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  93 */
+,/*  93 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e07"),
     "docType" : "WareHouses",
@@ -1626,7 +1626,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  94 */
+,/*  94 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e08"),
     "docType" : "WareHouses",
@@ -1642,7 +1642,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  95 */
+,/*  95 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e09"),
     "docType" : "WareHouses",
@@ -1658,7 +1658,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  96 */
+,/*  96 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0a"),
     "docType" : "WareHouses",
@@ -1674,7 +1674,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  97 */
+,/*  97 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0b"),
     "docType" : "WareHouses",
@@ -1690,7 +1690,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  98 */
+,/*  98 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0c"),
     "docType" : "WareHouses",
@@ -1706,7 +1706,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  99 */
+,/*  99 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0d"),
     "docType" : "WareHouses",
@@ -1722,7 +1722,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  100 */
+,/*  100 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0e"),
     "docType" : "WareHouses",
@@ -1738,7 +1738,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  101 */
+,/*  101 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e0f"),
     "docType" : "WareHouses",
@@ -1754,7 +1754,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  102 */
+,/*  102 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e10"),
     "docType" : "WareHouses",
@@ -1770,7 +1770,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  103 */
+,/*  103 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e11"),
     "docType" : "WareHouses",
@@ -1786,7 +1786,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  104 */
+,/*  104 */
 {
     "_id" : ObjectId("594374e2ea2316843d975e12"),
     "docType" : "WareHouses",
@@ -1802,7 +1802,7 @@ db.metadata.insert([
     "markerColor" : "blue"
 }
 
-,///*  105 */
+,/*  105 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e14"),
     "docType" : "StoreLocations",
@@ -1823,7 +1823,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  106 */
+,/*  106 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e15"),
     "docType" : "StoreLocations",
@@ -1844,7 +1844,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  107 */
+,/*  107 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e16"),
     "docType" : "StoreLocations",
@@ -1865,7 +1865,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  108 */
+,/*  108 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e17"),
     "docType" : "StoreLocations",
@@ -1886,7 +1886,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  109 */
+,/*  109 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e18"),
     "docType" : "StoreLocations",
@@ -1907,7 +1907,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  110 */
+,/*  110 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e19"),
     "docType" : "StoreLocations",
@@ -1928,7 +1928,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  111 */
+,/*  111 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1a"),
     "docType" : "StoreLocations",
@@ -1949,7 +1949,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  112 */
+,/*  112 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1b"),
     "docType" : "StoreLocations",
@@ -1970,7 +1970,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  113 */
+,/*  113 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1c"),
     "docType" : "StoreLocations",
@@ -1991,7 +1991,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  114 */
+,/*  114 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1d"),
     "docType" : "StoreLocations",
@@ -2012,7 +2012,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  115 */
+,/*  115 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1e"),
     "docType" : "StoreLocations",
@@ -2033,7 +2033,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  116 */
+,/*  116 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e1f"),
     "docType" : "StoreLocations",
@@ -2054,7 +2054,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  117 */
+,/*  117 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e20"),
     "docType" : "StoreLocations",
@@ -2075,7 +2075,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  118 */
+,/*  118 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e21"),
     "docType" : "StoreLocations",
@@ -2096,7 +2096,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  119 */
+,/*  119 */
 {
     "_id" : ObjectId("5947c255ea2316843d975e22"),
     "docType" : "StoreLocations",
@@ -2117,7 +2117,7 @@ db.metadata.insert([
     "markerColor" : "red"
 }
 
-,///*  120 */
+,/*  120 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1bf"),
     "docType" : "Dealers",
@@ -2137,7 +2137,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  121 */
+,/*  121 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c0"),
     "docType" : "Dealers",
@@ -2157,7 +2157,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  122 */
+,/*  122 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c1"),
     "docType" : "Dealers",
@@ -2177,7 +2177,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  123 */
+,/*  123 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c2"),
     "docType" : "Dealers",
@@ -2197,7 +2197,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Sanand"
 }
 
-,///*  124 */
+,/*  124 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c3"),
     "docType" : "Dealers",
@@ -2217,7 +2217,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  125 */
+,/*  125 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c4"),
     "docType" : "Dealers",
@@ -2237,7 +2237,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  126 */
+,/*  126 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c5"),
     "docType" : "Dealers",
@@ -2257,7 +2257,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Sanand"
 }
 
-,///*  127 */
+,/*  127 */
 {
     "_id" : ObjectId("59ca0e832d9e099e8160e1c6"),
     "docType" : "Dealers",
@@ -2277,7 +2277,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Gandhinagar"
 }
 
-,///*  128 */
+,/*  128 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1c7"),
     "docType" : "Distributors",
@@ -2296,7 +2296,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  129 */
+,/*  129 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1c8"),
     "docType" : "Distributors",
@@ -2315,7 +2315,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  130 */
+,/*  130 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1c9"),
     "docType" : "Distributors",
@@ -2334,7 +2334,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Ahmadabad City"
 }
 
-,///*  131 */
+,/*  131 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1ca"),
     "docType" : "Distributors",
@@ -2353,7 +2353,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Gandhinagar"
 }
 
-,///*  132 */
+,/*  132 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1cb"),
     "docType" : "Distributors",
@@ -2372,7 +2372,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Gandhinagar"
 }
 
-,///*  133 */
+,/*  133 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1cc"),
     "docType" : "Distributors",
@@ -2391,7 +2391,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Gandhinagar"
 }
 
-,///*  134 */
+,/*  134 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1cd"),
     "docType" : "Distributors",
@@ -2410,7 +2410,7 @@ db.metadata.insert([
     "SUB_DISTRICT" : "Sanand"
 }
 
-,///*  135 */
+,/*  135 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1ce"),
     "docType" : "Warehouses",
@@ -2428,7 +2428,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.5"
 }
 
-,///*  136 */
+,/*  136 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1cf"),
     "docType" : "Warehouses",
@@ -2446,7 +2446,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.2"
 }
 
-,///*  137 */
+,/*  137 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d0"),
     "docType" : "Warehouses",
@@ -2464,7 +2464,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.74"
 }
 
-,///*  138 */
+,/*  138 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d1"),
     "docType" : "Warehouses",
@@ -2482,7 +2482,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.32"
 }
 
-,///*  139 */
+,/*  139 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d2"),
     "docType" : "Warehouses",
@@ -2500,7 +2500,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.85"
 }
 
-,///*  140 */
+,/*  140 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d3"),
     "docType" : "Warehouses",
@@ -2518,7 +2518,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.746666666666667"
 }
 
-,///*  141 */
+,/*  141 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d4"),
     "docType" : "Warehouses",
@@ -2536,7 +2536,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.801666666666667"
 }
 
-,///*  142 */
+,/*  142 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d5"),
     "docType" : "Warehouses",
@@ -2554,7 +2554,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.856666666666667"
 }
 
-,///*  143 */
+,/*  143 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d6"),
     "docType" : "Warehouses",
@@ -2572,7 +2572,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.32"
 }
 
-,///*  144 */
+,/*  144 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d7"),
     "docType" : "Warehouses",
@@ -2590,7 +2590,7 @@ db.metadata.insert([
     "Capacity Utilization" : "0.801666666666667"
 }
 
-,///*  145 */
+,/*  145 */
 {
     "_id" : ObjectId("59ca0ebe2d9e099e8160e1d8"),
     "docType" : "Warehouses",
@@ -2606,4 +2606,251 @@ db.metadata.insert([
     "Longitude" : 72.7434182167053,
     "Manager Name" : "Joseph CP ",
     "Capacity Utilization" : "0.74"
+}
+
+,/*  146 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f467"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "KFC",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  147 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f468"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Dominos",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  148 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f469"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Pizza Hut",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  149 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46a"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Mcdonald's",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  150 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46b"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Subway",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  151 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46c"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Paradise",
+    "Weigtage" : "1",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  152 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46d"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Moti Mahal",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  153 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46e"),
+    "docType" : "MarketMapping",
+    "Category" : "Food Retail Brands",
+    "Brand" : "Main Land china",
+    "Weigtage" : "1",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "food"
+}
+
+,/*  154 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f46f"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Titan Industries",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  155 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f470"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Aditya Birla Retail",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  156 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f471"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Westside",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  157 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f472"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Shoppers Stop",
+    "Weigtage" : "2",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  158 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f473"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Central",
+    "Weigtage" : "1",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  159 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f474"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Pantaloons Retail Limited",
+    "Weigtage" : "2",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  160 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f475"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "Reliance Retail Limited",
+    "Weigtage" : "1",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  161 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f476"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "More Mega Stores",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  162 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f477"),
+    "docType" : "MarketMapping",
+    "Category" : "Retail Brand",
+    "Brand" : "D-Mart",
+    "Weigtage" : "0.25",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "store"
+}
+
+,/*  163 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f478"),
+    "docType" : "MarketMapping",
+    "Category" : "Hospitals",
+    "Brand" : "Fortis ",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "hospital"
+}
+
+,/*  164 */
+{
+    "_id" : ObjectId("5a0ac97a9142407d5422f479"),
+    "docType" : "MarketMapping",
+    "Category" : "Hospitals",
+    "Brand" : "Appollo",
+    "Weigtage" : "0.5",
+    "isActive" : "true",
+    "updatedBy" : "Pallavi",
+    "updatedOn" : ISODate("2017-11-10T00:00:00.000Z"),
+    "type" : "hospital"
 }])
