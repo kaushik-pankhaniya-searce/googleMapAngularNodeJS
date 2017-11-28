@@ -13,6 +13,11 @@ router.get('/', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
+/* GET help page. */
+router.get('/help', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'help.html'));
+});
+
 router.get('/vlcc', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'VLCC.html'));
 });

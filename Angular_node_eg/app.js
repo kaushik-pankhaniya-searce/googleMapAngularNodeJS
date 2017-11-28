@@ -8,21 +8,21 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-//var fs = require("fs");
-//var request = require('request');
+var fs = require("fs");
+var request = require('request');
 
 //var config = require('./config');
-//var googlemaps = require('@google/maps');
-//var csv = require('fast-csv');
+var googlemaps = require('@google/maps');
+var csv = require('fast-csv');
 
 //var Pbf = require('pbf');
 //var parseOSM = require('osm-pbf-parser');
 //
-//var googleMapsClient = googlemaps.createClient({
-//    key: "AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"
-//});
+var googleMapsClient = googlemaps.createClient({
+    key: "AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo"
+});
 
-////var config = require('./config');
+//var config = require('./config');
 //var googlemaps = require('@google/maps');
 //var csv = require('fast-csv');
 //
@@ -131,14 +131,15 @@ function getGeolocation(dataArray, index){
         index = 0;
     index++;
     var location = getLocationFromArray(dataArray, index);
-    // console.log("location", location);
+//    console.log(index, " - location", location);
     googleMapsClient.geocode({
         address: location
     }, function(err, response) {
         if (!err) {
+//            console.log(index, location)
             if(response.json.results.length > 0){
                 response.json.results.map(function(x){
-                    console.log("%s,%s,%s,%s", dataArray[0], x.formatted_address.replace(/,/g,' '), x.geometry.location.lat, x.geometry.location.lng);
+                    console.log("%s,%s,%s,%s,%s", dataArray[0], x.formatted_address.replace(/,/g,' '), x.geometry.location.lat, x.geometry.location.lng,response.json.results.length);
                 })
             }
             else
