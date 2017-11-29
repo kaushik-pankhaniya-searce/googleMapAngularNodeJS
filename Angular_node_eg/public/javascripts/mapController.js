@@ -240,7 +240,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
     $scope.logoFileName = "images/VLCC.png";
     $scope.showPersonAnalysis = false;
     var map;
-    var myLatLng, arrMarkers = [], arrUserMarkers = [], arrInfowindows = [], arrInfowindowsAssetTrackingMarkers = [];
+    var myLatLng, arrMarkers = [], arrUserMarkers = [], arrUserMarkersGodrej = [], arrInfowindows = [], arrInfowindowsAssetTrackingMarkers = [];
     var trafficLayer;
     $scope.filter = {
         "filterFields": [],
@@ -534,6 +534,12 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
     $scope.placeMarkesrs = function (data, isFilteredData, filterValue, filterKeyName) {
         if (flgShowAllMarkers == false) {
+            if ($scope.whichOverlayToShow != "routeOptimization") {
+                for (i = 0; i < arrUserMarkersGodrej.length; i++) {
+                    arrUserMarkersGodrej[i].setMap(null);
+                }
+                arrUserMarkersGodrej = [];
+            }
             for (i = 0; i < arrMarkers.length; i++) {
                 arrMarkers[i].setMap(null);
             }
@@ -933,6 +939,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
             }
             else if (filterName == "routeOptimization") {
                 $scope.title = "Route Optimization";
+                godrejLocations();
             }
             else if (filterName == "navigation") {
                 $scope.title = "Route Navigation";
@@ -998,6 +1005,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 icon: 'images/icon/redMarker.png'
             });
             markerRed.setMap(map);
+            arrUserMarkersGodrej.push(markerRed);
 
 
             markerRed.addListener('click', function (e, locationLatLngRed) {
@@ -1060,7 +1068,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 
 //
             });
-            arrUserMarkers.push(markerRed);
+//            arrUserMarkers.push(markerRed);
 
             var locationLatLngGreen = new google.maps.LatLng(greenLocations[l].lat, greenLocations[l].lng);
             var markerGreen = new google.maps.Marker({
@@ -1068,6 +1076,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                 icon: 'images/icon/greenMarker.png'
             });
             markerGreen.setMap(map);
+            arrUserMarkersGodrej.push(markerGreen);
 
 
             markerGreen.addListener('click', function () {
@@ -1137,7 +1146,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //                infoWindowGreen.open(map, markerGreen);
 //                arrInfowindows.push(infoWindowGreen);
             });
-            arrUserMarkers.push(markerGreen);
+//            arrUserMarkers.push(markerGreen);
         }
 //        flgShowAllMarkers = true;
 //        $scope.placeMarkesrs(arrMarkers);
@@ -1223,7 +1232,9 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
                         }
 
 //                        if (index == assetOriginDestDetails.length -1 ) {
-                        godrejLocations();
+//                        removing it from asset traking , moving to route optimization
+//                        as per Pravin's request
+//                        godrejLocations();
 //                        }
 
                     }
