@@ -1423,7 +1423,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
         directionsDisplay.setMap(map);
 
 
-        trafficLayer.setMap(map);
+//        trafficLayer.setMap(map);
 
         directionsService.route({
             origin: document.getElementById('start').value,
