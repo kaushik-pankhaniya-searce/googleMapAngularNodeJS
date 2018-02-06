@@ -81,6 +81,7 @@
         <li><a ng-click="showFilters('filter1')"><img src="images/icon/bars-chart.png">Dashboard</a></li>
         <li><a ng-click="showFilters('salesPerson');loadFilter('Top Perforrming Sales Executives')"><img
                 src="images/icon/coin.png">Sales Tracking</a></li>
+        <li><a ng-click="showFilters('reverseGeocode');"><img src="images/icon/Webp.net-resizeimage.png">Reverse Geocode</a></li>
         <li><a ng-click="showFilters('navigation');"><img src="images/icon/Navigation3.jpg">Navigation</a></li>
         <li><a ng-click="assetTracking();showFilters('assetTracking')"><img src="images/icon/route.png">Asset
             Tracking</a></li>
@@ -90,6 +91,7 @@
         <li><a ng-click="showFilters('wayPoints')"><img src="images/icon/route.png"> Way Points </a></li>
         <li><a ng-click="showFilters('zipCodes');listDistrictNames();"><img src="images/icon/canyon-2.png">Business
             Geography</a></li>
+        <li><a ng-click="showFilters('establishments');"><img src="images/icon/geocode1.png">Establishments</a></li>
         <li><a ng-click="showFilters('POI');listAllCities();getPOIWeightages();"><img src="images/icon/route.png"> Points of Intrest</a></li>
         <!--<li><a ng-click="showFilters('geolocations');"><img src="images/icon/geocode1.png">Geolocations</a></li>-->
 
@@ -345,6 +347,26 @@
     </div>
 </div>
 
+<div id="reverseGeocode" class="filterBlock" ng-if="whichOverlayToShow== 'reverseGeocode'" >
+    <div class="onlyMarginPadding" style="max-height: 250px;">
+        <label>Paste locations to reverse geocode</label>
+
+        <div ui-handsontable minSpareRows="1" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+             selectedIndex="MySelectedIndex" columnSorting="true"
+             contextMenu="true" datarows="add in reverse_geocode_addresses" id="lineitems-grid" height="210" style="overflow: hidden;">
+            <datacolumn width="65" value="add.lat" title="'Latitude'" type="'text'">
+            </datacolumn>
+            <datacolumn width="65" value="add.lng" title="'Longitude'" type="'text'"></datacolumn>
+            <datacolumn width="85" value="add.state" title="'State'" type="'text'" readOnly></datacolumn>
+            <datacolumn width="80" value="add.district" title="'District'" type="'text'" readOnly></datacolumn>
+
+        </div>
+        <center>
+            <button ng-click="getUserLocation_reverseGeocode_State();" class="btn-default btn-success">Search</button>
+        </center>
+    </div>
+</div>
+
 <div id="wayPoints" class="filterBlock" ng-if="whichOverlayToShow == 'wayPoints'"
      style="min-height: 500px; max-height: 680px;">
     <label class="onlyMarginPadding" style="color: lawngreen;">Select route</label>
@@ -428,6 +450,42 @@
         <!--<button ng-click="searchPOI();" class="mail_data_send">Search</button>-->
     <!--</center>-->
 
+
+</div>
+
+<div id="establishments" class="filterBlock" ng-if="whichOverlayToShow == 'establishments'"
+     style="min-height: 500px; max-height: 680px;">
+
+    <label class="onlyMarginPadding" style="color: lawngreen;">Select city</label>
+    <div class="filter_group">
+        <label>Cities</label>
+        <select ui-select2 ng-model="establishmentsData.selectedCity"
+                ng-change="establishmentsCount(establishmentsData.selectedCity)">
+            <option value=""></option>
+            <option ng-repeat="establishment in establishmentsData.allCities"> {{establishment}}</option>
+            <!--<option value="Mumbai">Mumbai</option>-->
+            <!--<option value="Delhi">Delhi</option>-->
+            <!--<option value="Kolkata">Kolkata</option>-->
+            <!--<option value="Chennai">Chennai</option>-->
+            <!--<option value="Hyderabad">Hyderabad</option>-->
+            <!--<option value="Bangalore">Bangalore</option>-->
+        </select>
+    </div>
+
+    <div ui-handsontable minSpareRows="0" stretchH="'all'" manualColumnMove="false" manualColumnResize="false"
+         selectedIndex="MySelectedIndex" columnSorting="true"
+         contextMenu="true" datarows="add in establishmentsResult" id="lineitems-grid" height="300" style="overflow: hidden;">
+        <datacolumn width="80" value="add.name" title="'Name'" type="'text'"></datacolumn>
+        <datacolumn width="80" value="add.type" title="'Type'" type="'text'"></datacolumn>
+        <datacolumn width="80" value="add.vicinity" title="'Vicinity'" type="'text'"></datacolumn>
+        <datacolumn width="40" value="add.rating" title="'Rating'" type="'text'"></datacolumn>
+
+    </div>
+    <div style="height: 10px;" ></div>
+    <label style="color: white;">Api Calls - {{cntApiCalls}}</label>
+    <div></div>
+    <label style="color: white;">Result - {{cntApiresults}}</label>
+    <label style="color: white;">establishments # - {{cntresults}}</label>
 
 </div>
 

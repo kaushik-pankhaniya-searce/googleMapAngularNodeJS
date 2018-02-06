@@ -389,4 +389,17 @@ router.get('/weightagePOI', function (req, res) {
 
 });
 
+//Times Internet States shape file
+router.get('/IndiaStatesShapeFile', function (req, res) {
+    var db = req.db;
+    var collection = db.get('indiaStatesShapeFileJson');
+    var resultData = {};
+
+    collection.find({}, {'_id': 0}, function (err, items) {
+        res.json(items);
+    });
+
+
+});
+
 module.exports = router;
