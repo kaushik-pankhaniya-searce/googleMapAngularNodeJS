@@ -1,0 +1,1 @@
+db.createUser({'user':'searceDemo','pwd':'mapsDemo@123','roles':[{'role':'dbAdmin','db':'googleMapData'}]})
