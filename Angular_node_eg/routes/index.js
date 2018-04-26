@@ -4,7 +4,7 @@ var path = require('path');
 var isArray = require('isarray');
 //var querystring = require('querystring');
 var https = require('https');
-//var googlemaps = require('@google/maps');
+var googlemaps = require('@google/maps');
 // include httpModule which accumulates the response data
 //var httpmodule = require('./httpModule');
 
@@ -26,9 +26,9 @@ router.get('/places', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'PlacesFind.html'));
 });
 
-//var googleMapsClient = googlemaps.createClient({
-//    key: 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
-//});
+var googleMapsClient = googlemaps.createClient({
+    key: 'AIzaSyDVR5iaxk4V2f3OqyyhwUrZdWvE7L7n8Uo'
+});
 var index = -1;
 
 //router.get('/data', function(req,res){
@@ -401,5 +401,124 @@ router.get('/IndiaStatesShapeFile', function (req, res) {
 
 
 });
+
+
+function doDaysCalculations(selectedType, distanceResposne)
+{
+    var requiredDays = 0,requiredKms = 0;
+    var remainer;
+//    console.log(selectedType + ' --- ' + distanceResposne)
+
+
+    if(selectedType == "Other than over dimensional cargo")
+    {
+        requiredKms = (distanceResposne/1000);
+        remainer = requiredKms%100;
+        if(remainer < 85 )
+        {
+            requiredKms = requiredKms;
+            requiredDays = ( ( (requiredKms-remainer)/100 )  + +1 );
+        }
+        else
+        {
+            requiredKms = ( +101 + +requiredKms ) - remainer;
+            requiredDays = ( ( (requiredKms-1)/100 )  + +1 );
+        }
+
+
+
+    }
+    else if ( selectedType == "For over dimensional cargo" )
+    {
+
+
+        requiredKms = (distanceResposne/1000);
+        var randomNumber = Math.floor((Math.random() * 15) + 1);
+        remainer = requiredKms%20;
+        if(remainer < 17 )
+        {
+            requiredKms = requiredKms;
+            requiredDays = ( ( (requiredKms-remainer)/20 )  + +1 );
+        }
+        else
+        {
+            requiredKms = ( +21 + +requiredKms ) - remainer;
+            requiredDays = ( ( (requiredKms-1)/20 )  + +1 );
+        }
+
+    }
+
+//    console.log(requiredDays + ' --- ' + requiredKms)
+    return {
+        'requiredDays':requiredDays,
+    'requiredKms' :requiredKms
+    }
+//    showDays = document.getElementById("days").value = requiredDays;
+//    console.log("distanceInKms : " + requiredKms );
+//    updatedDistance = document.getElementById("distance1").value = ( requiredKms );
+
+}
+
+
+router.post('/getEWayBillGSTDetails', function (req, res) {
+//    console.log(req);
+    var  origin = req.body["origin"];
+    var  destination = req.body["destination"];
+    var  cargoType = req.body["cargoType"];
+
+    var objToReturn = {'data':{}};
+
+    googleMapsClient.directions({
+        origin: origin,
+        destination: destination,
+//        mode: req.mode,
+
+    }, function(err, response) {
+        if (!err) {
+
+//            console.log(response.json.routes[0]);
+            objToReturn['Status'] = "200" ;
+            objToReturn['Message'] = "Operation Successful" ;
+            objToReturn['data']['distance'] = response.json.routes[0].legs[0].distance.value/1000 ;
+            objToReturn['data']['time'] = response.json.routes[0].legs[0].duration.text;
+
+
+            var obj  = doDaysCalculations(cargoType, response.json.routes[0].legs[0].distance.value , objToReturn['time']);
+            objToReturn['data']['requiredDays'] = obj['requiredDays'];
+            objToReturn['data']['requiredKms'] = obj['requiredKms'];
+
+
+//            console.log(obj);
+
+        }
+        else{
+            console.log(err);
+            objToReturn['Status'] = "401" ;
+            objToReturn['Message'] = "Operation Unsuccessful" ;
+        };
+
+        var db = req.db;
+        var collection = db.get('eWayBillAPIHits');
+
+        var dbObj = {
+            'apiHitTime': new Date(),
+            'requestObject': {
+                origin: origin,
+                destination: destination,
+                cargoType: cargoType
+            },
+            result: objToReturn
+
+        }
+//        console.log(dbObj)
+        collection.insert(dbObj);
+
+        res.json(objToReturn);
+    });
+
+
+
+});
+
 
 module.exports = router;
