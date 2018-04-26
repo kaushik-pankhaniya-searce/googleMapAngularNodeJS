@@ -24470,7 +24470,7 @@ angular.module('angularjs_with_Nodejs').controller('mapController', function ($s
 //////////////////////////////////////Default function calling on load////////////////////////////////
     setTimeout(function () {
         $scope.initMap();
-        $scope.drawPath();
+//        $scope.drawPath();
 //        $scope.placeZipcodesBoundries();
     }, 100);
 })
